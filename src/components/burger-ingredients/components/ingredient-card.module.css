@@ -1,0 +1,49 @@
+.ingredient-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 47.5%;
+  row-gap: 8px;
+  box-sizing: border-box;
+  align-self: flex-start;
+  position: relative;
+}
+
+.ingredient-card:nth-of-type(2n-1) {
+  margin-left: auto;
+}
+
+.ingredient-card:nth-of-type(2n) {
+  margin-right: auto;
+}
+
+.ingredient-card:last-of-type:not(:nth-of-type(2n)) {
+  margin-left: initial;
+  margin-right: auto;
+}
+
+.ingredient-card__image {
+  object-fit: contain;
+  object-position: center;
+  width: 89%;
+  aspect-ratio: 2 / 1;
+}
+
+.ingredient-card__price-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  column-gap: 8px;
+  margin: 0;
+}
+
+.ingredient-card__price,
+.ingredient-card__name {
+  composes: burger-ingredients__title from "../burger-ingredients.module.css";
+  text-align: center;
+}
+
+.ingredient-card__counter {
+
+}
