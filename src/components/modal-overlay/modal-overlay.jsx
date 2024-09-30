@@ -1,5 +1,6 @@
 import modalOverlayStyle from './modal-overlay.module.css';
 import React from 'react';
+import PropTypes from 'prop-types';
 
 function ModalOverlay({ onClose }) {
   const handkeEsc = (e) => {
@@ -21,6 +22,10 @@ function ModalOverlay({ onClose }) {
     onClick={onClose}
     className={modalOverlayStyle['modal-overlay']}/>
   );
-}
+};
+
+ModalOverlay.propTypes = {
+  onClose: PropTypes.func.isRequired,
+};
 
 export default ModalOverlay;

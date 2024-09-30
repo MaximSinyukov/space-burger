@@ -1,6 +1,8 @@
 import ingredientCardStyle from './ingredient-card.module.css';
 import React from 'react';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import PropTypes from 'prop-types';
+import { IngredientType } from 'utils/types.js';
 
 const IngredientCard = React.memo(function IngredientCard({ ingredient, onClick }) {
   const openIngredientDetails = () => {
@@ -43,6 +45,11 @@ const IngredientCard = React.memo(function IngredientCard({ ingredient, onClick 
       }
     </li>
   );
-})
+});
+
+IngredientCard.propTypes = {
+  ingredient: IngredientType.isRequired,
+  onClick: PropTypes.func,
+};
 
 export default IngredientCard;

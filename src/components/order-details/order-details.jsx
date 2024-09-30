@@ -1,6 +1,7 @@
 import orderDetailsStyle from './order-details.module.css';
 import Modal from '../modal/modal';
 import doneImage from 'assets/images/done.svg';
+import PropTypes from 'prop-types';
 
 function OrderDetails({ onClose }) {
   return (
@@ -35,6 +36,10 @@ function OrderDetails({ onClose }) {
       </div>
     </Modal>
   );
-}
+};
+
+OrderDetails.propTypes = {
+  onClose: PropTypes.func.isRequired,
+};
 
 export default OrderDetails;

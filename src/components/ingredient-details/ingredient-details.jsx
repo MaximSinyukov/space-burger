@@ -1,5 +1,7 @@
 import ingredientDetailsStyle from './ingredient-details.module.css';
 import Modal from '../modal/modal';
+import PropTypes from 'prop-types';
+import { IngredientType } from 'utils/types.js';
 
 function IngredientDetails({ onClose, ingredient }) {
   const detailsData = [
@@ -60,6 +62,11 @@ function IngredientDetails({ onClose, ingredient }) {
       </div>
     </Modal>
   );
-}
+};
+
+IngredientDetails.propTypes = {
+  ingredient: IngredientType.isRequired,
+  onClose: PropTypes.func.isRequired,
+};
 
 export default IngredientDetails;

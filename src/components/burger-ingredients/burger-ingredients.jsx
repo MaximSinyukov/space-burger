@@ -3,6 +3,8 @@ import burgerIngredientsStyles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientCard from './components/ingredient-card';
 import IngredientDetails from '../ingredient-details/ingredient-details';
+import PropTypes from 'prop-types';
+import { IngredientType } from 'utils/types.js';
 
 const BurgerIngredients = React.memo(function BurgerIngredients({ ingredients }) {
   const [visible, setVisible] = React.useState(false);
@@ -119,6 +121,10 @@ const BurgerIngredients = React.memo(function BurgerIngredients({ ingredients })
       )}
     </section>
   );
-})
+});
+
+BurgerIngredients.propTypes = {
+  ingredients: PropTypes.arrayOf(IngredientType).isRequired,
+};
 
 export default BurgerIngredients;
