@@ -4,7 +4,7 @@ import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-c
 
 const IngredientCard = React.memo(function IngredientCard({ ingredient }) {
   return (
-    <div
+    <li
     className={`pb-6 ${ingredientCardStyle['ingredient-card']}`}>
       <img
       src={ingredient.image}
@@ -36,7 +36,7 @@ const IngredientCard = React.memo(function IngredientCard({ ingredient }) {
             className={ingredientCardStyle['ingredient-card__counter']}/>
           )
       }
-    </div>
+    </li>
   );
 })
 

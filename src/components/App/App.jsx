@@ -1,6 +1,7 @@
 import appStyles from './app.module.css';
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
+import BurgerConstructor from '../burger-constructor/burger-constructor';
 
 function App() {
   return (
@@ -11,6 +12,8 @@ function App() {
       <main
       className={appStyles['app__main-content']}>
         <BurgerIngredients/>
+
+        <BurgerConstructor/>
       </main>
     </div>
   );

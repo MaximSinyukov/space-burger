@@ -66,7 +66,7 @@ function BurgerIngredients() {
                   { tab.title }
                 </h2>
 
-                <div
+                <ul
                 className={`mr-4 ml-4 ${burgerIngredientsStyles['burger-ingredients__ingredient-list']}`}>
                   {
                     tab.ingredients.map((ingredient) => (
@@ -75,7 +75,7 @@ function BurgerIngredients() {
                       ingredient={ingredient}/>
                     ))
                   }
-                </div>
+                </ul>
               </React.Fragment>
             );
           })
