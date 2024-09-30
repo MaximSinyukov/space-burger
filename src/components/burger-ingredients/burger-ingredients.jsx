@@ -3,10 +3,9 @@ import burgerIngredientsStyles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientCard from './components/ingredient-card';
 
-import fakeData from 'utils/ingredientsList.json';
-
-function BurgerIngredients() {
-  const tabsData = {
+const BurgerIngredients = React.memo(function BurgerIngredients({ ingredients }) {
+  const [currentTab, setCurrentTab] = React.useState('bun');
+  const [tabsData, setTabsData] = React.useState({
     bun: {
       type: 'bun',
       title: 'Булки',
@@ -22,13 +21,17 @@ function BurgerIngredients() {
       title: 'Начинки',
       ingredients: [],
     },
-  };
-
-  const [currentTab, setCurrentTab] = React.useState('bun');
-
-  fakeData.forEach((ingredient) => {
-    tabsData[ingredient.type].ingredients.push(ingredient);
   });
+
+  React.useEffect(() => {
+    const newTabsData = tabsData;
+
+    ingredients?.forEach((ingredient) => {
+      newTabsData[ingredient.type].ingredients.push(ingredient);
+    });
+
+    setTabsData(newTabsData);
+  }, [ingredients, tabsData]);
 
   return (
     <section
@@ -83,6 +86,6 @@ function BurgerIngredients() {
       </div>
     </section>
   );
-}
+})
 
 export default BurgerIngredients;

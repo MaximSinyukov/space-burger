@@ -1,25 +1,50 @@
+import React from 'react';
 import burgerConstructorStyle from './burger-constructor.module.css';
 import { ConstructorElement, CurrencyIcon, DragIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import fakeData from 'utils/ingredientsList.json';
+const BurgerConstructor = React.memo(function BurgerConstructor({ ingredients }) {
+  const [ingredientsData, setIngredientsData] = React.useState({
+    buns: [],
+    otherIngredients: [],
+  });
 
-function BurgerConstructor() {
+  React.useEffect(() => {
+    const newIngredients = {
+      buns: [],
+      otherIngredients: [],
+    };
+
+    ingredients?.forEach((ingredient) => {
+      if (ingredient.type === 'bun') {
+        newIngredients.buns.push(ingredient);
+        return;
+      }
+
+      newIngredients.otherIngredients.push(ingredient);
+      setIngredientsData(newIngredients);
+    });
+  }, [ingredients]);
+
   return (
     <section
     className={`mt-25 ${burgerConstructorStyle['burger-constructor']}`}>
       <div
       className={`pl-8 ${burgerConstructorStyle['burger-constructor__ingredients']}`}>
-        <ConstructorElement
-        type="top"
-        isLocked={true}
-        text={fakeData[0].name}
-        price={fakeData[0].price}
-        thumbnail={fakeData[0].image_mobile}/>
+        {ingredientsData.buns[0]
+          &&  (
+                <ConstructorElement
+                type="top"
+                isLocked={true}
+                text={ingredientsData.buns[0].name}
+                price={ingredientsData.buns[0].price}
+                thumbnail={ingredientsData.buns[0].image_mobile}/>
+              )
+        }
 
         <ul
         className={`${burgerConstructorStyle['burger-constructor__main-ingredients']}`}>
           {
-            fakeData.slice(1, fakeData.length - 2)
+            ingredientsData.otherIngredients
               .map((ingredient) => (
                 <li
                 key={'order-ingredient-' + ingredient._id}
@@ -37,12 +62,16 @@ function BurgerConstructor() {
           }
         </ul>
 
-        <ConstructorElement
-        type="bottom"
-        isLocked={true}
-        text={fakeData[fakeData.length - 1].name}
-        price={fakeData[fakeData.length - 1].price}
-        thumbnail={fakeData[fakeData.length - 1].image_mobile}/>
+        {ingredientsData.buns[1]
+          &&  (
+                <ConstructorElement
+                type="bottom"
+                isLocked={true}
+                text={ingredientsData.buns[1].name}
+                price={ingredientsData.buns[1].price}
+                thumbnail={ingredientsData.buns[1].image_mobile}/>
+              )
+        }
       </div>
 
       <div
@@ -65,6 +94,6 @@ function BurgerConstructor() {
       </div>
     </section>
   );
-}
+});
 
 export default BurgerConstructor;
