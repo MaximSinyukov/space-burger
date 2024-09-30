@@ -3,19 +3,22 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function ModalOverlay({ onClose }) {
-  const handkeEsc = (e) => {
-    if (e.key === "Escape") {
-      console.log('ESCAPE');
-    }
-  };
+  const handleEsc = React.useCallback(
+    (e) => {
+      if (e.key === "Escape") {
+        onClose();
+      }
+    },
+    [onClose]
+  );
 
   React.useEffect(() => {
-    document.body.addEventListener("keydown", handkeEsc);
+    document.body.addEventListener("keydown", handleEsc);
 
     return () => {
-      document.body.removeEventListener("keydown", handkeEsc);
+      document.body.removeEventListener("keydown", handleEsc);
     };
-  }, [])
+  }, [handleEsc])
 
   return (
     <div
