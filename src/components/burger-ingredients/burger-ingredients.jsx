@@ -5,26 +5,29 @@ import IngredientCard from './components/ingredient-card';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 
 const BurgerIngredients = React.memo(function BurgerIngredients({ ingredients }) {
-  const [visible, setVisible] = React.useState(true);
+  const [visible, setVisible] = React.useState(false);
   const [currentIngredient, setCurrentIngredient] = React.useState(null);
   const [currentTab, setCurrentTab] = React.useState('bun');
-  const [tabsData, setTabsData] = React.useState({
-    bun: {
+  const [sortedIngredients, setSortedIngredients] = React.useState({
+    bun: [],
+    sauce: [],
+    main: [],
+  });
+
+  const tabData = [
+    {
       type: 'bun',
       title: 'Булки',
-      ingredients: [],
     },
-    sauce: {
+    {
       type: 'sauce',
       title: 'Соусы',
-      ingredients: [],
     },
-    main: {
+    {
       type: 'main',
       title: 'Начинки',
-      ingredients: [],
-    },
-  });
+    }
+  ];
 
   const handleOpenModal = React.useCallback(
     (ingredient) => {
@@ -43,17 +46,17 @@ const BurgerIngredients = React.memo(function BurgerIngredients({ ingredients })
 
   React.useEffect(() => {
     const newTabsData = {
-      bun: { ...tabsData.bun, ingredients: [] },
-      sauce: { ...tabsData.sauce, ingredients: [] },
-      main: { ...tabsData.main, ingredients: [] },
+      bun: [],
+      sauce: [],
+      main: [],
     };
 
     ingredients?.forEach((ingredient) => {
-      newTabsData[ingredient.type].ingredients.push(ingredient);
+      newTabsData[ingredient.type].push(ingredient);
     });
 
-    setTabsData(newTabsData);
-  }, [ingredients, tabsData.bun, tabsData.main, tabsData.sauce]);
+    setSortedIngredients(newTabsData);
+  }, [ingredients]);
 
   return (
     <section
@@ -66,7 +69,7 @@ const BurgerIngredients = React.memo(function BurgerIngredients({ ingredients })
       <nav
       className={`${burgerIngredientsStyles['burger-ingredients__tabs-container']}`}>
         {
-          Object.values(tabsData).map((tab) => (
+          tabData.map((tab) => (
             <Tab
             key={tab.type}
             value={tab.type}
@@ -82,7 +85,7 @@ const BurgerIngredients = React.memo(function BurgerIngredients({ ingredients })
       <div
       className={`${burgerIngredientsStyles['burger-ingredients__ingredient']}`}>
         {
-          Object.values(tabsData).map((tab) => {
+          tabData.map((tab) => {
             return (
               <React.Fragment
               key={'ingredient-section-' + tab.type}>
@@ -94,7 +97,7 @@ const BurgerIngredients = React.memo(function BurgerIngredients({ ingredients })
                 <ul
                 className={`mr-4 ml-4 ${burgerIngredientsStyles['burger-ingredients__ingredient-list']}`}>
                   {
-                    tab.ingredients.map((ingredient) => (
+                    sortedIngredients[tab.type].map((ingredient) => (
                       <IngredientCard
                       onClick={handleOpenModal}
                       key={ingredient._id}

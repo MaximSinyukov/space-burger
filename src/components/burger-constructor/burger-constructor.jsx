@@ -1,12 +1,28 @@
 import React from 'react';
 import burgerConstructorStyle from './burger-constructor.module.css';
 import { ConstructorElement, CurrencyIcon, DragIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import OrderDetails from '../order-details/order-details';
 
 const BurgerConstructor = React.memo(function BurgerConstructor({ ingredients }) {
   const [ingredientsData, setIngredientsData] = React.useState({
     buns: [],
     otherIngredients: [],
   });
+  const [visible, setVisible] = React.useState(false);
+
+  const handleOpenModal = React.useCallback(
+    () => {
+      setVisible(true);
+    },
+    []
+  );
+
+  const handleCloseModal = React.useCallback(
+    () => {
+      setVisible(false);
+    },
+    []
+  );
 
   React.useEffect(() => {
     const newIngredients = {
@@ -86,12 +102,18 @@ const BurgerConstructor = React.memo(function BurgerConstructor({ ingredients })
         type="primary"/>
 
         <Button
+        onClick={handleOpenModal}
         htmlType="button"
         type="primary"
         size="large">
           Оформить заказ
         </Button>
       </div>
+
+      {visible && (
+        <OrderDetails
+        onClose={handleCloseModal}/>
+      )}
     </section>
   );
 });
