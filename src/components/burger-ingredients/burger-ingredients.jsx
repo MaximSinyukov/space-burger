@@ -2,8 +2,11 @@ import React from 'react';
 import burgerIngredientsStyles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientCard from './components/ingredient-card';
+import IngredientDetails from '../ingredient-details/ingredient-details';
 
 const BurgerIngredients = React.memo(function BurgerIngredients({ ingredients }) {
+  const [visible, setVisible] = React.useState(true);
+  const [currentIngredient, setCurrentIngredient] = React.useState(null);
   const [currentTab, setCurrentTab] = React.useState('bun');
   const [tabsData, setTabsData] = React.useState({
     bun: {
@@ -23,15 +26,34 @@ const BurgerIngredients = React.memo(function BurgerIngredients({ ingredients })
     },
   });
 
+  const handleOpenModal = React.useCallback(
+    (ingredient) => {
+      setCurrentIngredient(ingredient);
+      setVisible(true);
+    },
+    []
+  );
+
+  const handleCloseModal = React.useCallback(
+    () => {
+      setVisible(false);
+    },
+    []
+  );
+
   React.useEffect(() => {
-    const newTabsData = tabsData;
+    const newTabsData = {
+      bun: { ...tabsData.bun, ingredients: [] },
+      sauce: { ...tabsData.sauce, ingredients: [] },
+      main: { ...tabsData.main, ingredients: [] },
+    };
 
     ingredients?.forEach((ingredient) => {
       newTabsData[ingredient.type].ingredients.push(ingredient);
     });
 
     setTabsData(newTabsData);
-  }, [ingredients, tabsData]);
+  }, [ingredients, tabsData.bun, tabsData.main, tabsData.sauce]);
 
   return (
     <section
@@ -74,6 +96,7 @@ const BurgerIngredients = React.memo(function BurgerIngredients({ ingredients })
                   {
                     tab.ingredients.map((ingredient) => (
                       <IngredientCard
+                      onClick={handleOpenModal}
                       key={ingredient._id}
                       ingredient={ingredient}/>
                     ))
@@ -84,6 +107,13 @@ const BurgerIngredients = React.memo(function BurgerIngredients({ ingredients })
           })
         }
       </div>
+
+
+      {visible && currentIngredient && (
+        <IngredientDetails
+        ingredient={currentIngredient}
+        onClose={handleCloseModal}/>
+      )}
     </section>
   );
 })

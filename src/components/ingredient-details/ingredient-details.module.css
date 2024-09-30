@@ -1,0 +1,38 @@
+.ingredient-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 520px;
+  margin: 0 auto;
+}
+
+.ingredient-details__image {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  object-position: center;
+}
+
+.ingredient-details__title {
+  text-align: center;
+}
+
+.ingredient-details__info {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.ingredient-details__detail {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ingredient-details__detail-name,
+.ingredient-details__detail-value {
+  color: var(--text-inactive-color);
+}

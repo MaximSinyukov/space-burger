@@ -2,9 +2,14 @@ import ingredientCardStyle from './ingredient-card.module.css';
 import React from 'react';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-const IngredientCard = React.memo(function IngredientCard({ ingredient }) {
+const IngredientCard = React.memo(function IngredientCard({ ingredient, onClick }) {
+  const openIngredientDetails = () => {
+    onClick(ingredient);
+  };
+
   return (
     <li
+    onClick={openIngredientDetails}
     className={`pb-6 ${ingredientCardStyle['ingredient-card']}`}>
       <img
       src={ingredient.image}
