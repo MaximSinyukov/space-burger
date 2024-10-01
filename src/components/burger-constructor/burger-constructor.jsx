@@ -54,7 +54,7 @@ const BurgerConstructor = React.memo(function BurgerConstructor({ ingredients })
                 <ConstructorElement
                 type="top"
                 isLocked={true}
-                text={ingredientsData.buns[0].name}
+                text={ingredientsData.buns[0].name + ' (верх)'}
                 price={ingredientsData.buns[0].price}
                 thumbnail={ingredientsData.buns[0].image_mobile}/>
               )
@@ -81,14 +81,14 @@ const BurgerConstructor = React.memo(function BurgerConstructor({ ingredients })
           }
         </ul>
 
-        {ingredientsData.buns[1]
+        {ingredientsData.buns[0]
           &&  (
                 <ConstructorElement
                 type="bottom"
                 isLocked={true}
-                text={ingredientsData.buns[1].name}
-                price={ingredientsData.buns[1].price}
-                thumbnail={ingredientsData.buns[1].image_mobile}/>
+                text={ingredientsData.buns[0].name + ' (низ)'}
+                price={ingredientsData.buns[0].price}
+                thumbnail={ingredientsData.buns[0].image_mobile}/>
               )
         }
       </div>
