@@ -5,6 +5,7 @@ import IngredientCard from './components/ingredient-card';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import PropTypes from 'prop-types';
 import { IngredientType } from 'utils/types.js';
+import Modal from '../modal/modal';
 
 const BurgerIngredients = React.memo(function BurgerIngredients({ ingredients }) {
   const [visible, setVisible] = React.useState(false);
@@ -115,9 +116,12 @@ const BurgerIngredients = React.memo(function BurgerIngredients({ ingredients })
 
 
       {visible && currentIngredient && (
-        <IngredientDetails
-        ingredient={currentIngredient}
-        onClose={handleCloseModal}/>
+        <Modal
+        header="Детали ингредиента"
+        onClose={handleCloseModal}>
+          <IngredientDetails
+          ingredient={currentIngredient}/>
+        </Modal>
       )}
     </section>
   );
