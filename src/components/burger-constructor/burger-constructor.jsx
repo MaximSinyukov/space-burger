@@ -4,6 +4,7 @@ import { ConstructorElement, CurrencyIcon, DragIcon, Button } from '@ya.praktiku
 import OrderDetails from '../order-details/order-details';
 import PropTypes from 'prop-types';
 import { IngredientType } from 'utils/types.js';
+import Modal from '../modal/modal';
 
 const BurgerConstructor = React.memo(function BurgerConstructor({ ingredients }) {
   const [ingredientsData, setIngredientsData] = React.useState({
@@ -113,8 +114,10 @@ const BurgerConstructor = React.memo(function BurgerConstructor({ ingredients })
       </div>
 
       {visible && (
-        <OrderDetails
-        onClose={handleCloseModal}/>
+        <Modal
+        onClose={handleCloseModal}>
+          <OrderDetails/>
+        </Modal>
       )}
     </section>
   );
