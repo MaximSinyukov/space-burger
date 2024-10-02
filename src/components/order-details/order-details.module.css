@@ -1,0 +1,11 @@
+.order-details {
+  composes: ingredient-details from "../ingredient-details/ingredient-details.module.css"
+}
+
+.order-details__number {
+  margin-top: 56px;
+}
+
+.order-details__advice {
+  color: var(--text-inactive-color);
+}
