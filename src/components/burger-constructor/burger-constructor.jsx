@@ -1,12 +1,14 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+
 import burgerConstructorStyle from './burger-constructor.module.css';
 import { ConstructorElement, CurrencyIcon, DragIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import OrderDetails from '../order-details/order-details';
-import PropTypes from 'prop-types';
-import { IngredientType } from 'utils/types.js';
 import Modal from '../modal/modal';
 
-const BurgerConstructor = React.memo(function BurgerConstructor({ ingredients }) {
+const BurgerConstructor = React.memo(function BurgerConstructor() {
+  const ingredients = useSelector(store => store.ingredients);
+
   const [ingredientsData, setIngredientsData] = React.useState({
     buns: [],
     otherIngredients: [],
@@ -122,9 +124,5 @@ const BurgerConstructor = React.memo(function BurgerConstructor({ ingredients })
     </section>
   );
 });
-
-BurgerConstructor.propTypes = {
-  ingredients: PropTypes.arrayOf(IngredientType).isRequired,
-};
 
 export default BurgerConstructor;

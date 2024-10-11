@@ -1,5 +1,5 @@
-import { appTestReducer } from './app';
+import ingredients from './ingredients';
 
 export const rootReducer = {
-  app: appTestReducer,
+  ingredients,
 };

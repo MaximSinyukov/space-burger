@@ -1,13 +1,15 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+
 import burgerIngredientsStyles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientCard from './components/ingredient-card';
 import IngredientDetails from '../ingredient-details/ingredient-details';
-import PropTypes from 'prop-types';
-import { IngredientType } from 'utils/types.js';
 import Modal from '../modal/modal';
 
-const BurgerIngredients = React.memo(function BurgerIngredients({ ingredients }) {
+const BurgerIngredients = React.memo(function BurgerIngredients() {
+  const ingredients = useSelector(store => store.ingredients);
+
   const [visible, setVisible] = React.useState(false);
   const [currentIngredient, setCurrentIngredient] = React.useState(null);
   const [currentTab, setCurrentTab] = React.useState('bun');
@@ -126,9 +128,5 @@ const BurgerIngredients = React.memo(function BurgerIngredients({ ingredients })
     </section>
   );
 });
-
-BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(IngredientType).isRequired,
-};
 
 export default BurgerIngredients;
