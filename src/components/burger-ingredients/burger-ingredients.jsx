@@ -1,17 +1,19 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import burgerIngredientsStyles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientCard from './components/ingredient-card';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
+import { setIngredientDetails, removeIngredientDetails } from 'services/reducers/detail-ingredient';
 
 const BurgerIngredients = React.memo(function BurgerIngredients() {
+  const dispatch = useDispatch();
+
   const ingredients = useSelector(store => store.ingredients);
 
   const [visible, setVisible] = React.useState(false);
-  const [currentIngredient, setCurrentIngredient] = React.useState(null);
   const [currentTab, setCurrentTab] = React.useState('bun');
   const [sortedIngredients, setSortedIngredients] = React.useState({
     bun: [],
@@ -36,17 +38,18 @@ const BurgerIngredients = React.memo(function BurgerIngredients() {
 
   const handleOpenModal = React.useCallback(
     (ingredient) => {
-      setCurrentIngredient(ingredient);
+      dispatch(setIngredientDetails(ingredient))
       setVisible(true);
     },
-    []
+    [dispatch]
   );
 
   const handleCloseModal = React.useCallback(
     () => {
+      dispatch(removeIngredientDetails());
       setVisible(false);
     },
-    []
+    [dispatch]
   );
 
   React.useEffect(() => {
@@ -117,12 +120,11 @@ const BurgerIngredients = React.memo(function BurgerIngredients() {
       </div>
 
 
-      {visible && currentIngredient && (
+      {visible && (
         <Modal
         header="Детали ингредиента"
         onClose={handleCloseModal}>
-          <IngredientDetails
-          ingredient={currentIngredient}/>
+          <IngredientDetails/>
         </Modal>
       )}
     </section>
