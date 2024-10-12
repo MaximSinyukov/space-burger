@@ -16,6 +16,7 @@ const BurgerConstructor = React.memo(function BurgerConstructor({ onDropHandler 
   const { buns, otherIngredients } = useSelector(store => store.selectIngredients);
 
   const [visible, setVisible] = React.useState(false);
+  const [allPrice, setAllPrice] = React.useState(0);
 
   const [, dropTarget] = useDrop({
     accept: "ingredient",
@@ -42,6 +43,20 @@ const BurgerConstructor = React.memo(function BurgerConstructor({ onDropHandler 
     },
     []
   );
+
+  React.useEffect(() => {
+    let newPrice = 0;
+
+    otherIngredients.forEach((item) => {
+      newPrice += item.price;
+    });
+
+    if (buns) {
+      newPrice += buns.price * 2;
+    }
+
+    setAllPrice(newPrice);
+  }, [buns, otherIngredients])
 
   return (
     <section
@@ -124,7 +139,7 @@ const BurgerConstructor = React.memo(function BurgerConstructor({ onDropHandler 
       className={`mt-10 pr-4 ${burgerConstructorStyle['burger-constructor__order-info']}`}>
         <span
         className={`text text_type_digits-medium ${burgerConstructorStyle['burger-constructor__order-price']}`}>
-          610
+          { allPrice }
         </span>
 
         <CurrencyIcon
