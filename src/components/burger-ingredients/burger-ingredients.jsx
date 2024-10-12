@@ -13,6 +13,9 @@ const BurgerIngredients = React.memo(function BurgerIngredients() {
 
   const ingredients = useSelector(store => store.ingredients);
 
+  const containerRef = React.useRef(null);
+  const titleRefs = React.useRef([]);
+
   const [visible, setVisible] = React.useState(false);
   const [currentTab, setCurrentTab] = React.useState('bun');
   const [sortedIngredients, setSortedIngredients] = React.useState({
@@ -21,7 +24,7 @@ const BurgerIngredients = React.memo(function BurgerIngredients() {
     main: [],
   });
 
-  const tabData = [
+  const tabData = React.useMemo(() => [
     {
       type: 'bun',
       title: 'Булки',
@@ -34,7 +37,37 @@ const BurgerIngredients = React.memo(function BurgerIngredients() {
       type: 'main',
       title: 'Начинки',
     }
-  ];
+  ], []);
+
+  const handleScroll = React.useCallback(() => {
+    if (!containerRef.current || !titleRefs.current.length) return;
+
+    let closestTab = currentTab;
+    let minOffset = null;
+
+    titleRefs.current.forEach((titleRef, index) => {
+      if (titleRef) {
+        const offset = Math.abs(titleRef.getBoundingClientRect().top - containerRef.current.getBoundingClientRect().top);
+
+        if (offset < minOffset || minOffset === null) {
+          minOffset = offset;
+          closestTab = tabData[index].type;
+        }
+      }
+    });
+
+    if (closestTab !== currentTab) {
+      setCurrentTab(closestTab);
+    }
+  }, [currentTab, tabData]);
+
+  const handleTabClick = (type) => {
+    const titleRef = titleRefs.current.find(ref => ref.id === `title-${type}`);
+
+    if (titleRef) {
+      titleRef.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   const handleOpenModal = React.useCallback(
     (ingredient) => {
@@ -82,7 +115,7 @@ const BurgerIngredients = React.memo(function BurgerIngredients() {
             key={tab.type}
             value={tab.type}
             active={currentTab === tab.type}
-            onClick={setCurrentTab}
+            onClick={handleTabClick}
             className={burgerIngredientsStyles['burger-ingredients__tab']}>
               {tab.title}
             </Tab>
@@ -91,13 +124,17 @@ const BurgerIngredients = React.memo(function BurgerIngredients() {
       </nav>
 
       <div
-      className={`${burgerIngredientsStyles['burger-ingredients__ingredient']}`}>
+      ref={containerRef}
+      className={`${burgerIngredientsStyles['burger-ingredients__ingredient']}`}
+      onScroll={handleScroll}>
         {
-          tabData.map((tab) => {
+          tabData.map((tab, index) => {
             return (
               <React.Fragment
               key={'ingredient-section-' + tab.type}>
                 <h2
+                id={`title-${tab.type}`}
+                ref={el => (titleRefs.current[index] = el)}
                 className={`mt-10 mb-6 text text_type_main-medium ${burgerIngredientsStyles['burger-ingredients__ingredient-title']}`}>
                   { tab.title }
                 </h2>
