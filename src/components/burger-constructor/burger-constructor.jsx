@@ -7,15 +7,17 @@ import burgerConstructorStyle from './burger-constructor.module.css';
 import { ConstructorElement, CurrencyIcon, DragIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import OrderDetails from '../order-details/order-details';
 import Modal from '../modal/modal';
+import { config } from 'utils/constants.js';
 
-import { removeIngredient, decreaseIngredientCount } from 'services/reducers/select-ingredients';
+import { removeIngredient, decreaseIngredientCount, resetSelectIngredients } from 'services/reducers/select-ingredients';
+import { setOrderNumber, removeOrderNumber } from 'services/reducers/order';
 
 const BurgerConstructor = React.memo(function BurgerConstructor({ onDropHandler }) {
   const dispatch = useDispatch();
 
   const { buns, otherIngredients } = useSelector(store => store.selectIngredients);
+  const orderNumber = useSelector(store => store.order);
 
-  const [visible, setVisible] = React.useState(false);
   const [allPrice, setAllPrice] = React.useState(0);
 
   const [, dropTarget] = useDrop({
@@ -30,18 +32,40 @@ const BurgerConstructor = React.memo(function BurgerConstructor({ onDropHandler 
     dispatch(decreaseIngredientCount(ingredientId));
   };
 
-  const handleOpenModal = React.useCallback(
+  const postOrder = React.useCallback(
     () => {
-      setVisible(true);
+      fetch(config.postOrderUrl, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ingredients: [buns?._id, ...otherIngredients.map((item) => item._id), buns?._id].filter((item) => item),
+        }),
+      })
+        .then(res => {
+          if (res.ok) {
+            return res.json();
+          } else {
+            return Promise.reject(res.statusText);
+          }
+        })
+        .then((data) => {
+          dispatch(setOrderNumber(data.order.number));
+        })
+        .catch(e => {
+          console.warn('Error in postOrder method: ', e);
+        });
     },
-    []
+    [otherIngredients, buns?._id, dispatch]
   );
 
   const handleCloseModal = React.useCallback(
     () => {
-      setVisible(false);
+      dispatch(resetSelectIngredients());
+      dispatch(removeOrderNumber());
     },
-    []
+    [dispatch]
   );
 
   React.useEffect(() => {
@@ -147,7 +171,7 @@ const BurgerConstructor = React.memo(function BurgerConstructor({ onDropHandler 
         type="primary"/>
 
         <Button
-        onClick={handleOpenModal}
+        onClick={postOrder}
         htmlType="button"
         type="primary"
         size="large">
@@ -155,7 +179,7 @@ const BurgerConstructor = React.memo(function BurgerConstructor({ onDropHandler 
         </Button>
       </div>
 
-      {visible && (
+      {orderNumber && (
         <Modal
         onClose={handleCloseModal}>
           <OrderDetails/>

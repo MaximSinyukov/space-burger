@@ -1,13 +1,17 @@
+import { useSelector } from 'react-redux';
+
 import orderDetailsStyle from './order-details.module.css';
 import doneImage from 'assets/images/done.svg';
 
 function OrderDetails() {
+  const orderNumber = useSelector(store => store.order);
+
   return (
     <div
     className={`${orderDetailsStyle['order-details']}`}>
       <h2
       className={`text text_type_digits-large mb-8 ${orderDetailsStyle['order-details__number']}`}>
-        034536
+        { orderNumber }
       </h2>
 
       <p

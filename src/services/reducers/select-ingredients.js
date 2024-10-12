@@ -39,6 +39,11 @@ const selectIngredients = createSlice({
         [action.payload]: state.ingredientsCounter[action.payload] - 1,
       },
     }),
+    resetSelectIngredients: (state, action) => ({
+      buns: null,
+      otherIngredients: [],
+      ingredientsCounter: {},
+    }),
   },
 });
 
@@ -48,5 +53,6 @@ export const {
   selectBuns,
   increaseIngredientCount,
   decreaseIngredientCount,
+  resetSelectIngredients,
 } = selectIngredients.actions;
 export default selectIngredients.reducer;

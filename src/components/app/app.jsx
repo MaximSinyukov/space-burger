@@ -27,7 +27,7 @@ function App() {
 
   const getIngredients = React.useCallback(
     () => {
-      fetch(config.baseUrl)
+      fetch(config.getIngredientsUrl)
         .then(res => {
           if (res.ok) {
             return res.json();
