@@ -5,13 +5,25 @@ import BurgerConstructor from '../burger-constructor/burger-constructor';
 
 import React from 'react';
 import { useDispatch } from 'react-redux';
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 import { config } from 'utils/constants.js';
 import { setIngredients } from 'services/reducers/ingredients';
+import { selectIngredient, selectBuns, increaseIngredientCount } from 'services/reducers/select-ingredients';
 
 
 function App() {
   const dispatch = useDispatch();
+
+  const handleDrop = ({ ingredient }) => {
+    if (ingredient.type === 'bun') {
+      dispatch(selectBuns(ingredient));
+    } else {
+      dispatch(selectIngredient(ingredient));
+      dispatch(increaseIngredientCount(ingredient._id));
+    }
+  };
 
   const getIngredients = React.useCallback(
     () => {
@@ -44,9 +56,12 @@ function App() {
 
       <main
       className={appStyles['app__main-content']}>
-        <BurgerIngredients/>
+       <DndProvider backend={HTML5Backend}>
+         <BurgerIngredients/>
 
-        <BurgerConstructor/>
+         <BurgerConstructor
+         onDropHandler={handleDrop}/>
+       </DndProvider>
       </main>
     </div>
   );

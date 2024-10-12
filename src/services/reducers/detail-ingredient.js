@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const detailIngredient = createSlice({
-  name: 'ingredients',
+  name: 'detailIngredient',
   initialState: {},
   reducers: {
     setIngredientDetails: (state, action) => action.payload,

@@ -1,19 +1,33 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { useDrop } from "react-dnd";
+import PropTypes from 'prop-types';
 
 import burgerConstructorStyle from './burger-constructor.module.css';
 import { ConstructorElement, CurrencyIcon, DragIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import OrderDetails from '../order-details/order-details';
 import Modal from '../modal/modal';
 
-const BurgerConstructor = React.memo(function BurgerConstructor() {
-  const ingredients = useSelector(store => store.ingredients);
+import { removeIngredient, decreaseIngredientCount } from 'services/reducers/select-ingredients';
 
-  const [ingredientsData, setIngredientsData] = React.useState({
-    buns: [],
-    otherIngredients: [],
-  });
+const BurgerConstructor = React.memo(function BurgerConstructor({ onDropHandler }) {
+  const dispatch = useDispatch();
+
+  const { buns, otherIngredients } = useSelector(store => store.selectIngredients);
+
   const [visible, setVisible] = React.useState(false);
+
+  const [, dropTarget] = useDrop({
+    accept: "ingredient",
+    drop(ingredient) {
+      onDropHandler(ingredient);
+    },
+  });
+
+  const handleDeleteIngredient = (ingredientIndex, ingredientId) => {
+    dispatch(removeIngredient(ingredientIndex));
+    dispatch(decreaseIngredientCount(ingredientId));
+  };
 
   const handleOpenModal = React.useCallback(
     () => {
@@ -29,28 +43,12 @@ const BurgerConstructor = React.memo(function BurgerConstructor() {
     []
   );
 
-  React.useEffect(() => {
-    const newIngredients = {
-      buns: [],
-      otherIngredients: [],
-    };
-
-    ingredients?.forEach((ingredient) => {
-      if (ingredient.type === 'bun') {
-        newIngredients.buns.push(ingredient);
-        return;
-      }
-
-      newIngredients.otherIngredients.push(ingredient);
-      setIngredientsData(newIngredients);
-    });
-  }, [ingredients]);
-
   return (
     <section
+    ref={dropTarget}
     className={`mt-25 ${burgerConstructorStyle['burger-constructor']}`}>
       {
-        ingredientsData.buns.length === 0 && ingredientsData.otherIngredients.length === 0
+        !buns && otherIngredients.length === 0
           ? (
             <p
             className={`text text_type_main-default ${burgerConstructorStyle['burger-constructor__empty-constructor']}`}>
@@ -63,14 +61,14 @@ const BurgerConstructor = React.memo(function BurgerConstructor() {
           ) : (
             <div
               className={`pl-8 ${burgerConstructorStyle['burger-constructor__ingredients']}`}>
-                {ingredientsData.buns[0]
+                {buns
                   &&  (
                         <ConstructorElement
                         type="top"
                         isLocked={true}
-                        text={ingredientsData.buns[0].name + ' (верх)'}
-                        price={ingredientsData.buns[0].price}
-                        thumbnail={ingredientsData.buns[0].image_mobile}
+                        text={buns.name + ' (верх)'}
+                        price={buns.price}
+                        thumbnail={buns.image_mobile}
                         extraClass={`${burgerConstructorStyle['burger-constructor__buns']}`}/>
                       )
                 }
@@ -78,11 +76,11 @@ const BurgerConstructor = React.memo(function BurgerConstructor() {
                 <ul
                 className={`${burgerConstructorStyle['burger-constructor__main-ingredients']}`}>
                   {
-                    ingredientsData.otherIngredients.length > 0
-                      ? ingredientsData.otherIngredients
-                          .map((ingredient) => (
+                    otherIngredients.length > 0
+                      ? otherIngredients
+                          .map((ingredient, index) => (
                             <li
-                            key={'order-ingredient-' + ingredient._id}
+                            key={'order-ingredient-' + ingredient._id + index}
                             className={burgerConstructorStyle['burger-constructor__ingredient']}>
                               <DragIcon
                               className="mr-2"
@@ -91,7 +89,8 @@ const BurgerConstructor = React.memo(function BurgerConstructor() {
                               <ConstructorElement
                               text={ingredient.name}
                               price={ingredient.price}
-                              thumbnail={ingredient.image_mobile}/>
+                              thumbnail={ingredient.image_mobile}
+                              handleClose={() => {handleDeleteIngredient(index, ingredient._id)}}/>
                             </li>
                           )) : (
                             <p
@@ -106,14 +105,14 @@ const BurgerConstructor = React.memo(function BurgerConstructor() {
                   }
                 </ul>
 
-                {ingredientsData.buns[0]
+                {buns
                   &&  (
                         <ConstructorElement
                         type="bottom"
                         isLocked={true}
-                        text={ingredientsData.buns[0].name + ' (низ)'}
-                        price={ingredientsData.buns[0].price}
-                        thumbnail={ingredientsData.buns[0].image_mobile}
+                        text={buns.name + ' (низ)'}
+                        price={buns.price}
+                        thumbnail={buns.image_mobile}
                         extraClass={`${burgerConstructorStyle['burger-constructor__buns']}`}/>
                       )
                 }
@@ -150,5 +149,9 @@ const BurgerConstructor = React.memo(function BurgerConstructor() {
     </section>
   );
 });
+
+BurgerConstructor.propTypes = {
+  onDropHandler: PropTypes.func.isRequired,
+};
 
 export default BurgerConstructor;

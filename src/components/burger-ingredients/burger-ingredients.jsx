@@ -71,7 +71,7 @@ const BurgerIngredients = React.memo(function BurgerIngredients() {
 
   const handleOpenModal = React.useCallback(
     (ingredient) => {
-      dispatch(setIngredientDetails(ingredient))
+      dispatch(setIngredientDetails(ingredient));
       setVisible(true);
     },
     [dispatch]
