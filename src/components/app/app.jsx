@@ -9,7 +9,7 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { v4 as uuidv4 } from 'uuid';
 
-import { config } from 'utils/constants.js';
+import { BASE_URL } from 'utils/constants.js';
 import { setIngredients } from 'services/reducers/ingredients';
 import { selectIngredient, selectBuns, increaseIngredientCount } from 'services/reducers/select-ingredients';
 
@@ -28,7 +28,7 @@ function App() {
 
   const getIngredients = React.useCallback(
     () => {
-      fetch(config.getIngredientsUrl)
+      fetch(`${BASE_URL}/ingredients`)
         .then(res => {
           if (res.ok) {
             return res.json();
