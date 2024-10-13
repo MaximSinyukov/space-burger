@@ -17,7 +17,7 @@ const selectIngredients = createSlice({
     }),
     removeIngredient: (state, action) => ({
       ...state,
-      otherIngredients: state.otherIngredients.filter((ingredient, index) => index !== action.payload),
+      otherIngredients: state.otherIngredients.filter((ingredient, index) => ingredient.uniqueId !== action.payload),
     }),
     updateOtherIngredients: (state, action) => ({
       ...state,

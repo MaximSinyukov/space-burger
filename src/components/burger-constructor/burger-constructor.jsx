@@ -39,7 +39,10 @@ const BurgerConstructor = React.memo(function BurgerConstructor() {
     }
   };
 
-  const sortIngredient = React.useCallback((dragIndex, dropIndex) => {
+  const sortIngredient = React.useCallback((dragId, dropId) => {
+    const dragIndex = otherIngredients.findIndex(item => item.uniqueId === dragId);
+    const dropIndex = otherIngredients.findIndex(item => item.uniqueId === dropId);
+
     const updatedIngredients = [...otherIngredients];
     const [draggedIngredient] = updatedIngredients.splice(dragIndex, 1);
 
@@ -48,8 +51,8 @@ const BurgerConstructor = React.memo(function BurgerConstructor() {
     dispatch(updateOtherIngredients(updatedIngredients));
   }, [otherIngredients, dispatch]);
 
-  const handleDeleteIngredient = (ingredientIndex, ingredientId) => {
-    dispatch(removeIngredient(ingredientIndex));
+  const handleDeleteIngredient = (uniqueId, ingredientId) => {
+    dispatch(removeIngredient(uniqueId));
     dispatch(decreaseIngredientCount(ingredientId));
   };
 
@@ -119,13 +122,12 @@ const BurgerConstructor = React.memo(function BurgerConstructor() {
                   {
                     otherIngredients.length > 0
                       ? otherIngredients
-                          .map((ingredient, index) => (
+                          .map((ingredient) => (
                             <ConstructorIngredient
-                            key={'constructor-ingredient-' + ingredient.uniqueId + index }
+                            key={'constructor-ingredient-' + ingredient.uniqueId }
                             sortIngredient={sortIngredient}
                             onDelete={handleDeleteIngredient}
-                            ingredient={ingredient}
-                            index={index}/>
+                            ingredient={ingredient}/>
                           )) : (
                             <p
                             className={`text text_type_main-default ${burgerConstructorStyle['burger-constructor__empty-other-ingredients']}`}>

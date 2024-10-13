@@ -7,13 +7,13 @@ import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burg
 
 import { IngredientType } from 'utils/types.js';
 
-const ConstructorIngredient = React.memo(function ConstructorIngredient({ ingredient, index, onDelete, sortIngredient }) {
+const ConstructorIngredient = React.memo(function ConstructorIngredient({ ingredient, onDelete, sortIngredient }) {
   const ingredientConsctructorRef = React.useRef(null);
 
   const [, dragRef] = useDrag({
     type: "constructor",
     item: () => {
-      return { ingredient, index };
+      return { uniqueId: ingredient.uniqueId };
     },
   });
 
@@ -22,8 +22,8 @@ const ConstructorIngredient = React.memo(function ConstructorIngredient({ ingred
     drop(item) {
       if (!ingredientConsctructorRef.current) return;
 
-      const dragIndex = item.index;
-      const dropIndex = index;
+      const dragIndex = item.uniqueId;
+      const dropIndex = ingredient.uniqueId;
 
       if (dragIndex === dropIndex) return;
 
@@ -39,7 +39,6 @@ const ConstructorIngredient = React.memo(function ConstructorIngredient({ ingred
   return (
     <li
     ref={ingredientConsctructorRef}
-    key={'order-ingredient-' + ingredient._id + index}
     className={`${constructorIngredientStyle['burger-constructor__ingredient']}`}>
       <DragIcon
       className="mr-2"
@@ -49,7 +48,7 @@ const ConstructorIngredient = React.memo(function ConstructorIngredient({ ingred
       text={ingredient.name}
       price={ingredient.price}
       thumbnail={ingredient.image_mobile}
-      handleClose={() => {onDelete(index, ingredient._id)}}
+      handleClose={() => {onDelete(ingredient.uniqueId, ingredient._id)}}
       extraClass={`${constructorIngredientStyle['burger-constructor__constructor-ingredient']} ${isHover && constructorIngredientStyle['burger-constructor__constructor-ingredient_active']}`}/>
     </li>
   );
@@ -59,7 +58,6 @@ ConstructorIngredient.propTypes = {
   ingredient: IngredientType.isRequired,
   onDelete: PropTypes.func.isRequired,
   sortIngredient: PropTypes.func.isRequired,
-  index: PropTypes.number.isRequired,
 };
 
 export default ConstructorIngredient;
