@@ -55,6 +55,8 @@ const BurgerConstructor = React.memo(function BurgerConstructor() {
 
   const postOrder = React.useCallback(
     () => {
+      if (!buns) return;
+
       request('/orders', {
         method: "POST",
         headers: {
@@ -71,7 +73,7 @@ const BurgerConstructor = React.memo(function BurgerConstructor() {
           console.warn('Error in postOrder method: ', e);
         });
     },
-    [otherIngredients, buns?._id, dispatch]
+    [otherIngredients, dispatch, buns]
   );
 
   const handleCloseModal = React.useCallback(
