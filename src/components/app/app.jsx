@@ -8,28 +8,21 @@ import { useDispatch } from 'react-redux';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
-import { request } from 'utils/request.js';
-import { setIngredients } from 'services/reducers/ingredients';
+import { getIngredients } from 'services/actions/ingredientsAction';
 
 function App() {
   const dispatch = useDispatch();
 
-  const getIngredients = React.useCallback(
+  const getIngredientsList = React.useCallback(
     () => {
-      request('/ingredients')
-        .then(({ data }) => {
-          dispatch(setIngredients(data));
-        })
-        .catch(e => {
-          console.warn('Error in getIngredients method: ', e);
-        });
+      dispatch(getIngredients());
     },
     [dispatch]
   );
 
   React.useEffect(() => {
-    getIngredients();
-  }, [getIngredients]);
+    getIngredientsList();
+  }, [getIngredientsList]);
 
   return (
     <div

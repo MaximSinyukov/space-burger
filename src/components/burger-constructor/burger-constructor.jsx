@@ -9,10 +9,10 @@ import { ConstructorElement, CurrencyIcon, Button } from '@ya.praktikum/react-de
 import OrderDetails from '../order-details/order-details';
 import ConstructorIngredient from './components/constructor-ingredient';
 import Modal from '../modal/modal';
-import { request } from 'utils/request.js';
 
 import { removeIngredient, decreaseIngredientCount, resetSelectIngredients, updateOtherIngredients, selectIngredient, selectBuns, increaseIngredientCount } from 'services/reducers/select-ingredients';
-import { setOrderNumber, removeOrderNumber } from 'services/reducers/order';
+import { removeOrderNumber } from 'services/reducers/order';
+import { postOrder } from 'services/actions/orderAction';
 
 
 const BurgerConstructor = React.memo(function BurgerConstructor() {
@@ -53,25 +53,11 @@ const BurgerConstructor = React.memo(function BurgerConstructor() {
     dispatch(decreaseIngredientCount(ingredientId));
   };
 
-  const postOrder = React.useCallback(
+  const handleOrder = React.useCallback(
     () => {
       if (!buns) return;
 
-      request('/orders', {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ingredients: [buns?._id, ...otherIngredients.map((item) => item._id), buns?._id].filter((item) => item),
-        }),
-      })
-        .then((data) => {
-          dispatch(setOrderNumber(data.order.number));
-        })
-        .catch(e => {
-          console.warn('Error in postOrder method: ', e);
-        });
+      dispatch(postOrder({ buns, otherIngredients }));
     },
     [otherIngredients, dispatch, buns]
   );
@@ -180,7 +166,7 @@ const BurgerConstructor = React.memo(function BurgerConstructor() {
         type="primary"/>
 
         <Button
-        onClick={postOrder}
+        onClick={handleOrder}
         htmlType="button"
         type="primary"
         size="large">
