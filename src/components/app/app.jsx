@@ -7,6 +7,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import { v4 as uuidv4 } from 'uuid';
 
 import { config } from 'utils/constants.js';
 import { setIngredients } from 'services/reducers/ingredients';
@@ -20,7 +21,7 @@ function App() {
     if (ingredient.type === 'bun') {
       dispatch(selectBuns(ingredient));
     } else {
-      dispatch(selectIngredient(ingredient));
+      dispatch(selectIngredient({ ...ingredient, uniqueId: uuidv4() }));
       dispatch(increaseIngredientCount(ingredient._id));
     }
   };

@@ -1,0 +1,18 @@
+.burger-constructor__ingredient {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  cursor: pointer;
+}
+
+.burger-constructor__constructor-ingredient {
+  margin: 2px;
+}
+
+.burger-constructor__constructor-ingredient_active {
+  box-sizing: border-box;
+  outline: 1px solid white;
+}

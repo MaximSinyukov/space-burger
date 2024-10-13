@@ -44,15 +44,6 @@
   transform: translateX(-32px);
 }
 
-.burger-constructor__ingredient {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  position: relative;
-  width: 100%;
-}
-
 .burger-constructor__order-info {
   display: flex;
   flex-direction: row;
