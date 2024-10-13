@@ -7,24 +7,12 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { v4 as uuidv4 } from 'uuid';
 
 import { BASE_URL } from 'utils/constants.js';
 import { setIngredients } from 'services/reducers/ingredients';
-import { selectIngredient, selectBuns, increaseIngredientCount } from 'services/reducers/select-ingredients';
-
 
 function App() {
   const dispatch = useDispatch();
-
-  const handleDrop = ({ ingredient }) => {
-    if (ingredient.type === 'bun') {
-      dispatch(selectBuns(ingredient));
-    } else {
-      dispatch(selectIngredient({ ...ingredient, uniqueId: uuidv4() }));
-      dispatch(increaseIngredientCount(ingredient._id));
-    }
-  };
 
   const getIngredients = React.useCallback(
     () => {
@@ -60,8 +48,7 @@ function App() {
        <DndProvider backend={HTML5Backend}>
          <BurgerIngredients/>
 
-         <BurgerConstructor
-         onDropHandler={handleDrop}/>
+         <BurgerConstructor/>
        </DndProvider>
       </main>
     </div>

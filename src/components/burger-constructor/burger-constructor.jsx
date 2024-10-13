@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useDrop } from "react-dnd";
-import PropTypes from 'prop-types';
+import { v4 as uuidv4 } from 'uuid';
 
 import burgerConstructorStyle from './burger-constructor.module.css';
 
@@ -11,10 +11,11 @@ import ConstructorIngredient from './components/constructor-ingredient';
 import Modal from '../modal/modal';
 import { BASE_URL } from 'utils/constants.js';
 
-import { removeIngredient, decreaseIngredientCount, resetSelectIngredients, updateOtherIngredients } from 'services/reducers/select-ingredients';
+import { removeIngredient, decreaseIngredientCount, resetSelectIngredients, updateOtherIngredients, selectIngredient, selectBuns, increaseIngredientCount } from 'services/reducers/select-ingredients';
 import { setOrderNumber, removeOrderNumber } from 'services/reducers/order';
 
-const BurgerConstructor = React.memo(function BurgerConstructor({ onDropHandler }) {
+
+const BurgerConstructor = React.memo(function BurgerConstructor() {
   const dispatch = useDispatch();
 
   const { buns, otherIngredients } = useSelector(store => store.selectIngredients);
@@ -25,9 +26,18 @@ const BurgerConstructor = React.memo(function BurgerConstructor({ onDropHandler 
   const [, dropIngredientTarget] = useDrop({
     accept: "ingredient",
     drop(ingredient) {
-      onDropHandler(ingredient);
+      handleDrop(ingredient);
     },
   });
+
+  const handleDrop = ({ ingredient }) => {
+    if (ingredient.type === 'bun') {
+      dispatch(selectBuns(ingredient));
+    } else {
+      dispatch(selectIngredient({ ...ingredient, uniqueId: uuidv4() }));
+      dispatch(increaseIngredientCount(ingredient._id));
+    }
+  };
 
   const sortIngredient = React.useCallback((dragIndex, dropIndex) => {
     const updatedIngredients = [...otherIngredients];
@@ -192,9 +202,5 @@ const BurgerConstructor = React.memo(function BurgerConstructor({ onDropHandler 
     </section>
   );
 });
-
-BurgerConstructor.propTypes = {
-  onDropHandler: PropTypes.func.isRequired,
-};
 
 export default BurgerConstructor;
