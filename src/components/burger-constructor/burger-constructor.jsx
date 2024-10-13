@@ -9,7 +9,7 @@ import { ConstructorElement, CurrencyIcon, Button } from '@ya.praktikum/react-de
 import OrderDetails from '../order-details/order-details';
 import ConstructorIngredient from './components/constructor-ingredient';
 import Modal from '../modal/modal';
-import { BASE_URL } from 'utils/constants.js';
+import { request } from 'utils/request.js';
 
 import { removeIngredient, decreaseIngredientCount, resetSelectIngredients, updateOtherIngredients, selectIngredient, selectBuns, increaseIngredientCount } from 'services/reducers/select-ingredients';
 import { setOrderNumber, removeOrderNumber } from 'services/reducers/order';
@@ -55,7 +55,7 @@ const BurgerConstructor = React.memo(function BurgerConstructor() {
 
   const postOrder = React.useCallback(
     () => {
-      fetch(`${BASE_URL}/orders`, {
+      request('/orders', {
         method: "POST",
         headers: {
           'Content-Type': 'application/json',
@@ -64,13 +64,6 @@ const BurgerConstructor = React.memo(function BurgerConstructor() {
           ingredients: [buns?._id, ...otherIngredients.map((item) => item._id), buns?._id].filter((item) => item),
         }),
       })
-        .then(res => {
-          if (res.ok) {
-            return res.json();
-          } else {
-            return Promise.reject(res.statusText);
-          }
-        })
         .then((data) => {
           dispatch(setOrderNumber(data.order.number));
         })

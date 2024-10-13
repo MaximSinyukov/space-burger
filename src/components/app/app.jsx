@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
-import { BASE_URL } from 'utils/constants.js';
+import { request } from 'utils/request.js';
 import { setIngredients } from 'services/reducers/ingredients';
 
 function App() {
@@ -16,14 +16,7 @@ function App() {
 
   const getIngredients = React.useCallback(
     () => {
-      fetch(`${BASE_URL}/ingredients`)
-        .then(res => {
-          if (res.ok) {
-            return res.json();
-          } else {
-            return Promise.reject(res.statusText);
-          }
-        })
+      request('/ingredients')
         .then(({ data }) => {
           dispatch(setIngredients(data));
         })
