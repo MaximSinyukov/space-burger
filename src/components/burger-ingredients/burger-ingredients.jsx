@@ -1,15 +1,22 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
 import burgerIngredientsStyles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientCard from './components/ingredient-card';
 import IngredientDetails from '../ingredient-details/ingredient-details';
-import PropTypes from 'prop-types';
-import { IngredientType } from 'utils/types.js';
 import Modal from '../modal/modal';
+import { setIngredientDetails, removeIngredientDetails } from 'services/reducers/detail-ingredient';
 
-const BurgerIngredients = React.memo(function BurgerIngredients({ ingredients }) {
+const BurgerIngredients = React.memo(function BurgerIngredients() {
+  const dispatch = useDispatch();
+
+  const ingredients = useSelector(store => store.ingredients);
+
+  const containerRef = React.useRef(null);
+  const titleRefs = React.useRef([]);
+
   const [visible, setVisible] = React.useState(false);
-  const [currentIngredient, setCurrentIngredient] = React.useState(null);
   const [currentTab, setCurrentTab] = React.useState('bun');
   const [sortedIngredients, setSortedIngredients] = React.useState({
     bun: [],
@@ -17,7 +24,7 @@ const BurgerIngredients = React.memo(function BurgerIngredients({ ingredients })
     main: [],
   });
 
-  const tabData = [
+  const tabData = React.useMemo(() => [
     {
       type: 'bun',
       title: 'Булки',
@@ -30,21 +37,52 @@ const BurgerIngredients = React.memo(function BurgerIngredients({ ingredients })
       type: 'main',
       title: 'Начинки',
     }
-  ];
+  ], []);
+
+  const handleScroll = React.useCallback(() => {
+    if (!containerRef.current || !titleRefs.current.length) return;
+
+    let closestTab = currentTab;
+    let minOffset = null;
+
+    titleRefs.current.forEach((titleRef, index) => {
+      if (titleRef) {
+        const offset = Math.abs(titleRef.getBoundingClientRect().top - containerRef.current.getBoundingClientRect().top);
+
+        if (offset < minOffset || minOffset === null) {
+          minOffset = offset;
+          closestTab = tabData[index].type;
+        }
+      }
+    });
+
+    if (closestTab !== currentTab) {
+      setCurrentTab(closestTab);
+    }
+  }, [currentTab, tabData]);
+
+  const handleTabClick = (type) => {
+    const titleRef = titleRefs.current.find(ref => ref.id === `title-${type}`);
+
+    if (titleRef) {
+      titleRef.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   const handleOpenModal = React.useCallback(
     (ingredient) => {
-      setCurrentIngredient(ingredient);
+      dispatch(setIngredientDetails(ingredient));
       setVisible(true);
     },
-    []
+    [dispatch]
   );
 
   const handleCloseModal = React.useCallback(
     () => {
+      dispatch(removeIngredientDetails());
       setVisible(false);
     },
-    []
+    [dispatch]
   );
 
   React.useEffect(() => {
@@ -77,7 +115,7 @@ const BurgerIngredients = React.memo(function BurgerIngredients({ ingredients })
             key={tab.type}
             value={tab.type}
             active={currentTab === tab.type}
-            onClick={setCurrentTab}
+            onClick={handleTabClick}
             className={burgerIngredientsStyles['burger-ingredients__tab']}>
               {tab.title}
             </Tab>
@@ -86,13 +124,17 @@ const BurgerIngredients = React.memo(function BurgerIngredients({ ingredients })
       </nav>
 
       <div
-      className={`${burgerIngredientsStyles['burger-ingredients__ingredient']}`}>
+      ref={containerRef}
+      className={`${burgerIngredientsStyles['burger-ingredients__ingredient']}`}
+      onScroll={handleScroll}>
         {
-          tabData.map((tab) => {
+          tabData.map((tab, index) => {
             return (
               <React.Fragment
               key={'ingredient-section-' + tab.type}>
                 <h2
+                id={`title-${tab.type}`}
+                ref={el => (titleRefs.current[index] = el)}
                 className={`mt-10 mb-6 text text_type_main-medium ${burgerIngredientsStyles['burger-ingredients__ingredient-title']}`}>
                   { tab.title }
                 </h2>
@@ -115,20 +157,15 @@ const BurgerIngredients = React.memo(function BurgerIngredients({ ingredients })
       </div>
 
 
-      {visible && currentIngredient && (
+      {visible && (
         <Modal
         header="Детали ингредиента"
         onClose={handleCloseModal}>
-          <IngredientDetails
-          ingredient={currentIngredient}/>
+          <IngredientDetails/>
         </Modal>
       )}
     </section>
   );
 });
-
-BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(IngredientType).isRequired,
-};
 
 export default BurgerIngredients;

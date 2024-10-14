@@ -29,6 +29,7 @@
   flex-direction: column;
   width: 100%;
   max-height: min-content;
+  overflow: auto;
 }
 
 .burger-ingredients__ingredient-list {

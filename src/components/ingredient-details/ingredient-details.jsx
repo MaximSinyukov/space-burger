@@ -1,7 +1,10 @@
 import ingredientDetailsStyle from './ingredient-details.module.css';
-import { IngredientType } from 'utils/types.js';
 
-function IngredientDetails({ ingredient }) {
+import { useSelector } from 'react-redux';
+
+function IngredientDetails() {
+  const ingredient = useSelector(store => store.detailIngredient);
+
   const detailsData = [
     {
       type: 'calories',
@@ -56,10 +59,6 @@ function IngredientDetails({ ingredient }) {
       </div>
     </div>
   );
-};
-
-IngredientDetails.propTypes = {
-  ingredient: IngredientType.isRequired,
 };
 
 export default IngredientDetails;

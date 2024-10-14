@@ -1,36 +1,28 @@
 import appStyles from './app.module.css';
 import AppHeader from '../app-header/app-header';
-
-import React from 'react';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 
-import { config } from 'utils/constants.js';
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
+import { getIngredients } from 'services/actions/ingredientsAction';
 
 function App() {
-  const [ingredients, setIngredients] = React.useState([]);
+  const dispatch = useDispatch();
 
-  const getIngredients = () => {
-    fetch(config.baseUrl)
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        } else {
-          return Promise.reject(res.statusText);
-        }
-      })
-      .then(({ data }) => {
-        setIngredients(data);
-      })
-      .catch(e => {
-        console.warn('Error in getIngredients method: ', e);
-      });
-  };
+  const getIngredientsList = React.useCallback(
+    () => {
+      dispatch(getIngredients());
+    },
+    [dispatch]
+  );
 
   React.useEffect(() => {
-    getIngredients();
-  }, []);
+    getIngredientsList();
+  }, [getIngredientsList]);
 
   return (
     <div
@@ -39,11 +31,11 @@ function App() {
 
       <main
       className={appStyles['app__main-content']}>
-        <BurgerIngredients
-        ingredients={ingredients}/>
+       <DndProvider backend={HTML5Backend}>
+         <BurgerIngredients/>
 
-        <BurgerConstructor
-        ingredients={ingredients}/>
+         <BurgerConstructor/>
+       </DndProvider>
       </main>
     </div>
   );
