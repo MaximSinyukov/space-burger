@@ -2,6 +2,7 @@ import appStyles from './app.module.css';
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
+import Login from 'pages/login/login.jsx'
 
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -42,7 +43,7 @@ function App() {
               </DndProvider>
             } />
 
-            <Route path="/login" element={<div>login</div>} />
+            <Route path="/login" element={<Login />} />
 
             <Route path="/forgot-password" element={<div>forgot-password</div>} />
 

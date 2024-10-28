@@ -1,0 +1,23 @@
+.universal-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.universal-form__form {
+  composes: universal-form;
+}
+
+.universal-form__navigation {
+  composes: universal-form;
+}
+
+.universal-form__nav-text:first-of-type {
+  margin-top: 0;
+}
+
+.universal-form__nav-link {
+  text-decoration: none;
+  color: var(--colors-interface-accent);
+}

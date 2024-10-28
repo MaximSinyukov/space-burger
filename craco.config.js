@@ -10,6 +10,7 @@ module.exports = {
       utils: path.resolve(__dirname, 'src/utils/'),
       vendor: path.resolve(__dirname, 'src/vendor/'),
       services: path.resolve(__dirname, 'src/services/'),
+      pages: path.resolve(__dirname, 'src/pages/'),
     },
   },
 };
