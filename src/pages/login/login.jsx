@@ -1,6 +1,7 @@
 import React from 'react';
 
 import loginStyle from './login.module.css';
+
 import UniversalForm from 'components/universal-form/universal-form';
 
 function Login() {
@@ -16,7 +17,6 @@ function Login() {
   };
 
   const formData = {
-    className: loginStyle['login__form'],
     textData: {
       title: 'Вход',
       btn: 'Войти',
