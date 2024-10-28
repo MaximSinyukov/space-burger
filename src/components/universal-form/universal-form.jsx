@@ -41,26 +41,29 @@ function UniversalForm({ inputsData, linksData, textData }) {
         </Button>
       </form>
 
-      <nav
-      className={`mt-20 ${universalFormStyle['universal-form__navigation']}`}>
-        {
-          linksData.map((link, index) => {
-            return (
-              <p
-              key={'input-' + index}
-              className={`mt-4 text text_type_main-default text_color_inactive ${universalFormStyle['universal-form__nav-text']}`}>
-                { link.baseText + ' ' }
+      {
+        linksData?.length > 0 &&
+          <nav
+          className={`mt-20 ${universalFormStyle['universal-form__navigation']}`}>
+            {
+              linksData.map((link, index) => {
+                return (
+                  <p
+                  key={'input-' + index}
+                  className={`mt-4 text text_type_main-default text_color_inactive ${universalFormStyle['universal-form__nav-text']}`}>
+                    { link.baseText + ' ' }
 
-                <Link
-                to={link.route}
-                className={`${universalFormStyle['universal-form__nav-link']}`}>
-                  { link.linkText }
-                </Link>
-              </p>
-            );
-          })
-        }
-      </nav>
+                    <Link
+                    to={link.route}
+                    className={`${universalFormStyle['universal-form__nav-link']}`}>
+                      { link.linkText }
+                    </Link>
+                  </p>
+                );
+              })
+            }
+          </nav>
+      }
     </div>
   );
 }
