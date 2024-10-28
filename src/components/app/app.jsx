@@ -6,6 +6,7 @@ import BurgerConstructor from '../burger-constructor/burger-constructor';
 import Login from 'pages/login/login.jsx';
 import ForgotPassword from 'pages/forgot-password/forgot-password.jsx';
 import ResetPassword from 'pages/reset-password/reset-password.jsx';
+import Register from 'pages/register/register.jsx';
 
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -52,7 +53,7 @@ function App() {
 
             <Route path="/reset-password" element={<ResetPassword/>} />
 
-            <Route path="/register" element={<div>register </div>} />
+            <Route path="/register" element={<Register/>} />
 
             <Route path="/profile " element={<div>profile </div>} />
 
