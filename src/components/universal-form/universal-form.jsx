@@ -13,10 +13,15 @@ function UniversalForm({ inputsData, linksData, textData }) {
   return (
     <div
     className={`${universalFormStyle['universal-form']}`}>
-      <h2
-      className={`text text_type_main-medium ${universalFormStyle['universal-form__header']}`}>
-        { textData.title }
-      </h2>
+      {
+        textData?.title &&
+          (
+            <h2
+            className={`mb-6 text text_type_main-medium ${universalFormStyle['universal-form__title']}`}>
+              { textData.title }
+            </h2>
+          )
+      }
 
       <form
       className={`${universalFormStyle['universal-form__form']}`}>
@@ -32,13 +37,18 @@ function UniversalForm({ inputsData, linksData, textData }) {
           })
         }
 
-        <Button
-        type="primary"
-        size="medium"
-        extraClass="mt-6"
-        htmlType="button">
-          { textData.btn }
-        </Button>
+        {
+          textData?.btn &&
+            (
+              <Button
+              type="primary"
+              size="medium"
+              extraClass="mt-6"
+              htmlType="button">
+                { textData.btn }
+              </Button>
+            )
+        }
       </form>
 
       {

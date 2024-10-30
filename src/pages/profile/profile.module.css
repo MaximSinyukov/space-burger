@@ -1,0 +1,32 @@
+.profile {
+  composes: login from "../login/login.module.css";
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding-top: 10%;
+}
+
+.profile__navigation {
+  display: flex;
+  flex-direction: column;
+  width: 320px;
+}
+
+.profile__nav-link {
+  width: 100%;
+  height: 64px;
+  line-height: 64px;
+  text-align: start;
+  text-decoration: none;
+  color: var(--text-inactive-color);
+}
+
+.profile__nav-link_active {
+  color: #F2F2F3;
+}
+
+.profile__advice {
+  width: 100%;
+  color: var(--text-inactive-color);
+  opacity: 0.4;
+}

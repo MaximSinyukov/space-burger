@@ -33,7 +33,7 @@ function Register() {
           value: nameValue,
           onChange: onNameChange,
           placeholder: 'Имя',
-          extraClass: 'mt-6',
+          extraClass: 'mb-6',
         },
       },
       {
@@ -42,7 +42,7 @@ function Register() {
           value: emailValue,
           onChange: onEmailChange,
           placeholder: 'E-mail',
-          extraClass: 'mt-6',
+          extraClass: 'mb-6',
         },
       },
       {
@@ -52,7 +52,6 @@ function Register() {
           onChange: onPasswordChange,
           placeholder: 'Пароль',
           icon: 'ShowIcon',
-          extraClass: 'mt-6',
         },
       },
     ],

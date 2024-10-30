@@ -23,7 +23,6 @@ function ForgotPassword() {
           value: forgotPasswordEmail,
           onChange: onForgotPasswordEmailChange,
           placeholder: 'Укажите e-mail',
-          extraClass: 'mt-6',
         },
       },
     ],

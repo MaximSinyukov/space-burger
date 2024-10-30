@@ -7,6 +7,7 @@ import Login from 'pages/login/login.jsx';
 import ForgotPassword from 'pages/forgot-password/forgot-password.jsx';
 import ResetPassword from 'pages/reset-password/reset-password.jsx';
 import Register from 'pages/register/register.jsx';
+import Profile from 'pages/profile/profile.jsx';
 
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -55,7 +56,7 @@ function App() {
 
             <Route path="/register" element={<Register/>} />
 
-            <Route path="/profile " element={<div>profile </div>} />
+            <Route path="/profile" element={<Profile />} />
 
             <Route path="/ingredients/:id" element={<div>ingredients</div>} />
           </Routes>

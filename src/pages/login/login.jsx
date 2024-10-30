@@ -28,7 +28,7 @@ function Login() {
           value: emailValue,
           onChange: onEmailChange,
           placeholder: 'E-mail',
-          extraClass: 'mt-6',
+          extraClass: 'mb-6',
         },
       },
       {
@@ -38,7 +38,6 @@ function Login() {
           onChange: onPasswordChange,
           placeholder: 'Пароль',
           icon: 'ShowIcon',
-          extraClass: 'mt-6',
         },
       },
     ],

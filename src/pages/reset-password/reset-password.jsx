@@ -29,7 +29,7 @@ function ResetPassword() {
           onChange: onNewPasswordValue,
           placeholder: 'Введите новый пароль',
           icon: 'ShowIcon',
-          extraClass: 'mt-6',
+          extraClass: 'mb-6',
         },
       },
       {
@@ -38,7 +38,6 @@ function ResetPassword() {
           value: emailCodeValue,
           onChange: onEmailCodeValue,
           placeholder: 'Введите код из письма',
-          extraClass: 'mt-6',
         },
       },
     ],
