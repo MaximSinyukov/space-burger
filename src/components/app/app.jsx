@@ -8,6 +8,7 @@ import ForgotPassword from 'pages/forgot-password/forgot-password.jsx';
 import ResetPassword from 'pages/reset-password/reset-password.jsx';
 import Register from 'pages/register/register.jsx';
 import Profile from 'pages/profile/profile.jsx';
+import Ingredient from 'pages/ingredient/ingredient.jsx';
 
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -32,13 +33,13 @@ function App() {
   }, [getIngredientsList]);
 
   return (
-    <div
-    className={appStyles.app}>
-      <AppHeader/>
+    <BrowserRouter>
+      <div
+      className={appStyles.app}>
+        <AppHeader/>
 
-      <main
-      className={appStyles['app__main-content']}>
-        <BrowserRouter>
+        <main
+        className={appStyles['app__main-content']}>
           <Routes>
             <Route path="/" element={
               <DndProvider backend={HTML5Backend}>
@@ -58,11 +59,11 @@ function App() {
 
             <Route path="/profile" element={<Profile />} />
 
-            <Route path="/ingredients/:id" element={<div>ingredients</div>} />
+            <Route path="/ingredients/:id" element={<Ingredient/>} />
           </Routes>
-        </BrowserRouter>
-      </main>
-    </div>
+        </main>
+      </div>
+    </BrowserRouter>
   );
 }
 
