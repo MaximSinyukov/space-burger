@@ -3,7 +3,7 @@ import universalFormStyle from './universal-form.module.css';
 import { EmailInput, PasswordInput, Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-router-dom';
 
-function UniversalForm({ inputsData, linksData, textData, btnHandler = null }) {
+function UniversalForm({ inputsData, linksData, textData, submitHandler = null }) {
   const inputComponentsByType = {
     email: EmailInput,
     password: PasswordInput,
@@ -12,7 +12,7 @@ function UniversalForm({ inputsData, linksData, textData, btnHandler = null }) {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    btnHandler();
+    submitHandler();
   };
 
   return (

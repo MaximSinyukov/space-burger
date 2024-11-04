@@ -48,7 +48,7 @@ function Register() {
   );
 
   const formData = {
-    btnHandler: handleRegisterUser,
+    submitHandler: handleRegisterUser,
     textData: {
       title: 'Регистрация',
       btn: 'Зарегистрироваться',

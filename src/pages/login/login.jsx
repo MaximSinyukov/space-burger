@@ -1,10 +1,17 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from "react-router-dom";
 
 import loginStyle from './login.module.css';
 
 import UniversalForm from 'components/universal-form/universal-form';
 
+import { loginUser } from 'services/actions/userActions';
+
 function Login() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [emailValue, setEmailValue] = React.useState('');
   const [passwordValue, setPasswordValue] = React.useState('');
 
@@ -16,7 +23,26 @@ function Login() {
     setPasswordValue(e.target.value)
   };
 
+  const handleLoginUser = React.useCallback(
+    () => {
+      dispatch(loginUser({
+        email: emailValue,
+        password: passwordValue,
+      }))
+        .then((res) => {
+          if (res.type.endsWith('/fulfilled')) {
+            navigate('/');
+          }
+        })
+        .catch((err) => {
+          console.warn(err, 'Error in handleLoginUser method');
+        });
+    },
+    [dispatch, emailValue, navigate, passwordValue]
+  );
+
   const formData = {
+    submitHandler: handleLoginUser,
     textData: {
       title: 'Вход',
       btn: 'Войти',

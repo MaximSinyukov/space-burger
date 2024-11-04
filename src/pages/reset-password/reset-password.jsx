@@ -41,7 +41,7 @@ function ResetPassword() {
   };
 
   const formData = {
-    btnHandler: handleResetPassword,
+    submitHandler: handleResetPassword,
     textData: {
       title: 'Восстановление пароля',
       btn: 'Сохранить',

@@ -36,7 +36,7 @@ function ForgotPassword() {
   };
 
   const formData = {
-    btnHandler: handleForgotPassword,
+    submitHandler: handleForgotPassword,
     textData: {
       title: 'Восстановление пароля',
       btn: 'Восстановить',
