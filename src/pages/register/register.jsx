@@ -1,10 +1,15 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 
 import registerStyle from './register.module.css';
 
 import UniversalForm from 'components/universal-form/universal-form';
 
+import { registerUser } from 'services/actions/userActions';
+
 function Register() {
+  const dispatch = useDispatch();
+
   const [nameValue, setNameValue] = React.useState('');
   const [emailValue, setEmailValue] = React.useState('');
   const [passwordValue, setPasswordValue] = React.useState('');
@@ -21,7 +26,19 @@ function Register() {
     setPasswordValue(e.target.value)
   };
 
+  const handleRegisterUser = React.useCallback(
+    () => {
+      dispatch(registerUser({
+        email: emailValue,
+        password: passwordValue,
+        name: nameValue,
+      }));
+    },
+    [dispatch, emailValue, nameValue, passwordValue]
+  );
+
   const formData = {
+    btnHandler: handleRegisterUser,
     textData: {
       title: 'Регистрация',
       btn: 'Зарегистрироваться',

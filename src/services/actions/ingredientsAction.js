@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { setIngredients } from 'services/reducers/ingredients';
-import { request } from 'utils/request';
+import { request } from 'utils/methods/request';
 
 export const getIngredients = createAsyncThunk(
   'ingredients/getIngredients',

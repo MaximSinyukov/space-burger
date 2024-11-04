@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { setOrderNumber } from 'services/reducers/order';
-import { request } from 'utils/request';
+import { request } from 'utils/methods/request';
 
 export const postOrder = createAsyncThunk(
   'order/postOrder',

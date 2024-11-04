@@ -5,7 +5,7 @@ import forgotPasswordStyle from './forgot-password.module.css';
 
 import UniversalForm from 'components/universal-form/universal-form';
 
-import { request } from 'utils/request';
+import { request } from 'utils/methods/request';
 
 function ForgotPassword() {
   const navigate = useNavigate();

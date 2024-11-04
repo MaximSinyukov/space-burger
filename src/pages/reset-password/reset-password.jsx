@@ -5,7 +5,7 @@ import resetPasswordStyle from './reset-password.module.css';
 
 import UniversalForm from 'components/universal-form/universal-form';
 
-import { request } from 'utils/request';
+import { request } from 'utils/methods/request';
 
 function ResetPassword() {
   const navigate = useNavigate();
