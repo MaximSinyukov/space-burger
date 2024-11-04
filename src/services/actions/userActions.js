@@ -135,7 +135,7 @@ export const getUser = createAsyncThunk(
         const updateResponse = await dispatch(updateToken());
         console.warn('check update', updateResponse);
 
-        if (updateResponse.requestStatus === 'fulfilled') {
+        if (updateResponse.meta.requestStatus === 'fulfilled') {
           console.log('Token success updated.');
           isRefreshing = false;
           return dispatch(getUser());
@@ -154,6 +154,7 @@ export const getUser = createAsyncThunk(
     }
 
     dispatch(setUserData(response.user));
+    dispatch(setUserAuthorization());
   }
 );
 
@@ -175,7 +176,7 @@ export const updateUser = createAsyncThunk(
 
         const updateResponse = await dispatch(updateToken());
 
-        if (updateResponse.requestStatus === 'fulfilled') {
+        if (updateResponse.meta.requestStatus === 'fulfilled') {
           console.log('Token success updated.');
           isRefreshing = false;
           return dispatch(getUser());

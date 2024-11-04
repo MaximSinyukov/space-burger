@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, Navigate } from "react-router-dom";
 
 import resetPasswordStyle from './reset-password.module.css';
 
@@ -8,6 +8,7 @@ import UniversalForm from 'components/universal-form/universal-form';
 import { request } from 'utils/methods/request';
 
 function ResetPassword() {
+  const location = useLocation();
   const navigate = useNavigate();
   const [newPasswordValue, setNewPasswordValue] = React.useState('');
   const [emailCodeValue, setEmailCodeValue] = React.useState('');
@@ -74,6 +75,10 @@ function ResetPassword() {
       },
     ],
   };
+
+  if (location.state?.from !== '/forgot-password' || location.state?.message !== 'emailAdded') {
+    return <Navigate to="/forgot-password" replace />;
+  }
 
   return (
     <section

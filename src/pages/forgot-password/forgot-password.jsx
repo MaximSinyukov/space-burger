@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import forgotPasswordStyle from './forgot-password.module.css';
 
@@ -9,6 +9,7 @@ import { request } from 'utils/methods/request';
 
 function ForgotPassword() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [forgotPasswordEmail, setForgotPasswordEmail] = React.useState('');
 
@@ -32,7 +33,14 @@ function ForgotPassword() {
       return;
     }
 
-    navigate('/reset-password');
+    navigate('/reset-password', {
+      state: {
+        from: location.pathname,
+        message: forgotPasswordEmail
+          ? 'emailAdded'
+          : '',
+      },
+    });
   };
 
   const formData = {

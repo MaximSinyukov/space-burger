@@ -9,6 +9,7 @@ import ResetPassword from 'pages/reset-password/reset-password.jsx';
 import Register from 'pages/register/register.jsx';
 import Profile from 'pages/profile/profile.jsx';
 import Ingredient from 'pages/ingredient/ingredient.jsx';
+import ProtectedRouteElement from 'components/protected-route-element.jsx';
 
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -17,9 +18,20 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
 import { getIngredients } from 'services/actions/ingredientsAction';
+import { getUser } from 'services/actions/userActions';
+import { getCookie } from 'utils/methods/cookieMethods';
 
 function App() {
   const dispatch = useDispatch();
+
+  const getUserData = React.useCallback(
+    () => {
+      if (getCookie('token')) {
+        dispatch(getUser());
+      }
+    },
+    [dispatch]
+  );
 
   const getIngredientsList = React.useCallback(
     () => {
@@ -29,8 +41,9 @@ function App() {
   );
 
   React.useEffect(() => {
+    getUserData();
     getIngredientsList();
-  }, [getIngredientsList]);
+  }, [getIngredientsList, getUserData]);
 
   return (
     <BrowserRouter>
@@ -49,17 +62,41 @@ function App() {
               </DndProvider>
             } />
 
-            <Route path="/login" element={<Login />} />
+            <Route
+            path="/login"
+            element={
+              <ProtectedRouteElement type="anonymous" element={<Login/>}/>
+            }/>
 
-            <Route path="/forgot-password" element={<ForgotPassword/>} />
+            <Route
+            path="/forgot-password"
+            element={
+              <ProtectedRouteElement type="anonymous" element={<ForgotPassword/>}/>}
+            />
 
-            <Route path="/reset-password" element={<ResetPassword/>} />
+            <Route
+            path="/reset-password"
+            element={
+              <ProtectedRouteElement type="anonymous" element={<ResetPassword/>}/>
+            }/>
 
-            <Route path="/register" element={<Register/>} />
+            <Route
+            path="/register"
+            element={
+              <ProtectedRouteElement type="anonymous" element={<Register/>}/>
+            }/>
 
-            <Route path="/profile" element={<Profile />} />
+            <Route
+            path="/profile"
+            element={
+              <ProtectedRouteElement element={<Profile />}/>
+            }/>
 
-            <Route path="/profile/orders" element={<Profile />} />
+            <Route
+            path="/profile/orders"
+            element={
+              <ProtectedRouteElement element={<Profile />}/>
+            }/>
 
             <Route path="/ingredients/:id" element={<Ingredient/>} />
           </Routes>

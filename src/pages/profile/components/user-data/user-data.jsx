@@ -6,7 +6,7 @@ import userDataStyle from './user-data.module.css';
 import UniversalForm from 'components/universal-form/universal-form';
 
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { getUser, updateUser } from 'services/actions/userActions';
+import { updateUser } from 'services/actions/userActions';
 import { setUserData } from 'services/reducers/user';
 
 function UserData() {
@@ -38,26 +38,22 @@ function UserData() {
   };
 
   React.useEffect(() => {
-    dispatch(getUser());
-  }, [dispatch]);
-
-  React.useEffect(() => {
     setIsEditedForm((nameValue !== nameStartValue)
       || (emailValue !== emailStartValue)
       || (passwordValue !== passwordStartValue));
   }, [nameValue, emailValue, passwordValue, nameStartValue, emailStartValue]);
 
   React.useEffect(() => {
-    if (userData.name) {
+    if (userData.name || !nameStartValue) {
       setNameValue(userData.name);
       setNameStartValue(userData.name);
     }
 
-    if (userData.email) {
+    if (userData.email || !emailStartValue) {
       setEmailValue(userData.email);
       setEmailStartValue(userData.email);
     }
-  }, [userData]);
+  }, [userData, nameStartValue, emailStartValue]);
 
   const handleResetForm = () => {
     dispatch(setUserData({
