@@ -1,78 +1,29 @@
-import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 import profileStyle from './profile.module.css';
 
-import UniversalForm from 'components/universal-form/universal-form';
+import UserData from './components/user-data/user-data';
 
 function Profile() {
-  const [nameValue, setNameValue] = React.useState('');
-  const [emailValue, setEmailValue] = React.useState('');
-  const [passwordValue, setPasswordValue] = React.useState('');
-
   const location = useLocation();
 
-  const onNameChange = e => {
-    setNameValue(e.target.value)
-  };
-
-  const onEmailChange = e => {
-    setEmailValue(e.target.value)
-  };
-
-  const onPasswordChange = e => {
-    setPasswordValue(e.target.value)
-  };
-
-  const profileNavigationData = [
-    {
+  const profileNavigationData = {
+    '/profile': {
       text: 'Профиль',
       route: '/profile',
       onClick: 'click',
+      component: <UserData/>,
     },
-    {
+    '/profile/orders': {
       text: 'История заказов',
-      route: '/orders',
+      route: '/profile/orders',
       onClick: 'click',
+      component: <div>Скоро тут будут заказы...</div>,
     },
-    {
+    exit: {
       text: 'Выход',
       onClick: 'click',
     },
-  ];
-
-  const formData = {
-    inputsData: [
-      {
-        type: 'default',
-        props: {
-          value: nameValue,
-          onChange: onNameChange,
-          placeholder: 'Имя',
-          icon: 'EditIcon',
-          extraClass: 'mb-6',
-        },
-      },
-      {
-        type: 'email',
-        props: {
-          value: emailValue,
-          onChange: onEmailChange,
-          placeholder: 'Логин',
-          isIcon: true,
-          extraClass: 'mb-6',
-        },
-      },
-      {
-        type: 'password',
-        props: {
-          value: passwordValue,
-          onChange: onPasswordChange,
-          placeholder: 'Пароль',
-          icon: 'EditIcon',
-        },
-      },
-    ],
   };
 
   return (
@@ -81,7 +32,7 @@ function Profile() {
       <nav
       className={`mr-15 ${profileStyle['profile__navigation']}`}>
         {
-          profileNavigationData.map((link, index) => (
+          Object.values(profileNavigationData).map((link, index) => (
             <Link
             key={'profile-navigation-' + index}
             to={link.route}
@@ -101,11 +52,9 @@ function Profile() {
         </p>
       </nav>
 
-      {
-        formData &&
-          <UniversalForm
-          { ...formData }/>
-      }
+        {
+          profileNavigationData[location.pathname].component
+        }
     </section>
   );
 }

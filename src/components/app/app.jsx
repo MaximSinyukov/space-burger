@@ -59,6 +59,8 @@ function App() {
 
             <Route path="/profile" element={<Profile />} />
 
+            <Route path="/profile/orders" element={<Profile />} />
+
             <Route path="/ingredients/:id" element={<Ingredient/>} />
           </Routes>
         </main>
