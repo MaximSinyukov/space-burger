@@ -22,9 +22,9 @@ const user = createSlice({
         ...action.payload,
       },
     }),
-    removeUserData: (state, action) => ({
+    removeUserData: (state) => ({
       ...state,
-      userData: null,
+      userData: {},
     }),
   },
 });
