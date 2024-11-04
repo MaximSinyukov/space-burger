@@ -3,11 +3,16 @@ import universalFormStyle from './universal-form.module.css';
 import { EmailInput, PasswordInput, Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-router-dom';
 
-function UniversalForm({ inputsData, linksData, textData }) {
+function UniversalForm({ inputsData, linksData, textData, btnHandler = null }) {
   const inputComponentsByType = {
     email: EmailInput,
     password: PasswordInput,
     default: Input,
+  };
+
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    btnHandler();
   };
 
   return (
@@ -24,6 +29,7 @@ function UniversalForm({ inputsData, linksData, textData }) {
       }
 
       <form
+      onSubmit={handleSubmit}
       className={`${universalFormStyle['universal-form__form']}`}>
         {
           inputsData.map((input, index) => {
@@ -44,7 +50,7 @@ function UniversalForm({ inputsData, linksData, textData }) {
               type="primary"
               size="medium"
               extraClass="mt-6"
-              htmlType="button">
+              htmlType="submit">
                 { textData.btn }
               </Button>
             )

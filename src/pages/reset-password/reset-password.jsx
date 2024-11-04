@@ -1,10 +1,14 @@
 import React from 'react';
+import { useNavigate } from "react-router-dom";
 
 import resetPasswordStyle from './reset-password.module.css';
 
 import UniversalForm from 'components/universal-form/universal-form';
 
+import { request } from 'utils/request';
+
 function ResetPassword() {
+  const navigate = useNavigate();
   const [newPasswordValue, setNewPasswordValue] = React.useState('');
   const [emailCodeValue, setEmailCodeValue] = React.useState('');
 
@@ -16,7 +20,28 @@ function ResetPassword() {
     setEmailCodeValue(e.target.value)
   };
 
+  const handleResetPassword = async () => {
+    const response = await request('/password-reset/reset', {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        password: newPasswordValue,
+        token: emailCodeValue,
+      }),
+    });
+
+    if (!response.success) {
+      console.error('Error in reset-password method');
+      return;
+    }
+
+    navigate('/login'); ;
+  };
+
   const formData = {
+    btnHandler: handleResetPassword,
     textData: {
       title: 'Восстановление пароля',
       btn: 'Сохранить',
@@ -33,7 +58,7 @@ function ResetPassword() {
         },
       },
       {
-        type: 'email',
+        type: 'default',
         props: {
           value: emailCodeValue,
           onChange: onEmailCodeValue,
