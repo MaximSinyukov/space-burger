@@ -39,7 +39,7 @@ export const registerUser = createAsyncThunk(
 );
 
 export const loginUser = createAsyncThunk(
-  'user/registerUser',
+  'user/loginUser',
   async (userData, { dispatch }) => {
     const response = await request('/auth/login', {
       method: "POST",
@@ -55,7 +55,6 @@ export const loginUser = createAsyncThunk(
     }
 
     dispatch(setUserAuthorization());
-    dispatch(setUserData(response.user));
 
     setCookie('token', prepareBearerToken(response.accessToken), {
       expires: 1200,
@@ -66,8 +65,8 @@ export const loginUser = createAsyncThunk(
 );
 
 export const exitUser = createAsyncThunk(
-  'user/registerUser',
-  async (test, { dispatch }) => {
+  'user/exitUser',
+  async (arg, { dispatch }) => {
     const response = await request('/auth/logout', {
       method: "POST",
       headers: {
@@ -88,5 +87,112 @@ export const exitUser = createAsyncThunk(
 
     deleteCookie('token');
     deleteCookie('refresh');
+  }
+);
+
+export const updateToken = createAsyncThunk(
+  'user/updateToken',
+  async () => {
+    const response = await request('/auth/token', {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        'token': getCookie('refresh'),
+      }),
+    });
+
+    if (!response.success) {
+      console.error('Error in updateToken action');
+      return;
+    }
+
+    setCookie('token', prepareBearerToken(response.accessToken), {
+      expires: 1200,
+      path: '/',
+    });
+    setCookie('refresh', response.refreshToken);
+  }
+);
+
+let isRefreshing = false;
+
+export const getUser = createAsyncThunk(
+  'user/getUser',
+  async (arg, { dispatch }) => {
+    const response = await request('/auth/user', {
+      headers: {
+        'Content-Type': 'application/json',
+        'authorization': 'Bearer ' + getCookie('token')
+      },
+    });
+
+    if (!response.success && response.message === 'jwt malformed') {
+      if (!isRefreshing) {
+        isRefreshing = true;
+
+        const updateResponse = await dispatch(updateToken());
+        console.warn('check update', updateResponse);
+
+        if (updateResponse.requestStatus === 'fulfilled') {
+          console.log('Token success updated.');
+          isRefreshing = false;
+          return dispatch(getUser());
+        } else {
+          isRefreshing = false;
+          console.error('Error in token update');
+          return;
+        }
+      }
+      return;
+    }
+
+    if (!response.success) {
+      console.error('Error in getUser action');
+      return;
+    }
+
+    dispatch(setUserData(response.user));
+  }
+);
+
+export const updateUser = createAsyncThunk(
+  'user/updateUser',
+  async (updatedData, { dispatch }) => {
+    const response = await request('/auth/user', {
+      method: "PATCH",
+      headers: {
+        'Content-Type': 'application/json',
+        'authorization': 'Bearer ' + getCookie('token')
+      },
+      body: JSON.stringify(updatedData),
+    });
+
+    if (!response.success && response.message === 'jwt malformed') {
+      if (!isRefreshing) {
+        isRefreshing = true;
+
+        const updateResponse = await dispatch(updateToken());
+
+        if (updateResponse.requestStatus === 'fulfilled') {
+          console.log('Token success updated.');
+          isRefreshing = false;
+          return dispatch(getUser());
+        } else {
+          console.error('Error in token update');
+          isRefreshing = false;
+          return;
+        }
+      }
+      return;
+    }
+
+    if (!response.success) {
+      console.error('Error in updateUser action');
+      return;
+    }
+
+    dispatch(setUserData(response.user));
   }
 );

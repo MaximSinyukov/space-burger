@@ -23,8 +23,6 @@ export function setCookie(name, value, props) {
     }
   }
 
-  console.warn(props, updatedCookie);
-
   document.cookie = updatedCookie;
 };
 
