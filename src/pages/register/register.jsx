@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from "react-router-dom";
 
 import registerStyle from './register.module.css';
 
@@ -8,6 +9,7 @@ import UniversalForm from 'components/universal-form/universal-form';
 import { registerUser } from 'services/actions/userActions';
 
 function Register() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [nameValue, setNameValue] = React.useState('');
@@ -32,9 +34,17 @@ function Register() {
         email: emailValue,
         password: passwordValue,
         name: nameValue,
-      }));
+      }))
+        .then((res) => {
+          if (res.type.endsWith('/fulfilled')) {
+            navigate('/');
+          }
+        })
+        .catch((err) => {
+          console.warn(err, 'Error in handleRegisterUser method');
+        });
     },
-    [dispatch, emailValue, nameValue, passwordValue]
+    [dispatch, emailValue, nameValue, navigate, passwordValue]
   );
 
   const formData = {

@@ -1,12 +1,14 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+
 import { setUserAuthorization, setUserData } from 'services/reducers/user';
+
 import { request } from 'utils/methods/request';
 import { setCookie } from 'utils/methods/setCookie';
 import { prepareBearerToken } from 'utils/methods/prepareBearerToken';
 
 export const registerUser = createAsyncThunk(
   'user/registerUser',
-  async (newUser, { dispatch }) => {
+  async (newUser, { dispatch, rejectWithValue }) => {
     const response = await request('/auth/register', {
       method: "POST",
       headers: {
@@ -17,6 +19,7 @@ export const registerUser = createAsyncThunk(
 
     if (!response.success) {
       console.error('Error in registerUser action');
+      return;
     }
 
     dispatch(setUserAuthorization());

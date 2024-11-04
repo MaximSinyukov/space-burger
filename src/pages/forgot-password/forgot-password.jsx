@@ -32,7 +32,7 @@ function ForgotPassword() {
       return;
     }
 
-    navigate('/reset-password'); ;
+    navigate('/reset-password');
   };
 
   const formData = {
