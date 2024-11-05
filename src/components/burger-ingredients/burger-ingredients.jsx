@@ -73,6 +73,7 @@ const BurgerIngredients = React.memo(function BurgerIngredients() {
     (ingredient) => {
       dispatch(setIngredientDetails(ingredient));
       setVisible(true);
+      localStorage.setItem('ingredientModal', 'created');
     },
     [dispatch]
   );
@@ -81,9 +82,16 @@ const BurgerIngredients = React.memo(function BurgerIngredients() {
     () => {
       dispatch(removeIngredientDetails());
       setVisible(false);
+      localStorage.setItem('ingredientModal', '');
     },
     [dispatch]
   );
+
+  React.useEffect(() => {
+    if (localStorage.getItem('ingredientModal') === 'created') {
+      handleOpenModal();
+    }
+  }, [dispatch, handleOpenModal])
 
   React.useEffect(() => {
     const newTabsData = {

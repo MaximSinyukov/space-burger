@@ -1,9 +1,18 @@
 import ingredientDetailsStyle from './ingredient-details.module.css';
 
-import { useSelector } from 'react-redux';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useLocation, useNavigate } from "react-router-dom";
+
+import { setIngredientDetails } from 'services/reducers/detail-ingredient';
 
 function IngredientDetails() {
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const ingredient = useSelector(store => store.detailIngredient);
+  const ingredientsList = useSelector(store => store.ingredients);
 
   const detailsData = [
     {
@@ -23,6 +32,29 @@ function IngredientDetails() {
       text: 'Углеводы, г',
     }
   ];
+
+  React.useEffect(() => {
+    const ingredientGetId = location.pathname.split('/')[2]
+
+    if (ingredientGetId) {
+      const getIngredientFromUrl = ingredientsList.find((ingredient) => ingredient._id === ingredientGetId);
+      dispatch(setIngredientDetails(getIngredientFromUrl));
+
+      if (localStorage.getItem('ingredientModal') === 'created' && getIngredientFromUrl) {
+        navigate('/');
+      }
+    }
+  }, [dispatch, ingredientsList, location.pathname, navigate])
+
+  React.useEffect(() => {
+    if (ingredient._id) {
+      window.history.replaceState(null, '', `/ingredients/${ingredient._id}`);
+    }
+
+    return () => {
+      window.history.replaceState(null, '', '/');
+    };
+  }, [ingredient._id])
 
   return (
     <div
