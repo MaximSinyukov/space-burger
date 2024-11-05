@@ -12,6 +12,7 @@ const BurgerIngredients = React.memo(function BurgerIngredients() {
   const dispatch = useDispatch();
 
   const ingredients = useSelector(store => store.ingredients);
+  const ingredient = useSelector(store => store.detailIngredient);
 
   const containerRef = React.useRef(null);
   const titleRefs = React.useRef([]);
@@ -88,10 +89,10 @@ const BurgerIngredients = React.memo(function BurgerIngredients() {
   );
 
   React.useEffect(() => {
-    if (localStorage.getItem('ingredientModal') === 'created') {
+    if ((localStorage.getItem('ingredientModal') === 'created') && ingredient?._id) {
       handleOpenModal();
     }
-  }, [dispatch, handleOpenModal])
+  }, [dispatch, handleOpenModal, ingredient?._id])
 
   React.useEffect(() => {
     const newTabsData = {

@@ -1,5 +1,6 @@
 import { Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 
 function ProtectedRouteElement({ element, type }) {
   const isAuthorizedUser = useSelector(store => store.user.isAuthorized);
@@ -13,6 +14,11 @@ function ProtectedRouteElement({ element, type }) {
   return isAuthorizedUser
     ? element
     : (<Navigate to="/login" replace/>);
-}
+};
+
+ProtectedRouteElement.propTypes = {
+  element: PropTypes.node.isRequired,
+  type: PropTypes.string,
+};
 
 export default ProtectedRouteElement;

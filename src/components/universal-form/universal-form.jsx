@@ -2,6 +2,7 @@ import universalFormStyle from './universal-form.module.css';
 
 import { EmailInput, PasswordInput, Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 function UniversalForm({ inputsData, linksData, textData, submitHandler = null, resetHandler = null, children }) {
   const inputComponentsByType = {
@@ -90,6 +91,25 @@ function UniversalForm({ inputsData, linksData, textData, submitHandler = null, 
       }
     </div>
   );
-}
+};
+
+UniversalForm.propTypes = {
+  inputsData: PropTypes.arrayOf(PropTypes.shape({
+    type: PropTypes.string.isRequired,
+    props: PropTypes.object
+  })).isRequired,
+  linksData: PropTypes.arrayOf(PropTypes.shape({
+    baseText: PropTypes.string,
+    linkText: PropTypes.string,
+    route: PropTypes.string
+  })),
+  textData: PropTypes.shape({
+    title: PropTypes.string,
+    btn: PropTypes.string
+  }),
+  submitHandler: PropTypes.func.isRequired,
+  resetHandler: PropTypes.func,
+  children: PropTypes.node,
+};
 
 export default UniversalForm;
