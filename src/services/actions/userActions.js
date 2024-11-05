@@ -124,7 +124,7 @@ export const getUser = createAsyncThunk(
     const response = await request('/auth/user', {
       headers: {
         'Content-Type': 'application/json',
-        'authorization': 'Bearer ' + getCookie('token')
+        'Authorization': 'Bearer ' + getCookie('token')
       },
     });
 
@@ -165,7 +165,7 @@ export const updateUser = createAsyncThunk(
       method: "PATCH",
       headers: {
         'Content-Type': 'application/json',
-        'authorization': 'Bearer ' + getCookie('token')
+        'Authorization': 'Bearer ' + getCookie('token')
       },
       body: JSON.stringify(updatedData),
     });
