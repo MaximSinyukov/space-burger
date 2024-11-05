@@ -24,7 +24,7 @@ export const registerUser = createAsyncThunk(
 
     if (!response.success) {
       console.error('Error in registerUser action');
-      return;
+      return Promise.reject();
     }
 
     dispatch(setUserAuthorization());
@@ -51,10 +51,11 @@ export const loginUser = createAsyncThunk(
 
     if (!response.success) {
       console.error('Error in loginUser action');
-      return;
+      return Promise.reject();
     }
 
     dispatch(setUserAuthorization());
+    dispatch(setUserData(response.user));
 
     setCookie('token', prepareBearerToken(response.accessToken), {
       expires: 1200,
@@ -79,7 +80,7 @@ export const exitUser = createAsyncThunk(
 
     if (!response.success) {
       console.error('Error in exitUser action');
-      return;
+      return Promise.reject();
     }
 
     dispatch(setUserUnuthorization());
@@ -105,7 +106,7 @@ export const updateToken = createAsyncThunk(
 
     if (!response.success) {
       console.error('Error in updateToken action');
-      return;
+      return Promise.reject();
     }
 
     setCookie('token', prepareBearerToken(response.accessToken), {
@@ -142,7 +143,7 @@ export const getUser = createAsyncThunk(
         } else {
           isRefreshing = false;
           console.error('Error in token update');
-          return;
+          return Promise.reject();
         }
       }
       return;
@@ -150,7 +151,7 @@ export const getUser = createAsyncThunk(
 
     if (!response.success) {
       console.error('Error in getUser action');
-      return;
+      return Promise.reject();
     }
 
     dispatch(setUserData(response.user));
@@ -183,7 +184,7 @@ export const updateUser = createAsyncThunk(
         } else {
           console.error('Error in token update');
           isRefreshing = false;
-          return;
+          return Promise.reject();
         }
       }
       return;
@@ -191,7 +192,7 @@ export const updateUser = createAsyncThunk(
 
     if (!response.success) {
       console.error('Error in updateUser action');
-      return;
+      return Promise.reject();
     }
 
     dispatch(setUserData(response.user));

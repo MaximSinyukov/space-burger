@@ -17,7 +17,7 @@ function Profile() {
     () => {
       dispatch(exitUser())
         .then(() => {
-          navigate('/');
+          navigate('/login');
         })
         .catch((err) => {
           console.warn(err, 'Error in handleExitUser method');
