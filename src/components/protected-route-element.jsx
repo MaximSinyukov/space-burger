@@ -1,8 +1,10 @@
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
 function ProtectedRouteElement({ element, type }) {
+  const location = useLocation();
+
   const isAuthorizedUser = useSelector(store => store.user.isAuthorized);
 
   if (type === 'anonymous') {
@@ -13,7 +15,7 @@ function ProtectedRouteElement({ element, type }) {
 
   return isAuthorizedUser
     ? element
-    : (<Navigate to="/login" replace/>);
+    : (<Navigate to="/login" state={{ from: location}}/>);
 };
 
 ProtectedRouteElement.propTypes = {

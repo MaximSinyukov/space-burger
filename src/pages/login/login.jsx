@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import loginStyle from './login.module.css';
 
@@ -9,9 +9,11 @@ import UniversalForm from 'components/universal-form/universal-form';
 import { loginUser } from 'services/actions/userActions';
 
 function Login() {
+  const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  console.warn('lohin', location);
   const [emailValue, setEmailValue] = React.useState('');
   const [passwordValue, setPasswordValue] = React.useState('');
 
@@ -31,14 +33,14 @@ function Login() {
       }))
         .then((res) => {
           if (res.type.endsWith('/fulfilled')) {
-            navigate('/');
+            navigate(location?.state?.from.pathname || '/');
           }
         })
         .catch((err) => {
           console.warn(err, 'Error in handleLoginUser method');
         });
     },
-    [dispatch, emailValue, navigate, passwordValue]
+    [dispatch, emailValue, location?.state?.from.pathname, navigate, passwordValue]
   );
 
   const formData = {
