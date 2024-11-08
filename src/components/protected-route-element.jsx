@@ -4,18 +4,19 @@ import PropTypes from 'prop-types';
 
 function ProtectedRouteElement({ element, type }) {
   const location = useLocation();
+  const from = location.state?.from || '/';
 
   const isAuthorizedUser = useSelector(store => store.user.isAuthorized);
 
-  if (type === 'anonymous') {
-    return isAuthorizedUser
-      ? (<Navigate to="/" replace/>)
-      : (element);
+  if (type === 'anonymous' && isAuthorizedUser) {
+    return <Navigate to={from} replace/>;
   }
 
-  return isAuthorizedUser
-    ? element
-    : (<Navigate to="/login" state={{ from: location}}/>);
+  if (type !== 'anonymous' && !isAuthorizedUser) {
+    return <Navigate to="/login" state={{ from: location}}/>;
+  }
+
+  return element;
 };
 
 ProtectedRouteElement.propTypes = {
