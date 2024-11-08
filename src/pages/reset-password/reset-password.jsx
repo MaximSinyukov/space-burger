@@ -22,7 +22,7 @@ function ResetPassword() {
   };
 
   const handleResetPassword = async () => {
-    const response = await request('/password-reset/reset', {
+    await request('/password-reset/reset', {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
@@ -31,14 +31,17 @@ function ResetPassword() {
         password: newPasswordValue,
         token: emailCodeValue,
       }),
-    });
+    })
+      .then(() => {
+        navigate('/login');
 
-    if (!response.success) {
-      console.error('Error in reset-password method');
-      return;
-    }
+        return Promise.resolve();
+      })
+      .catch((res) => {
+        console.error(`Ошибка в handleResetPassword: ${res}`)
 
-    navigate('/login'); ;
+        return Promise.reject();
+      });
   };
 
   const formData = {

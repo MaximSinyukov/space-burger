@@ -18,7 +18,7 @@ function ForgotPassword() {
   };
 
   const handleForgotPassword = async () => {
-    const response = await request('/password-reset', {
+    await request('/password-reset', {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
@@ -26,21 +26,24 @@ function ForgotPassword() {
       body: JSON.stringify({
         email: forgotPasswordEmail,
       }),
-    });
+    })
+      .then(() => {
+        navigate('/reset-password', {
+          state: {
+            from: location.pathname,
+            message: forgotPasswordEmail
+              ? 'emailAdded'
+              : '',
+          },
+        });
 
-    if (!response.success) {
-      console.error('Error in forgot-password method');
-      return;
-    }
+        return Promise.resolve();
+      })
+      .catch((res) => {
+        console.error(`Ошибка в handleForgotPassword: ${res}`)
 
-    navigate('/reset-password', {
-      state: {
-        from: location.pathname,
-        message: forgotPasswordEmail
-          ? 'emailAdded'
-          : '',
-      },
-    });
+        return Promise.reject();
+      });
   };
 
   const formData = {

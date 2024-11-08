@@ -14,61 +14,67 @@ import { prepareBearerToken } from 'utils/methods/prepareBearerToken';
 export const registerUser = createAsyncThunk(
   'user/registerUser',
   async (newUser, { dispatch }) => {
-    const response = await request('/auth/register', {
+    await request('/auth/register', {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(newUser),
-    });
+    })
+      .then((res) => {
+        dispatch(setUserAuthorization());
+        dispatch(setUserData(res.user));
 
-    if (!response.success) {
-      console.error('Error in registerUser action');
-      return Promise.reject();
-    }
+        setCookie('token', prepareBearerToken(res.accessToken), {
+          expires: 1200,
+          path: '/',
+        });
+        setCookie('refresh', res.refreshToken);
 
-    dispatch(setUserAuthorization());
-    dispatch(setUserData(response.user));
+        return Promise.resolve();
+      })
+      .catch((res) => {
+        console.error(`Ошибка в registerUser: ${res}`)
 
-    setCookie('token', prepareBearerToken(response.accessToken), {
-      expires: 1200,
-      path: '/',
-    });
-    setCookie('refresh', response.refreshToken);
+        return Promise.reject();
+      });
   }
 );
 
 export const loginUser = createAsyncThunk(
   'user/loginUser',
   async (userData, { dispatch }) => {
-    const response = await request('/auth/login', {
+    await request('/auth/login', {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(userData),
-    });
+    })
+      .then((res) => {
+        dispatch(setUserAuthorization());
+        dispatch(setUserData(res.user));
 
-    if (!response.success) {
-      console.error('Error in loginUser action');
-      return Promise.reject();
-    }
+        setCookie('token', prepareBearerToken(res.accessToken), {
+          expires: 1200,
+          path: '/',
+        });
+        setCookie('refresh', res.refreshToken);
 
-    dispatch(setUserAuthorization());
-    dispatch(setUserData(response.user));
+        return Promise.resolve();
+      })
+      .catch((res) => {
+        console.error(`Ошибка в loginUser: ${res}`)
 
-    setCookie('token', prepareBearerToken(response.accessToken), {
-      expires: 1200,
-      path: '/',
-    });
-    setCookie('refresh', response.refreshToken);
+        return Promise.reject();
+      });
   }
 );
 
 export const exitUser = createAsyncThunk(
   'user/exitUser',
   async (arg, { dispatch }) => {
-    const response = await request('/auth/logout', {
+    await request('/auth/logout', {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
@@ -76,25 +82,28 @@ export const exitUser = createAsyncThunk(
       body: JSON.stringify({
         'token': getCookie('refresh'),
       }),
-    });
+    })
+      .then(() => {
+        dispatch(setUserUnuthorization());
+        dispatch(removeUserData());
 
-    if (!response.success) {
-      console.error('Error in exitUser action');
-      return Promise.reject();
-    }
+        deleteCookie('token');
+        deleteCookie('refresh');
 
-    dispatch(setUserUnuthorization());
-    dispatch(removeUserData());
+        return Promise.resolve();
+      })
+      .catch((res) => {
+        console.error(`Ошибка в exitUser: ${res}`)
 
-    deleteCookie('token');
-    deleteCookie('refresh');
+        return Promise.reject();
+      });
   }
 );
 
 export const updateToken = createAsyncThunk(
   'user/updateToken',
   async () => {
-    const response = await request('/auth/token', {
+    await request('/auth/token', {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
@@ -102,18 +111,21 @@ export const updateToken = createAsyncThunk(
       body: JSON.stringify({
         'token': getCookie('refresh'),
       }),
-    });
+    })
+      .then((res) => {
+        setCookie('token', prepareBearerToken(res.accessToken), {
+          expires: 1200,
+          path: '/',
+        });
+        setCookie('refresh', res.refreshToken);
 
-    if (!response.success) {
-      console.error('Error in updateToken action');
-      return Promise.reject();
-    }
+        return Promise.resolve();
+      })
+      .catch((res) => {
+        console.error(`Ошибка в updateToken: ${res}`)
 
-    setCookie('token', prepareBearerToken(response.accessToken), {
-      expires: 1200,
-      path: '/',
-    });
-    setCookie('refresh', response.refreshToken);
+        return Promise.reject();
+      });
   }
 );
 
@@ -122,79 +134,85 @@ let isRefreshing = false;
 export const getUser = createAsyncThunk(
   'user/getUser',
   async (arg, { dispatch }) => {
-    const response = await request('/auth/user', {
+    await request('/auth/user', {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + getCookie('token')
       },
-    });
+    })
+      .then((res) => {
+        dispatch(setUserData(res.user));
+        dispatch(setUserAuthorization());
 
-    if (!response.success && response.message === 'jwt malformed') {
-      if (!isRefreshing) {
-        isRefreshing = true;
+        return Promise.resolve();
+      })
+      .catch(async (res) => {
+        if (res.message === 'jwt malformed') {
+          if (!isRefreshing) {
+            isRefreshing = true;
 
-        const updateResponse = await dispatch(updateToken());
-        console.warn('check update', updateResponse);
+            const updateResponse = await dispatch(updateToken());
+            console.warn('check update', updateResponse);
 
-        if (updateResponse.meta.requestStatus === 'fulfilled') {
-          console.log('Token success updated.');
-          isRefreshing = false;
-          return dispatch(getUser());
-        } else {
-          isRefreshing = false;
-          console.error('Error in token update');
-          return Promise.reject();
+            if (updateResponse.meta.requestStatus === 'fulfilled') {
+              console.log('Token success updated in getUser.');
+              isRefreshing = false;
+              return dispatch(getUser());
+            } else {
+              isRefreshing = false;
+              console.error('Error in token update for getUser');
+              return Promise.reject();
+            }
+          }
+          return;
         }
-      }
-      return;
-    }
 
-    if (!response.success) {
-      console.error('Error in getUser action');
-      return Promise.reject();
-    }
+        console.error(`Ошибка в getUser: ${res}`)
 
-    dispatch(setUserData(response.user));
-    dispatch(setUserAuthorization());
+        return Promise.reject();
+      });
   }
 );
 
 export const updateUser = createAsyncThunk(
   'user/updateUser',
   async (updatedData, { dispatch }) => {
-    const response = await request('/auth/user', {
+    await request('/auth/user', {
       method: "PATCH",
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + getCookie('token')
       },
       body: JSON.stringify(updatedData),
-    });
+    })
+      .then((res) => {
+        dispatch(setUserData(res.user));
 
-    if (!response.success && response.message === 'jwt malformed') {
-      if (!isRefreshing) {
-        isRefreshing = true;
+        return Promise.resolve();
+      })
+      .catch(async (res) => {
+        if (res.message === 'jwt malformed') {
+          if (!isRefreshing) {
+            isRefreshing = true;
 
-        const updateResponse = await dispatch(updateToken());
+            const updateResponse = await dispatch(updateToken());
 
-        if (updateResponse.meta.requestStatus === 'fulfilled') {
-          console.log('Token success updated.');
-          isRefreshing = false;
-          return dispatch(getUser());
-        } else {
-          console.error('Error in token update');
-          isRefreshing = false;
-          return Promise.reject();
+            if (updateResponse.meta.requestStatus === 'fulfilled') {
+              console.log('Token success updated.');
+              isRefreshing = false;
+              return dispatch(getUser());
+            } else {
+              console.error('Error in token update');
+              isRefreshing = false;
+              return Promise.reject();
+            }
+          }
+          return;
         }
-      }
-      return;
-    }
 
-    if (!response.success) {
-      console.error('Error in updateUser action');
-      return Promise.reject();
-    }
+        console.error(`Ошибка в updateUser: ${res}`)
 
-    dispatch(setUserData(response.user));
+        return Promise.reject();
+      });
   }
 );

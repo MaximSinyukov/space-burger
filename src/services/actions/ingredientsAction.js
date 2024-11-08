@@ -5,12 +5,16 @@ import { request } from 'utils/methods/request';
 export const getIngredients = createAsyncThunk(
   'ingredients/getIngredients',
   async (arg, { dispatch }) => {
-    const response = await request('/ingredients');
+    await request('/ingredients')
+      .then((res) => {
+        dispatch(setIngredients(res.data));
 
-    if (!response.success) {
-      console.error('Error in getIngredients action');
-    }
+        return Promise.resolve();
+      })
+      .catch((res) => {
+        console.error(`Ошибка в getIngredients: ${res}`)
 
-    dispatch(setIngredients(response.data));
+        return Promise.reject();
+      });
   }
 );
