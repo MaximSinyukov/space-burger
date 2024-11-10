@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useDrop } from "react-dnd";
+import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid';
 
 import burgerConstructorStyle from './burger-constructor.module.css';
@@ -17,8 +18,10 @@ import { postOrder } from 'services/actions/orderAction';
 
 const BurgerConstructor = React.memo(function BurgerConstructor() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { buns, otherIngredients } = useSelector(store => store.selectIngredients);
+  const { isAuthorized } = useSelector(store => store.user);
   const orderNumber = useSelector(store => store.order);
 
   const [allPrice, setAllPrice] = React.useState(0);
@@ -60,9 +63,14 @@ const BurgerConstructor = React.memo(function BurgerConstructor() {
     () => {
       if (!buns) return;
 
+      if (!isAuthorized) {
+        navigate('/login');
+        return;
+      }
+
       dispatch(postOrder({ buns, otherIngredients }));
     },
-    [otherIngredients, dispatch, buns]
+    [buns, isAuthorized, dispatch, otherIngredients, navigate]
   );
 
   const handleCloseModal = React.useCallback(

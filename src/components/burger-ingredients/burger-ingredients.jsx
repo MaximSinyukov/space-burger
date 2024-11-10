@@ -1,22 +1,22 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate, useLocation } from "react-router-dom";
 
 import burgerIngredientsStyles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientCard from './components/ingredient-card';
-import IngredientDetails from '../ingredient-details/ingredient-details';
-import Modal from '../modal/modal';
-import { setIngredientDetails, removeIngredientDetails } from 'services/reducers/detail-ingredient';
+import { setIngredientDetails } from 'services/reducers/detail-ingredient';
 
 const BurgerIngredients = React.memo(function BurgerIngredients() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const ingredients = useSelector(store => store.ingredients);
 
   const containerRef = React.useRef(null);
   const titleRefs = React.useRef([]);
 
-  const [visible, setVisible] = React.useState(false);
   const [currentTab, setCurrentTab] = React.useState('bun');
   const [sortedIngredients, setSortedIngredients] = React.useState({
     bun: [],
@@ -71,18 +71,18 @@ const BurgerIngredients = React.memo(function BurgerIngredients() {
 
   const handleOpenModal = React.useCallback(
     (ingredient) => {
+      localStorage.setItem('background', JSON.stringify(location));
       dispatch(setIngredientDetails(ingredient));
-      setVisible(true);
+      navigate(
+        `/ingredients/${ingredient._id}`,
+        {
+          state: {
+            background: location
+          }
+        }
+      );
     },
-    [dispatch]
-  );
-
-  const handleCloseModal = React.useCallback(
-    () => {
-      dispatch(removeIngredientDetails());
-      setVisible(false);
-    },
-    [dispatch]
+    [dispatch, location, navigate]
   );
 
   React.useEffect(() => {
@@ -155,15 +155,6 @@ const BurgerIngredients = React.memo(function BurgerIngredients() {
           })
         }
       </div>
-
-
-      {visible && (
-        <Modal
-        header="Детали ингредиента"
-        onClose={handleCloseModal}>
-          <IngredientDetails/>
-        </Modal>
-      )}
     </section>
   );
 });
