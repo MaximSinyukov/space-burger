@@ -28,10 +28,11 @@
       "utils/*": ["./src/utils/*"],
       "vendor/*": ["./src/vendor/*"],
       "services/*": ["./src/services/*"],
-      "pages/*": ["./src/pages/*"],
+      "pages/*": ["./src/pages/*"]
     }
   },
   "include": [
-    "src"
+    "src",
+    "./declarations"
   ]
 }

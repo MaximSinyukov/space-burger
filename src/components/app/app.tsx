@@ -14,7 +14,7 @@ import IngredientDetails from 'components/ingredient-details/ingredient-details'
 import Modal from 'components/modal/modal';
 
 import React from 'react';
-import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import { Routes, Route, useNavigate, useLocation, Location, NavigateFunction } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -24,16 +24,18 @@ import { getUser } from 'services/actions/userActions';
 import { getCookie } from 'utils/methods/cookieMethods';
 import { removeIngredientDetails } from 'services/reducers/detail-ingredient';
 
-function App() {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+import { AppDispatch } from 'src/index';
 
-  const storedBackground = JSON.parse(localStorage.getItem('background'));
-  const background = storedBackground || location.state?.background;
+const App: React.FC = () => {
+  const location: Location = useLocation();
+  const navigate: NavigateFunction = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+
+  const storedBackground: Location | null = JSON.parse(localStorage.getItem('background') as string);
+  const background: Location | undefined = storedBackground || location.state?.background;
 
   const handleCloseModal = React.useCallback(
-    () => {
+    (): void => {
       localStorage.removeItem('background');
       dispatch(removeIngredientDetails());
       navigate(-1);
@@ -42,7 +44,7 @@ function App() {
   );
 
   const getUserData = React.useCallback(
-    () => {
+    (): void => {
       if (getCookie('token')) {
         dispatch(getUser());
       }
@@ -51,7 +53,7 @@ function App() {
   );
 
   const getIngredientsList = React.useCallback(
-    () => {
+    (): void => {
       dispatch(getIngredients());
     },
     [dispatch]

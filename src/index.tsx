@@ -7,7 +7,7 @@ import { Provider } from 'react-redux';
 import './index.css';
 import { rootReducer } from 'services/reducers/index.js';
 
-import App from 'components/app/app.jsx';
+import App from 'components/app/app';
 
 const store = configureStore({
   reducer: rootReducer,
