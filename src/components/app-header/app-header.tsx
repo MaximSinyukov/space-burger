@@ -5,11 +5,11 @@ import appHeaderStyles from './app-header.module.css';
 
 import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-type TIconType = typeof BurgerIcon;
+import { TIcon } from 'utils/constants/types';
 
 type THeaderBtn = {
   readonly text: string,
-  readonly icon: TIconType,
+  readonly icon: TIcon,
   readonly id: string,
   readonly path?: string,
   readonly handler?: () => void,

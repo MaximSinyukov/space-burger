@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import constructorIngredientStyle from './constructor-ingredient.module.css';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { IngredientType } from 'utils/constants/types.js';
+import { IngredientType } from 'utils/constants/types.ts';
 
 const ConstructorIngredient = React.memo(function ConstructorIngredient({ ingredient, onDelete, sortIngredient }) {
   const ingredientConsctructorRef = React.useRef(null);

@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import ingredientCardStyle from './ingredient-card.module.css';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { IngredientType } from 'utils/constants/types.js';
+import { IngredientType } from 'utils/constants/types.ts';
 
 const IngredientCard = React.memo(function IngredientCard({ ingredient, onClick }) {
   const { ingredientsCounter, buns } = useSelector(store => store.selectIngredients);
