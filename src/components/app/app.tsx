@@ -14,7 +14,7 @@ import IngredientDetails from 'components/ingredient-details/ingredient-details'
 import Modal from 'components/modal/modal';
 
 import React from 'react';
-import { Routes, Route, useNavigate, useLocation, Location, NavigateFunction } from 'react-router-dom';
+import { Routes, Route, useNavigate, useLocation, Location } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -26,9 +26,9 @@ import { removeIngredientDetails } from 'services/reducers/detail-ingredient';
 
 import { AppDispatch } from 'src/index';
 
-const App: React.FC = () => {
-  const location: Location = useLocation();
-  const navigate: NavigateFunction = useNavigate();
+function App() {
+  const location = useLocation();
+  const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
 
   const storedBackground: Location | null = JSON.parse(localStorage.getItem('background') as string);
