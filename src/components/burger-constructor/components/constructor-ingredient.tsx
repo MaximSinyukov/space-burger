@@ -1,23 +1,36 @@
 import React from 'react';
 import { useDrag, useDrop } from "react-dnd";
-import PropTypes from 'prop-types';
 
 import constructorIngredientStyle from './constructor-ingredient.module.css';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { IngredientType } from 'utils/constants/types.ts';
+import { TIngredientConstructor } from 'utils/constants/types';
 
-const ConstructorIngredient = React.memo(function ConstructorIngredient({ ingredient, onDelete, sortIngredient }) {
-  const ingredientConsctructorRef = React.useRef(null);
+type TDragItem = {
+  uniqueId: string;
+};
 
-  const [, dragRef] = useDrag({
+type TDropCollectedProps = {
+  isHover: boolean,
+};
+
+interface IConstructorIngredientProps {
+  ingredient: TIngredientConstructor;
+  onDelete: (uniqId: string, ingredientId: string) => void;
+  sortIngredient: (dragIndex: string, dropIndex: string) => void;
+};
+
+const ConstructorIngredient = React.memo(function ConstructorIngredient({ ingredient, onDelete, sortIngredient }: IConstructorIngredientProps) {
+  const ingredientConsctructorRef = React.useRef<HTMLLIElement>(null);
+
+  const [, dragRef] = useDrag<TDragItem>({
     type: "constructor",
     item: () => {
       return { uniqueId: ingredient.uniqueId };
     },
   });
 
-  const [{isHover}, dropRef] = useDrop({
+  const [{ isHover }, dropRef] = useDrop<TDragItem, void, TDropCollectedProps>({
     accept: "constructor",
     drop(item) {
       if (!ingredientConsctructorRef.current) return;
@@ -53,11 +66,5 @@ const ConstructorIngredient = React.memo(function ConstructorIngredient({ ingred
     </li>
   );
 });
-
-ConstructorIngredient.propTypes = {
-  ingredient: IngredientType.isRequired,
-  onDelete: PropTypes.func.isRequired,
-  sortIngredient: PropTypes.func.isRequired,
-};
 
 export default ConstructorIngredient;
