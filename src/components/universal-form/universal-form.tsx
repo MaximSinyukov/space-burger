@@ -2,23 +2,37 @@ import universalFormStyle from './universal-form.module.css';
 
 import { EmailInput, PasswordInput, Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import { FormEvent } from 'react';
 
-function UniversalForm({ inputsData, linksData, textData, submitHandler = null, resetHandler = null, children }) {
-  const inputComponentsByType = {
+import {
+  TUniversalFormData,
+} from 'utils/constants/types';
+
+
+type TInputComponents = {
+  email: typeof EmailInput;
+  password: typeof PasswordInput;
+  default: typeof Input;
+};
+
+const UniversalForm: React.FC<TUniversalFormData> = ({ inputsData, linksData, textData, submitHandler, resetHandler, children }) => {
+  const inputComponentsByType: TInputComponents = {
     email: EmailInput,
     password: PasswordInput,
     default: Input,
   };
 
-  const handleSubmit = (evt) => {
+  const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     submitHandler();
   };
 
-  const handleReset = (evt) => {
+  const handleReset = (evt: FormEvent) => {
     evt.preventDefault();
-    resetHandler();
+
+    if (resetHandler) {
+      resetHandler();
+    }
   };
 
   return (
@@ -40,7 +54,7 @@ function UniversalForm({ inputsData, linksData, textData, submitHandler = null, 
       className={`${universalFormStyle['universal-form__form']}`}>
         {
           inputsData.map((input, index) => {
-            const InputComponent = inputComponentsByType[input.type];
+            const InputComponent = inputComponentsByType[input.type] as React.FC;
 
             return (
               <InputComponent
@@ -66,7 +80,7 @@ function UniversalForm({ inputsData, linksData, textData, submitHandler = null, 
         {children}
       </form>
 
-      {
+      {linksData &&
         linksData?.length > 0 &&
           <nav
           className={`mt-20 ${universalFormStyle['universal-form__navigation']}`}>
@@ -91,25 +105,6 @@ function UniversalForm({ inputsData, linksData, textData, submitHandler = null, 
       }
     </div>
   );
-};
-
-UniversalForm.propTypes = {
-  inputsData: PropTypes.arrayOf(PropTypes.shape({
-    type: PropTypes.string.isRequired,
-    props: PropTypes.object
-  })).isRequired,
-  linksData: PropTypes.arrayOf(PropTypes.shape({
-    baseText: PropTypes.string,
-    linkText: PropTypes.string,
-    route: PropTypes.string
-  })),
-  textData: PropTypes.shape({
-    title: PropTypes.string,
-    btn: PropTypes.string
-  }),
-  submitHandler: PropTypes.func.isRequired,
-  resetHandler: PropTypes.func,
-  children: PropTypes.node,
 };
 
 export default UniversalForm;

@@ -3,13 +3,13 @@ import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 
-import Login from 'pages/login/login.jsx';
-import ForgotPassword from 'pages/forgot-password/forgot-password.jsx';
-import ResetPassword from 'pages/reset-password/reset-password.jsx';
-import Register from 'pages/register/register.jsx';
-import Profile from 'pages/profile/profile.jsx';
-import Ingredient from 'pages/ingredient/ingredient.jsx';
-import ProtectedRouteElement from 'components/protected-route-element.jsx';
+import Login from 'pages/login/login';
+import ForgotPassword from 'pages/forgot-password/forgot-password';
+import ResetPassword from 'pages/reset-password/reset-password';
+import Register from 'pages/register/register';
+import Profile from 'pages/profile/profile';
+import Ingredient from 'pages/ingredient/ingredient';
+import ProtectedRouteElement from 'components/protected-route-element';
 import IngredientDetails from 'components/ingredient-details/ingredient-details';
 import Modal from 'components/modal/modal';
 

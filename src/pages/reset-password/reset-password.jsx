@@ -3,7 +3,7 @@ import { useLocation, useNavigate, Navigate } from "react-router-dom";
 
 import resetPasswordStyle from './reset-password.module.css';
 
-import UniversalForm from 'components/universal-form/universal-form';
+import UniversalForm from 'src/components/universal-form/universal-form';
 
 import { request } from 'utils/methods/request';
 

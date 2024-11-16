@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import userDataStyle from './user-data.module.css';
 
-import UniversalForm from 'components/universal-form/universal-form';
+import UniversalForm from 'src/components/universal-form/universal-form';
 
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { updateUser } from 'services/actions/userActions';

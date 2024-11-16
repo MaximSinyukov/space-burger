@@ -56,3 +56,36 @@ export type TStoreSelectIngredients = {
 };
 
 export type TStoreIngredients = TIngredient[];
+
+export type TIconInputProps = "HideIcon" | "ShowIcon" | "EditIcon";
+
+export type TInputProps = {
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  placeholder: string;
+  icon?: TIconInputProps;
+  extraClass?: string;
+  isIcon?: boolean;
+  disabled?: boolean;
+  onIconClick?: () => void;
+  onBlur?: () => void;
+};
+
+export type TUniversalFormData = {
+  submitHandler: () => void;
+  resetHandler?: () => void;
+  inputsData: {
+    type: "email" | "password" | "default";
+    props: TInputProps;
+  }[];
+  linksData?: {
+    baseText: string;
+    linkText: string;
+    route: string;
+  }[];
+  textData?: {
+    title?: string;
+    btn?: string;
+  };
+  children?: React.ReactNode;
+};

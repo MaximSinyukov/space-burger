@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import registerStyle from './register.module.css';
 
-import UniversalForm from 'components/universal-form/universal-form';
+import UniversalForm from 'src/components/universal-form/universal-form';
 
 import { registerUser } from 'services/actions/userActions';
 
