@@ -12,7 +12,7 @@ function ProtectedRouteElement({ element, type }: TProtectedRouteProps) {
   const location = useLocation();
   const from: string = location.state?.from || '/';
 
-  const isAuthorizedUser = useSelector((store: RootState) => store.user.isAuthorized);
+  const isAuthorizedUser = useSelector((store: RootState) => store.user.isAuthorized as boolean);
 
   if (type === 'anonymous' && isAuthorizedUser) {
     return <Navigate to={from} replace/>;

@@ -8,28 +8,34 @@ import UniversalForm from 'src/components/universal-form/universal-form';
 
 import { registerUser } from 'services/actions/userActions';
 
+import { AppDispatch } from 'src/index';
+import {
+  TUniversalFormData,
+} from 'utils/constants/types';
+
 function Register() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
-  const [nameValue, setNameValue] = React.useState('');
-  const [emailValue, setEmailValue] = React.useState('');
-  const [passwordValue, setPasswordValue] = React.useState('');
+  const [nameValue, setNameValue] = React.useState<string>('');
+  const [emailValue, setEmailValue] = React.useState<string>('');
+  const [passwordValue, setPasswordValue] = React.useState<string>('');
 
-  const onNameChange = e => {
+  const onNameChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setNameValue(e.target.value)
   };
 
-  const onEmailChange = e => {
+  const onEmailChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setEmailValue(e.target.value)
   };
 
-  const onPasswordChange = e => {
+  const onPasswordChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setPasswordValue(e.target.value)
   };
 
   const handleRegisterUser = React.useCallback(
     () => {
+      // @ts-ignore TODO: fix after add types in redux
       dispatch(registerUser({
         email: emailValue,
         password: passwordValue,
@@ -47,7 +53,7 @@ function Register() {
     [dispatch, emailValue, nameValue, navigate, passwordValue]
   );
 
-  const formData = {
+  const formData: TUniversalFormData = {
     submitHandler: handleRegisterUser,
     textData: {
       title: 'Регистрация',

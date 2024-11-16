@@ -8,25 +8,36 @@ import profileStyle from './profile.module.css';
 import UserData from './components/user-data/user-data';
 import { exitUser } from 'services/actions/userActions';
 
+type TProfileNavigationControls = {
+  [route: string]: {
+    text: string;
+    type?: 'btn' | undefined;
+    route?: string;
+    component?: React.ReactNode;
+    onClick?: () => void;
+  }
+};
+
 function Profile() {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
 
   const handleExitUser = React.useCallback(
-    () => {
+    (): void => {
+      // @ts-ignore TODO: fix after add types in redux
       dispatch(exitUser())
         .then(() => {
           navigate('/login');
         })
-        .catch((err) => {
+        .catch((err = {}) => {
           console.warn(err, 'Error in handleExitUser method');
         });
     },
     [dispatch, navigate]
   );
 
-  const profileNavigationControls = {
+  const profileNavigationControls: TProfileNavigationControls = {
     '/profile': {
       text: 'Профиль',
       route: '/profile',
@@ -61,7 +72,7 @@ function Profile() {
                 className={`text text_type_main-medium ${profileStyle['profile__nav-controls']}`}>
                   { control.text }
                 </span>
-              ) : (
+              ) : (control.route &&
                 <Link
                 key={'profile-navigation-' + index}
                 to={control.route}

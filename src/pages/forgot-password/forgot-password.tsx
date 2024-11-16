@@ -7,13 +7,17 @@ import UniversalForm from 'src/components/universal-form/universal-form';
 
 import { request } from 'utils/methods/request';
 
+import {
+  TUniversalFormData,
+} from 'utils/constants/types';
+
 function ForgotPassword() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [forgotPasswordEmail, setForgotPasswordEmail] = React.useState('');
+  const [forgotPasswordEmail, setForgotPasswordEmail] = React.useState<string>('');
 
-  const onForgotPasswordEmailChange = e => {
+  const onForgotPasswordEmailChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setForgotPasswordEmail(e.target.value)
   };
 
@@ -46,7 +50,7 @@ function ForgotPassword() {
       });
   };
 
-  const formData = {
+  const formData: TUniversalFormData = {
     submitHandler: handleForgotPassword,
     textData: {
       title: 'Восстановление пароля',

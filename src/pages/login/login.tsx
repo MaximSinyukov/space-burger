@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, useLocation } from "react-router-dom";
 
@@ -21,11 +21,11 @@ function Login() {
   const [emailValue, setEmailValue] = React.useState<string>('');
   const [passwordValue, setPasswordValue] = React.useState<string>('');
 
-  const onEmailChange = (e: ChangeEvent<HTMLInputElement>): void => {
+  const onEmailChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setEmailValue(e.target.value)
   };
 
-  const onPasswordChange = (e: ChangeEvent<HTMLInputElement>): void => {
+  const onPasswordChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setPasswordValue(e.target.value)
   };
 

@@ -9,31 +9,42 @@ import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { updateUser } from 'services/actions/userActions';
 import { setUserData } from 'services/reducers/user';
 
-function UserData() {
-  const dispatch = useDispatch();
+import { AppDispatch, RootState } from 'src/index';
+import {
+  TUniversalFormData,
+} from 'utils/constants/types';
 
-  const userData = useSelector(store => store.user.userData);
+type TUserData = {
+  email?: string;
+  name?: string;
+  password?: string;
+};
+
+function UserData() {
+  const dispatch = useDispatch<AppDispatch>();
+
+  const userData = useSelector((store: RootState) => store.user.userData as TUserData);
   const passwordStartValue = '';
 
-  const [disabledNameInput, setDisabledNameInput] = React.useState(true);
+  const [disabledNameInput, setDisabledNameInput] = React.useState<boolean>(true);
 
-  const [nameValue, setNameValue] = React.useState('');
-  const [nameStartValue, setNameStartValue] = React.useState('');
-  const [emailValue, setEmailValue] = React.useState('');
-  const [emailStartValue, setEmailStartValue] = React.useState('');
-  const [passwordValue, setPasswordValue] = React.useState('');
+  const [nameValue, setNameValue] = React.useState<string>('');
+  const [nameStartValue, setNameStartValue] = React.useState<string>('');
+  const [emailValue, setEmailValue] = React.useState<string>('');
+  const [emailStartValue, setEmailStartValue] = React.useState<string>('');
+  const [passwordValue, setPasswordValue] = React.useState<string>('');
 
-  const [isEditedForm, setIsEditedForm] = React.useState(false);
+  const [isEditedForm, setIsEditedForm] = React.useState<boolean>(false);
 
-  const onNameChange = e => {
+  const onNameChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setNameValue(e.target.value);
   };
 
-  const onEmailChange = e => {
+  const onEmailChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setEmailValue(e.target.value);
   };
 
-  const onPasswordChange = e => {
+  const onPasswordChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setPasswordValue(e.target.value);
   };
 
@@ -45,17 +56,17 @@ function UserData() {
 
   React.useEffect(() => {
     if (userData.name || !nameStartValue) {
-      setNameValue(userData.name);
-      setNameStartValue(userData.name);
+      setNameValue(userData.name || '');
+      setNameStartValue(userData.name || '');
     }
 
     if (userData.email || !emailStartValue) {
-      setEmailValue(userData.email);
-      setEmailStartValue(userData.email);
+      setEmailValue(userData.email || '');
+      setEmailStartValue(userData.email || '');
     }
   }, [userData, nameStartValue, emailStartValue]);
 
-  const handleResetForm = () => {
+  const handleResetForm = (): void => {
     dispatch(setUserData({
       name: nameStartValue,
       email: emailStartValue,
@@ -65,8 +76,8 @@ function UserData() {
   };
 
   const handleUpdateUser = React.useCallback(
-    () => {
-      let newUserData;
+    (): void => {
+      let newUserData: TUserData = {};
 
       if (nameValue !== nameStartValue) {
         newUserData = {
@@ -88,6 +99,7 @@ function UserData() {
         };
       }
 
+      // @ts-ignore TODO: fix after add types in redux
       dispatch(updateUser(newUserData))
         .catch((err) => {
           console.warn(err, 'Error in updateUser method');
@@ -97,7 +109,7 @@ function UserData() {
   );
 
 
-  const formData = {
+  const formData: TUniversalFormData = {
     submitHandler: handleUpdateUser,
     resetHandler:  handleResetForm,
     inputsData: [
