@@ -7,24 +7,41 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientCard from './components/ingredient-card';
 import { setIngredientDetails } from 'services/reducers/detail-ingredient';
 
+import { AppDispatch, RootState } from 'src/index';
+import {
+  TStoreIngredients,
+  TIngredient,
+} from 'utils/constants/types';
+
+type TSortElement = {
+  bun: TIngredient[];
+  sauce: TIngredient[];
+  main: TIngredient[];
+};
+
+type TTabData = {
+  type: keyof TSortElement,
+  title: string,
+}[];
+
 const BurgerIngredients = React.memo(function BurgerIngredients() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const location = useLocation();
 
-  const ingredients = useSelector(store => store.ingredients);
+  const ingredients = useSelector((store: RootState) => store.ingredients as TStoreIngredients);
 
-  const containerRef = React.useRef(null);
-  const titleRefs = React.useRef([]);
+  const containerRef = React.useRef<HTMLDivElement | null>(null);
+  const titleRefs = React.useRef<HTMLHeadingElement[]>([]);
 
-  const [currentTab, setCurrentTab] = React.useState('bun');
-  const [sortedIngredients, setSortedIngredients] = React.useState({
+  const [currentTab, setCurrentTab] = React.useState<string>('bun');
+  const [sortedIngredients, setSortedIngredients] = React.useState<TSortElement>({
     bun: [],
     sauce: [],
     main: [],
   });
 
-  const tabData = React.useMemo(() => [
+  const tabData = React.useMemo<TTabData>(() => [
     {
       type: 'bun',
       title: 'Булки',
@@ -42,11 +59,11 @@ const BurgerIngredients = React.memo(function BurgerIngredients() {
   const handleScroll = React.useCallback(() => {
     if (!containerRef.current || !titleRefs.current.length) return;
 
-    let closestTab = currentTab;
-    let minOffset = null;
+    let closestTab: string = currentTab;
+    let minOffset: number | null = null;
 
     titleRefs.current.forEach((titleRef, index) => {
-      if (titleRef) {
+      if (titleRef && containerRef.current && minOffset) {
         const offset = Math.abs(titleRef.getBoundingClientRect().top - containerRef.current.getBoundingClientRect().top);
 
         if (offset < minOffset || minOffset === null) {
@@ -61,7 +78,7 @@ const BurgerIngredients = React.memo(function BurgerIngredients() {
     }
   }, [currentTab, tabData]);
 
-  const handleTabClick = (type) => {
+  const handleTabClick = (type: string): void => {
     const titleRef = titleRefs.current.find(ref => ref.id === `title-${type}`);
 
     if (titleRef) {
@@ -70,7 +87,7 @@ const BurgerIngredients = React.memo(function BurgerIngredients() {
   };
 
   const handleOpenModal = React.useCallback(
-    (ingredient) => {
+    (ingredient: TIngredient): void => {
       localStorage.setItem('background', JSON.stringify(location));
       dispatch(setIngredientDetails(ingredient));
       navigate(
@@ -86,7 +103,7 @@ const BurgerIngredients = React.memo(function BurgerIngredients() {
   );
 
   React.useEffect(() => {
-    const newTabsData = {
+    const newTabsData: TSortElement = {
       bun: [],
       sauce: [],
       main: [],
@@ -115,8 +132,7 @@ const BurgerIngredients = React.memo(function BurgerIngredients() {
             key={tab.type}
             value={tab.type}
             active={currentTab === tab.type}
-            onClick={handleTabClick}
-            className={burgerIngredientsStyles['burger-ingredients__tab']}>
+            onClick={handleTabClick}>
               {tab.title}
             </Tab>
           ))
@@ -134,7 +150,9 @@ const BurgerIngredients = React.memo(function BurgerIngredients() {
               key={'ingredient-section-' + tab.type}>
                 <h2
                 id={`title-${tab.type}`}
-                ref={el => (titleRefs.current[index] = el)}
+                ref={
+                  (el: HTMLHeadingElement): HTMLHeadingElement => (titleRefs.current[index] = el)
+                }
                 className={`mt-10 mb-6 text text_type_main-medium ${burgerIngredientsStyles['burger-ingredients__ingredient-title']}`}>
                   { tab.title }
                 </h2>

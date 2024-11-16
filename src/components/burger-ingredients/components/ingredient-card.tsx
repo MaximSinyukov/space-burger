@@ -1,24 +1,29 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useDrag } from "react-dnd";
 import { useSelector } from 'react-redux';
 
 import ingredientCardStyle from './ingredient-card.module.css';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { IngredientType } from 'utils/constants/types.ts';
+import { TIngredient, TStoreSelectIngredients } from 'utils/constants/types';
+import { RootState } from 'src/index';
 
-const IngredientCard = React.memo(function IngredientCard({ ingredient, onClick }) {
-  const { ingredientsCounter, buns } = useSelector(store => store.selectIngredients);
+interface IIngredientCardProps {
+  ingredient: TIngredient;
+  onClick: (ingredient: TIngredient) => void;
+};
 
-  const [counter, setCounter] = React.useState(0);
+const IngredientCard = React.memo(function IngredientCard({ ingredient, onClick }: IIngredientCardProps) {
+const { ingredientsCounter, buns } = useSelector((store: RootState) => store.selectIngredients as TStoreSelectIngredients);
 
-  const [, dragRef] = useDrag({
+  const [counter, setCounter] = React.useState<number>(0);
+
+  const [, dragRef] = useDrag<{ingredient: TIngredient}>({
     type: "ingredient",
     item: { ingredient }
   });
 
-  const openIngredientDetails = () => {
+  const openIngredientDetails = (): void => {
     onClick(ingredient);
   };
 
@@ -62,17 +67,11 @@ const IngredientCard = React.memo(function IngredientCard({ ingredient, onClick 
         counter > 0
           && (
             <Counter
-            count={counter}
-            className={ingredientCardStyle['ingredient-card__counter']}/>
+            count={counter}/>
           )
       }
     </li>
   );
 });
-
-IngredientCard.propTypes = {
-  ingredient: IngredientType.isRequired,
-  onClick: PropTypes.func,
-};
 
 export default IngredientCard;

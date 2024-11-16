@@ -16,24 +16,19 @@ import { removeOrderNumber } from 'services/reducers/order';
 import { postOrder } from 'services/actions/orderAction';
 
 import { AppDispatch, RootState } from 'src/index';
-import { TIngredient, TIngredientConstructor } from 'utils/constants/types';
-
-type TStoreIngredients = {
-  buns: TIngredient | null;
-  otherIngredients: TIngredientConstructor[] | [];
-};
-
-type TStoreAuthorization = {
-  isAuthorized: boolean;
-};
-
-type TStoreOrder = number | null;
+import {
+  TIngredient,
+  TIngredientConstructor,
+  TStoreSelectIngredients,
+  TStoreAuthorization,
+  TStoreOrder,
+} from 'utils/constants/types';
 
 const BurgerConstructor = React.memo(function BurgerConstructor() {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
-  const { buns, otherIngredients } = useSelector((store: RootState) => store.selectIngredients as TStoreIngredients);
+  const { buns, otherIngredients } = useSelector((store: RootState) => store.selectIngredients as TStoreSelectIngredients);
   const { isAuthorized } = useSelector((store: RootState) => store.user as TStoreAuthorization);
   const orderNumber = useSelector((store: RootState)  => store.order as TStoreOrder);
 

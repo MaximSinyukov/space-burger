@@ -38,3 +38,21 @@ export type TIngredient = {
 export type TIngredientConstructor = TIngredient & {
   uniqueId: string;
 };
+
+export type TIngredientCounts = {
+  [ingredientApiId: string]: number;
+};
+
+export type TStoreAuthorization = {
+  isAuthorized: boolean;
+};
+
+export type TStoreOrder = number | null;
+
+export type TStoreSelectIngredients = {
+  buns: TIngredient | null;
+  otherIngredients: TIngredientConstructor[] | [];
+  ingredientsCounter: TIngredientCounts;
+};
+
+export type TStoreIngredients = TIngredient[];
