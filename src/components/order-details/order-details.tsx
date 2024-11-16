@@ -3,8 +3,13 @@ import { useSelector } from 'react-redux';
 import orderDetailsStyle from './order-details.module.css';
 import doneImage from 'assets/images/done.svg';
 
+import { RootState } from 'src/index';
+import {
+  TStoreOrder,
+} from 'utils/constants/types';
+
 function OrderDetails() {
-  const orderNumber = useSelector(store => store.order);
+  const orderNumber = useSelector((store: RootState) => store.order as TStoreOrder);
 
   return (
     <div

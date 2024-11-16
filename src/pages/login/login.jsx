@@ -13,7 +13,6 @@ function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  console.warn('lohin', location);
   const [emailValue, setEmailValue] = React.useState('');
   const [passwordValue, setPasswordValue] = React.useState('');
 
