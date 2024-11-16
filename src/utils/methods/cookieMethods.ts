@@ -1,13 +1,13 @@
 /* eslint-disable no-useless-escape */
 
-interface ICookieProps {
+type TCookieProps = {
   [name: string]: any;
-}
+};
 
 export function setCookie(
   name: string,
   value: string,
-  props: ICookieProps | undefined
+  props: TCookieProps | undefined
 ) {
   props = props || {};
   let exp = props.expires;

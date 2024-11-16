@@ -1,10 +1,10 @@
 import modalOverlayStyle from './modal-overlay.module.css';
 
-interface IModalOverlayProps {
+type TModalOverlayProps = {
   onClose: () => void;
 };
 
-function ModalOverlay({ onClose }: IModalOverlayProps) {
+function ModalOverlay({ onClose }: TModalOverlayProps) {
   return (
     <div
     onClick={onClose}

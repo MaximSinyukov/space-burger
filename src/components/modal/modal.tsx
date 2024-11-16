@@ -4,13 +4,13 @@ import ReactDOM from 'react-dom';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-interface IModalProps {
+type TModalProps = {
   onClose: () => void;
   children: React.ReactNode;
   header?: string;
 };
 
-const Modal: React.FC<IModalProps> = ({ children, header, onClose }) => {
+const Modal: React.FC<TModalProps> = ({ children, header, onClose }) => {
   const modalRoot: HTMLElement | null = document.getElementById("react-modals");
 
   const handleEsc = React.useCallback(

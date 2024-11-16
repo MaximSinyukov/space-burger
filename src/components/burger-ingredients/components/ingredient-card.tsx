@@ -8,12 +8,12 @@ import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-c
 import { TIngredient, TStoreSelectIngredients } from 'utils/constants/types';
 import { RootState } from 'src/index';
 
-interface IIngredientCardProps {
+type TIngredientCardProps = {
   ingredient: TIngredient;
   onClick: (ingredient: TIngredient) => void;
 };
 
-const IngredientCard = React.memo(function IngredientCard({ ingredient, onClick }: IIngredientCardProps) {
+const IngredientCard = React.memo(function IngredientCard({ ingredient, onClick }: TIngredientCardProps) {
 const { ingredientsCounter, buns } = useSelector((store: RootState) => store.selectIngredients as TStoreSelectIngredients);
 
   const [counter, setCounter] = React.useState<number>(0);

@@ -14,13 +14,13 @@ type TDropCollectedProps = {
   isHover: boolean,
 };
 
-interface IConstructorIngredientProps {
+type TConstructorIngredientProps = {
   ingredient: TIngredientConstructor;
   onDelete: (uniqId: string, ingredientId: string) => void;
   sortIngredient: (dragIndex: string, dropIndex: string) => void;
 };
 
-const ConstructorIngredient = React.memo(function ConstructorIngredient({ ingredient, onDelete, sortIngredient }: IConstructorIngredientProps) {
+const ConstructorIngredient = React.memo(function ConstructorIngredient({ ingredient, onDelete, sortIngredient }: TConstructorIngredientProps) {
   const ingredientConsctructorRef = React.useRef<HTMLLIElement>(null);
 
   const [, dragRef] = useDrag<TDragItem>({
