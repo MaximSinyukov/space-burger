@@ -7,6 +7,10 @@ type TResponse = {
   [key: string]: any;
 };
 
+type TResponseJson = Response & {
+  success: boolean;
+};
+
 const checkResponse = (res: TResponse): Promise<any> => {
   if (res.ok) {
     return res.json();
@@ -15,7 +19,7 @@ const checkResponse = (res: TResponse): Promise<any> => {
   return Promise.reject(res);
 };
 
-const checkSuccess = (res: any): any => {
+const checkSuccess = (res: TResponseJson): TResponseJson | Promise<any> => {
   if (res && res.success) {
     return res;
   }
