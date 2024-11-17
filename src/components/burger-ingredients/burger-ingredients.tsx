@@ -1,5 +1,4 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useLocation } from "react-router-dom";
 
 import burgerIngredientsStyles from './burger-ingredients.module.css';
@@ -7,7 +6,7 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientCard from './components/ingredient-card';
 import { setIngredientDetails } from 'services/reducers/detail-ingredient';
 
-import { AppDispatch, RootState } from 'src/index';
+import { useAppDispatch, useAppSelector } from 'src/index';
 import {
   TStoreIngredients,
   TIngredient,
@@ -25,11 +24,11 @@ type TTabData = {
 }[];
 
 const BurgerIngredients = React.memo(function BurgerIngredients() {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
 
-  const ingredients = useSelector((store: RootState) => store.ingredients as TStoreIngredients);
+  const ingredients = useAppSelector((store) => store.ingredients as TStoreIngredients);
 
   const containerRef = React.useRef<HTMLDivElement | null>(null);
   const titleRefs = React.useRef<HTMLHeadingElement[]>([]);

@@ -1,12 +1,13 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 
 import profileStyle from './profile.module.css';
 
 import UserData from './components/user-data/user-data';
 import { exitUser } from 'services/actions/userActions';
+
+import { useAppDispatch } from 'src/index';
 
 type TProfileNavigationControls = {
   [route: string]: {
@@ -21,7 +22,7 @@ type TProfileNavigationControls = {
 function Profile() {
   const navigate = useNavigate();
   const location = useLocation();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleExitUser = React.useCallback(
     (): void => {

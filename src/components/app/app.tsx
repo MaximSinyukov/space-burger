@@ -15,7 +15,6 @@ import Modal from 'components/modal/modal';
 
 import React from 'react';
 import { Routes, Route, useNavigate, useLocation, Location } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
@@ -24,12 +23,12 @@ import { getUser } from 'services/actions/userActions';
 import { getCookie } from 'utils/methods/cookieMethods';
 import { removeIngredientDetails } from 'services/reducers/detail-ingredient';
 
-import { AppDispatch } from 'src/index';
+import { useAppDispatch } from 'src/index';
 
 function App() {
   const location = useLocation();
   const navigate = useNavigate();
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
 
   const storedBackground: Location | null = JSON.parse(localStorage.getItem('background') as string);
   const background: Location | undefined = storedBackground || location.state?.background;

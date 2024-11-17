@@ -1,12 +1,11 @@
 import ingredientDetailsStyle from './ingredient-details.module.css';
 
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { setIngredientDetails } from 'services/reducers/detail-ingredient';
 
-import { AppDispatch, RootState } from 'src/index';
+import { useAppDispatch, useAppSelector } from 'src/index';
 import {
   TStoreIngredients,
   TIngredient,
@@ -18,12 +17,12 @@ type TDetailsData = {
 }[];
 
 function IngredientDetails() {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const location = useLocation();
   const navigate = useNavigate();
 
-  const ingredient = useSelector((store: RootState) => store.detailIngredient as TIngredient);
-  const ingredientsList = useSelector((store: RootState) => store.ingredients as TStoreIngredients);
+  const ingredient = useAppSelector((store) => store.detailIngredient as TIngredient);
+  const ingredientsList = useAppSelector((store) => store.ingredients as TStoreIngredients);
 
   const detailsData: Readonly<TDetailsData> = [
     {

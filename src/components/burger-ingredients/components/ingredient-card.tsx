@@ -1,12 +1,11 @@
 import React from 'react';
 import { useDrag } from "react-dnd";
-import { useSelector } from 'react-redux';
 
 import ingredientCardStyle from './ingredient-card.module.css';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { TIngredient, TStoreSelectIngredients } from 'utils/constants/types';
-import { RootState } from 'src/index';
+import { useAppSelector } from 'src/index';
 
 type TIngredientCardProps = {
   ingredient: TIngredient;
@@ -14,7 +13,7 @@ type TIngredientCardProps = {
 };
 
 const IngredientCard = React.memo(function IngredientCard({ ingredient, onClick }: TIngredientCardProps) {
-const { ingredientsCounter, buns } = useSelector((store: RootState) => store.selectIngredients as TStoreSelectIngredients);
+const { ingredientsCounter, buns } = useAppSelector((store) => store.selectIngredients as TStoreSelectIngredients);
 
   const [counter, setCounter] = React.useState<number>(0);
 

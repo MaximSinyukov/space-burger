@@ -1,5 +1,4 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 
 import userDataStyle from './user-data.module.css';
 
@@ -9,7 +8,7 @@ import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { updateUser } from 'services/actions/userActions';
 import { setUserData } from 'services/reducers/user';
 
-import { AppDispatch, RootState } from 'src/index';
+import { useAppDispatch, useAppSelector } from 'src/index';
 import {
   TUniversalFormData,
 } from 'utils/constants/types';
@@ -21,9 +20,9 @@ type TUserData = {
 };
 
 function UserData() {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
 
-  const userData = useSelector((store: RootState) => store.user.userData as TUserData);
+  const userData = useAppSelector((store) => store.user.userData as TUserData);
   const passwordStartValue = '';
 
   const [disabledNameInput, setDisabledNameInput] = React.useState<boolean>(true);

@@ -1,5 +1,4 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { useDrop } from "react-dnd";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid';
@@ -15,7 +14,7 @@ import { removeIngredient, decreaseIngredientCount, resetSelectIngredients, upda
 import { removeOrderNumber } from 'services/reducers/order';
 import { postOrder } from 'services/actions/orderAction';
 
-import { AppDispatch, RootState } from 'src/index';
+import { useAppDispatch, useAppSelector } from 'src/index';
 import {
   TIngredient,
   TIngredientConstructor,
@@ -25,12 +24,12 @@ import {
 } from 'utils/constants/types';
 
 const BurgerConstructor = React.memo(function BurgerConstructor() {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const { buns, otherIngredients } = useSelector((store: RootState) => store.selectIngredients as TStoreSelectIngredients);
-  const { isAuthorized } = useSelector((store: RootState) => store.user as TStoreAuthorization);
-  const orderNumber = useSelector((store: RootState)  => store.order as TStoreOrder);
+  const { buns, otherIngredients } = useAppSelector((store) => store.selectIngredients as TStoreSelectIngredients);
+  const { isAuthorized } = useAppSelector((store) => store.user as TStoreAuthorization);
+  const orderNumber = useAppSelector((store)  => store.order as TStoreOrder);
 
   const [allPrice, setAllPrice] = React.useState<number>(0);
 

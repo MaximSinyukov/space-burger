@@ -1,5 +1,4 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 
 import registerStyle from './register.module.css';
@@ -8,14 +7,14 @@ import UniversalForm from 'src/components/universal-form/universal-form';
 
 import { registerUser } from 'services/actions/userActions';
 
-import { AppDispatch } from 'src/index';
+import { useAppDispatch } from 'src/index';
 import {
   TUniversalFormData,
 } from 'utils/constants/types';
 
 function Register() {
   const navigate = useNavigate();
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
 
   const [nameValue, setNameValue] = React.useState<string>('');
   const [emailValue, setEmailValue] = React.useState<string>('');
