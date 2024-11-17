@@ -62,10 +62,10 @@ const BurgerIngredients = React.memo(function BurgerIngredients() {
     let minOffset: number | null = null;
 
     titleRefs.current.forEach((titleRef, index) => {
-      if (titleRef && containerRef.current && minOffset) {
+      if (titleRef && containerRef.current) {
         const offset = Math.abs(titleRef.getBoundingClientRect().top - containerRef.current.getBoundingClientRect().top);
 
-        if (offset < minOffset || minOffset === null) {
+        if (minOffset === null || offset < minOffset) {
           minOffset = offset;
           closestTab = tabData[index].type;
         }
