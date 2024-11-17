@@ -25,7 +25,7 @@ function IngredientDetails() {
   const ingredient = useSelector((store: RootState) => store.detailIngredient as TIngredient);
   const ingredientsList = useSelector((store: RootState) => store.ingredients as TStoreIngredients);
 
-  const detailsData: TDetailsData = [
+  const detailsData: Readonly<TDetailsData> = [
     {
       type: 'calories',
       text: 'Калории,ккал',

@@ -7,13 +7,13 @@ import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-dev
 
 import { TIcon } from 'utils/constants/types';
 
-type THeaderBtn = {
+type THeaderBtn = Readonly<{
   readonly text: string,
   readonly icon: TIcon,
   readonly id: string,
   readonly path?: string,
   readonly handler?: () => void,
-};
+}>;
 
 function AppHeader() {
   const navigate = useNavigate();

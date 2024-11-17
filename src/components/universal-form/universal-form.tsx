@@ -16,7 +16,7 @@ type TInputComponents = {
 };
 
 const UniversalForm: React.FC<TUniversalFormData> = ({ inputsData, linksData, textData, submitHandler, resetHandler, children }) => {
-  const inputComponentsByType: TInputComponents = {
+  const inputComponentsByType: Readonly<TInputComponents> = {
     email: EmailInput,
     password: PasswordInput,
     default: Input,

@@ -41,7 +41,7 @@ const BurgerIngredients = React.memo(function BurgerIngredients() {
     main: [],
   });
 
-  const tabData = React.useMemo<TTabData>(() => [
+  const tabData = React.useMemo<Readonly<TTabData>>(() => [
     {
       type: 'bun',
       title: 'Булки',

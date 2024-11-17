@@ -3,7 +3,7 @@ import { BurgerIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 export type TIcon = typeof BurgerIcon;
 export type TIngredientType = "bun" | "sauce" | "main";
 
-export type TIngredient = {
+export type TIngredient = Readonly<{
   _id: string;
   name: string;
   type: TIngredientType;
@@ -16,7 +16,7 @@ export type TIngredient = {
   image_mobile: string;
   image_large: string;
   __v: number;
-};
+}>;
 
 export type TIngredientConstructor = TIngredient & {
   uniqueId: string;
@@ -54,7 +54,7 @@ export type TInputProps = {
   onBlur?: () => void;
 };
 
-export type TUniversalFormData = {
+export type TUniversalFormData = Readonly<{
   submitHandler: () => void;
   resetHandler?: () => void;
   inputsData: {
@@ -71,4 +71,4 @@ export type TUniversalFormData = {
     btn?: string;
   };
   children?: React.ReactNode;
-};
+}>;

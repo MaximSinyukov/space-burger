@@ -37,7 +37,7 @@ function Profile() {
     [dispatch, navigate]
   );
 
-  const profileNavigationControls: TProfileNavigationControls = {
+  const profileNavigationControls: Readonly<TProfileNavigationControls> = {
     '/profile': {
       text: 'Профиль',
       route: '/profile',
