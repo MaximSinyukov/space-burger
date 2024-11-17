@@ -25,15 +25,15 @@ function UserData() {
   const userData = useAppSelector((store) => store.user.userData as TUserData);
   const passwordStartValue = '';
 
-  const [disabledNameInput, setDisabledNameInput] = React.useState<boolean>(true);
+  const [disabledNameInput, setDisabledNameInput] = React.useState(true);
 
-  const [nameValue, setNameValue] = React.useState<string>('');
-  const [nameStartValue, setNameStartValue] = React.useState<string>('');
-  const [emailValue, setEmailValue] = React.useState<string>('');
-  const [emailStartValue, setEmailStartValue] = React.useState<string>('');
-  const [passwordValue, setPasswordValue] = React.useState<string>('');
+  const [nameValue, setNameValue] = React.useState('');
+  const [nameStartValue, setNameStartValue] = React.useState('');
+  const [emailValue, setEmailValue] = React.useState('');
+  const [emailStartValue, setEmailStartValue] = React.useState('');
+  const [passwordValue, setPasswordValue] = React.useState('');
 
-  const [isEditedForm, setIsEditedForm] = React.useState<boolean>(false);
+  const [isEditedForm, setIsEditedForm] = React.useState(false);
 
   const onNameChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setNameValue(e.target.value);

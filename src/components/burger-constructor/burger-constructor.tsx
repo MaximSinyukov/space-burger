@@ -31,7 +31,7 @@ const BurgerConstructor = React.memo(function BurgerConstructor() {
   const { isAuthorized } = useAppSelector((store) => store.user as TStoreAuthorization);
   const orderNumber = useAppSelector((store)  => store.order as TStoreOrder);
 
-  const [allPrice, setAllPrice] = React.useState<number>(0);
+  const [allPrice, setAllPrice] = React.useState(0);
 
   const [, dropIngredientTarget] = useDrop<{ingredient: TIngredient}, void, null>({
     accept: "ingredient",

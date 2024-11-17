@@ -16,9 +16,9 @@ function Register() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const [nameValue, setNameValue] = React.useState<string>('');
-  const [emailValue, setEmailValue] = React.useState<string>('');
-  const [passwordValue, setPasswordValue] = React.useState<string>('');
+  const [nameValue, setNameValue] = React.useState('');
+  const [emailValue, setEmailValue] = React.useState('');
+  const [passwordValue, setPasswordValue] = React.useState('');
 
   const onNameChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setNameValue(e.target.value)

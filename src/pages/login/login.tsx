@@ -17,8 +17,8 @@ function Login() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const [emailValue, setEmailValue] = React.useState<string>('');
-  const [passwordValue, setPasswordValue] = React.useState<string>('');
+  const [emailValue, setEmailValue] = React.useState('');
+  const [passwordValue, setPasswordValue] = React.useState('');
 
   const onEmailChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setEmailValue(e.target.value)

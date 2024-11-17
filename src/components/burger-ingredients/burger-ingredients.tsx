@@ -33,7 +33,7 @@ const BurgerIngredients = React.memo(function BurgerIngredients() {
   const containerRef = React.useRef<HTMLDivElement | null>(null);
   const titleRefs = React.useRef<HTMLHeadingElement[]>([]);
 
-  const [currentTab, setCurrentTab] = React.useState<string>('bun');
+  const [currentTab, setCurrentTab] = React.useState('bun');
   const [sortedIngredients, setSortedIngredients] = React.useState<TSortElement>({
     bun: [],
     sauce: [],

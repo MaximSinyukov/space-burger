@@ -14,8 +14,8 @@ import {
 function ResetPassword() {
   const location = useLocation();
   const navigate = useNavigate();
-  const [newPasswordValue, setNewPasswordValue] = React.useState<string>('');
-  const [emailCodeValue, setEmailCodeValue] = React.useState<string>('');
+  const [newPasswordValue, setNewPasswordValue] = React.useState('');
+  const [emailCodeValue, setEmailCodeValue] = React.useState('');
 
   const onNewPasswordValue = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setNewPasswordValue(e.target.value)

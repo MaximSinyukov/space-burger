@@ -15,7 +15,7 @@ function ForgotPassword() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [forgotPasswordEmail, setForgotPasswordEmail] = React.useState<string>('');
+  const [forgotPasswordEmail, setForgotPasswordEmail] = React.useState('');
 
   const onForgotPasswordEmailChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setForgotPasswordEmail(e.target.value)

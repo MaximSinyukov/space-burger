@@ -15,7 +15,7 @@ type TIngredientCardProps = {
 const IngredientCard = React.memo(function IngredientCard({ ingredient, onClick }: TIngredientCardProps) {
 const { ingredientsCounter, buns } = useAppSelector((store) => store.selectIngredients as TStoreSelectIngredients);
 
-  const [counter, setCounter] = React.useState<number>(0);
+  const [counter, setCounter] = React.useState(0);
 
   const [, dragRef] = useDrag<{ingredient: TIngredient}>({
     type: "ingredient",
