@@ -8,11 +8,11 @@ import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-dev
 import { TIcon } from 'utils/constants/types';
 
 type THeaderBtn = Readonly<{
-  readonly text: string,
-  readonly icon: TIcon,
-  readonly id: string,
-  readonly path?: string,
-  readonly handler?: () => void,
+  text: string,
+  icon: TIcon,
+  id: string,
+  path?: string,
+  handler?: () => void,
 }>;
 
 function AppHeader() {
