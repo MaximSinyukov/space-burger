@@ -3,19 +3,18 @@ import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 
-import Login from 'pages/login/login.jsx';
-import ForgotPassword from 'pages/forgot-password/forgot-password.jsx';
-import ResetPassword from 'pages/reset-password/reset-password.jsx';
-import Register from 'pages/register/register.jsx';
-import Profile from 'pages/profile/profile.jsx';
-import Ingredient from 'pages/ingredient/ingredient.jsx';
-import ProtectedRouteElement from 'components/protected-route-element.jsx';
+import Login from 'pages/login/login';
+import ForgotPassword from 'pages/forgot-password/forgot-password';
+import ResetPassword from 'pages/reset-password/reset-password';
+import Register from 'pages/register/register';
+import Profile from 'pages/profile/profile';
+import Ingredient from 'pages/ingredient/ingredient';
+import ProtectedRouteElement from 'components/protected-route-element';
 import IngredientDetails from 'components/ingredient-details/ingredient-details';
 import Modal from 'components/modal/modal';
 
 import React from 'react';
-import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { Routes, Route, useNavigate, useLocation, Location } from 'react-router-dom';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
@@ -24,16 +23,18 @@ import { getUser } from 'services/actions/userActions';
 import { getCookie } from 'utils/methods/cookieMethods';
 import { removeIngredientDetails } from 'services/reducers/detail-ingredient';
 
+import { useAppDispatch } from 'src/index';
+
 function App() {
   const location = useLocation();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const storedBackground = JSON.parse(localStorage.getItem('background'));
-  const background = storedBackground || location.state?.background;
+  const storedBackground: Location | null = JSON.parse(localStorage.getItem('background') as string);
+  const background: Location | undefined = storedBackground || location.state?.background;
 
   const handleCloseModal = React.useCallback(
-    () => {
+    (): void => {
       localStorage.removeItem('background');
       dispatch(removeIngredientDetails());
       navigate(-1);
@@ -42,7 +43,7 @@ function App() {
   );
 
   const getUserData = React.useCallback(
-    () => {
+    (): void => {
       if (getCookie('token')) {
         dispatch(getUser());
       }
@@ -51,7 +52,7 @@ function App() {
   );
 
   const getIngredientsList = React.useCallback(
-    () => {
+    (): void => {
       dispatch(getIngredients());
     },
     [dispatch]

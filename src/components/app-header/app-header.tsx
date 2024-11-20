@@ -3,13 +3,23 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 import appHeaderStyles from './app-header.module.css';
 
-import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components'
+import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+
+import { TIcon } from 'utils/constants/types';
+
+type THeaderBtn = Readonly<{
+  text: string,
+  icon: TIcon,
+  id: string,
+  path?: string,
+  handler?: () => void,
+}>;
 
 function AppHeader() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const renderComponents = [
+  const renderBtns: THeaderBtn[] = [
     {
       text: 'Конструктор',
       icon: BurgerIcon,
@@ -35,7 +45,7 @@ function AppHeader() {
     },
   ];
 
-  const headerBtnsHandler = (btn) => {
+  const headerBtnsHandler = (btn: THeaderBtn): void => {
     if (btn.handler) {
       btn.handler();
     }
@@ -47,14 +57,14 @@ function AppHeader() {
       <nav
       className={appHeaderStyles['app-header__navigation']}>
         {
-          renderComponents.map((btn) => (
+          renderBtns.map((btn) => (
             <button
             onClick={() => {headerBtnsHandler(btn)}}
             key={btn.id}
             className={`mr-2 pr-5 pl-5 ${appHeaderStyles['app-header__btn']}`}>
               {
                 React.createElement(btn.icon, {
-                  type: (location.pathname.includes(btn.path) && btn.path !== '/')
+                  type: (btn.path && location.pathname.includes(btn.path) && btn.path !== '/')
                     || (location.pathname === '/' && btn.path === '/')
                       ? 'primary'
                       : 'secondary',
@@ -64,7 +74,7 @@ function AppHeader() {
 
               <span
               className={`text text_type_main-default ${appHeaderStyles['app-header__btn-text']} ${
-                (location.pathname.includes(btn.path) && btn.path !== '/')
+                (btn.path && location.pathname.includes(btn.path) && btn.path !== '/')
                   || (location.pathname === '/' && btn.path === '/')
                     ? appHeaderStyles['app-header__btn-text--active']
                     : ''

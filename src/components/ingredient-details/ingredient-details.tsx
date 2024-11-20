@@ -1,20 +1,30 @@
 import ingredientDetailsStyle from './ingredient-details.module.css';
 
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { setIngredientDetails } from 'services/reducers/detail-ingredient';
 
+import { useAppDispatch, useAppSelector } from 'src/index';
+import {
+  TStoreIngredients,
+  TIngredient,
+} from 'utils/constants/types';
+
+type TDetailsData = {
+  type: keyof TIngredient,
+  text: string,
+}[];
+
 function IngredientDetails() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const location = useLocation();
   const navigate = useNavigate();
 
-  const ingredient = useSelector(store => store.detailIngredient);
-  const ingredientsList = useSelector(store => store.ingredients);
+  const ingredient = useAppSelector((store) => store.detailIngredient as TIngredient);
+  const ingredientsList = useAppSelector((store) => store.ingredients as TStoreIngredients);
 
-  const detailsData = [
+  const detailsData: Readonly<TDetailsData> = [
     {
       type: 'calories',
       text: 'Калории,ккал',
@@ -34,10 +44,10 @@ function IngredientDetails() {
   ];
 
   React.useEffect(() => {
-    const ingredientGetId = location.pathname.split('/')[2]
+    const ingredientGetId: string = location.pathname.split('/')[2]
 
     if (ingredientGetId) {
-      const getIngredientFromUrl = ingredientsList.find((ingredient) => ingredient._id === ingredientGetId);
+      const getIngredientFromUrl: TIngredient | undefined = ingredientsList.find((ingredient) => ingredient._id === ingredientGetId);
       dispatch(setIngredientDetails(getIngredientFromUrl));
 
       if (localStorage.getItem('ingredientModal') === 'created' && getIngredientFromUrl) {

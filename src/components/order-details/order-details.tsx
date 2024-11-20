@@ -1,10 +1,13 @@
-import { useSelector } from 'react-redux';
-
 import orderDetailsStyle from './order-details.module.css';
 import doneImage from 'assets/images/done.svg';
 
+import { useAppSelector } from 'src/index';
+import {
+  TStoreOrder,
+} from 'utils/constants/types';
+
 function OrderDetails() {
-  const orderNumber = useSelector(store => store.order);
+  const orderNumber = useAppSelector((store) => store.order as TStoreOrder);
 
   return (
     <div

@@ -3,9 +3,13 @@ import { useLocation, useNavigate, Navigate } from "react-router-dom";
 
 import resetPasswordStyle from './reset-password.module.css';
 
-import UniversalForm from 'components/universal-form/universal-form';
+import UniversalForm from 'src/components/universal-form/universal-form';
 
 import { request } from 'utils/methods/request';
+
+import {
+  TUniversalFormData,
+} from 'utils/constants/types';
 
 function ResetPassword() {
   const location = useLocation();
@@ -13,15 +17,15 @@ function ResetPassword() {
   const [newPasswordValue, setNewPasswordValue] = React.useState('');
   const [emailCodeValue, setEmailCodeValue] = React.useState('');
 
-  const onNewPasswordValue = e => {
+  const onNewPasswordValue = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setNewPasswordValue(e.target.value)
   };
 
-  const onEmailCodeValue = e => {
+  const onEmailCodeValue = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setEmailCodeValue(e.target.value)
   };
 
-  const handleResetPassword = async () => {
+  const handleResetPassword = async (): Promise<void> => {
     await request('/password-reset/reset', {
       method: "POST",
       headers: {
@@ -44,7 +48,7 @@ function ResetPassword() {
       });
   };
 
-  const formData = {
+  const formData: TUniversalFormData = {
     submitHandler: handleResetPassword,
     textData: {
       title: 'Восстановление пароля',

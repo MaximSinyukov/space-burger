@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "ESNext",
     "lib": [
       "dom",
       "dom.iterable",
@@ -18,9 +18,21 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "baseUrl": "./",
+    "paths": {
+      "src/*": ["./src/*"],
+      "components/*": ["./src/components/*"],
+      "assets/*": ["./src/assets/*"],
+      "screens/*": ["./src/screens/*"],
+      "utils/*": ["./src/utils/*"],
+      "vendor/*": ["./src/vendor/*"],
+      "services/*": ["./src/services/*"],
+      "pages/*": ["./src/pages/*"]
+    }
   },
   "include": [
-    "src"
+    "src",
+    "./declarations"
   ]
 }

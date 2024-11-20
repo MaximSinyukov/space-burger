@@ -3,9 +3,13 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 import forgotPasswordStyle from './forgot-password.module.css';
 
-import UniversalForm from 'components/universal-form/universal-form';
+import UniversalForm from 'src/components/universal-form/universal-form';
 
 import { request } from 'utils/methods/request';
+
+import {
+  TUniversalFormData,
+} from 'utils/constants/types';
 
 function ForgotPassword() {
   const navigate = useNavigate();
@@ -13,7 +17,7 @@ function ForgotPassword() {
 
   const [forgotPasswordEmail, setForgotPasswordEmail] = React.useState('');
 
-  const onForgotPasswordEmailChange = e => {
+  const onForgotPasswordEmailChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setForgotPasswordEmail(e.target.value)
   };
 
@@ -46,7 +50,7 @@ function ForgotPassword() {
       });
   };
 
-  const formData = {
+  const formData: TUniversalFormData = {
     submitHandler: handleForgotPassword,
     textData: {
       title: 'Восстановление пароля',

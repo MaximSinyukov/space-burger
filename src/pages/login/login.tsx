@@ -1,32 +1,36 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import { useNavigate, useLocation } from "react-router-dom";
 
 import loginStyle from './login.module.css';
 
-import UniversalForm from 'components/universal-form/universal-form';
+import UniversalForm from 'src/components/universal-form/universal-form';
 
 import { loginUser } from 'services/actions/userActions';
+
+import { useAppDispatch } from 'src/index';
+import {
+  TUniversalFormData,
+} from 'utils/constants/types';
 
 function Login() {
   const location = useLocation();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  console.warn('lohin', location);
   const [emailValue, setEmailValue] = React.useState('');
   const [passwordValue, setPasswordValue] = React.useState('');
 
-  const onEmailChange = e => {
+  const onEmailChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setEmailValue(e.target.value)
   };
 
-  const onPasswordChange = e => {
+  const onPasswordChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setPasswordValue(e.target.value)
   };
 
   const handleLoginUser = React.useCallback(
-    () => {
+    (): void => {
+      // @ts-ignore TODO: fix after add types in redux
       dispatch(loginUser({
         email: emailValue,
         password: passwordValue,
@@ -43,7 +47,7 @@ function Login() {
     [dispatch, emailValue, location?.state?.from.pathname, navigate, passwordValue]
   );
 
-  const formData = {
+  const formData: TUniversalFormData = {
     submitHandler: handleLoginUser,
     textData: {
       title: 'Вход',

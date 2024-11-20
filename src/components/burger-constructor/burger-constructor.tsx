@@ -1,5 +1,4 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { useDrop } from "react-dnd";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid';
@@ -15,25 +14,33 @@ import { removeIngredient, decreaseIngredientCount, resetSelectIngredients, upda
 import { removeOrderNumber } from 'services/reducers/order';
 import { postOrder } from 'services/actions/orderAction';
 
+import { useAppDispatch, useAppSelector } from 'src/index';
+import {
+  TIngredient,
+  TIngredientConstructor,
+  TStoreSelectIngredients,
+  TStoreAuthorization,
+  TStoreOrder,
+} from 'utils/constants/types';
 
 const BurgerConstructor = React.memo(function BurgerConstructor() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const { buns, otherIngredients } = useSelector(store => store.selectIngredients);
-  const { isAuthorized } = useSelector(store => store.user);
-  const orderNumber = useSelector(store => store.order);
+  const { buns, otherIngredients } = useAppSelector((store) => store.selectIngredients as TStoreSelectIngredients);
+  const { isAuthorized } = useAppSelector((store) => store.user as TStoreAuthorization);
+  const orderNumber = useAppSelector((store)  => store.order as TStoreOrder);
 
   const [allPrice, setAllPrice] = React.useState(0);
 
-  const [, dropIngredientTarget] = useDrop({
+  const [, dropIngredientTarget] = useDrop<{ingredient: TIngredient}, void, null>({
     accept: "ingredient",
     drop(ingredient) {
       handleDrop(ingredient);
     },
   });
 
-  const handleDrop = ({ ingredient }) => {
+  const handleDrop = ({ ingredient }: {ingredient: TIngredient}): void => {
     if (ingredient.type === 'bun') {
       dispatch(selectBuns(ingredient));
     } else {
@@ -42,9 +49,9 @@ const BurgerConstructor = React.memo(function BurgerConstructor() {
     }
   };
 
-  const sortIngredient = React.useCallback((dragId, dropId) => {
-    const dragIndex = otherIngredients.findIndex(item => item.uniqueId === dragId);
-    const dropIndex = otherIngredients.findIndex(item => item.uniqueId === dropId);
+  const sortIngredient = React.useCallback((dragId: string, dropId: string) => {
+    const dragIndex = otherIngredients.findIndex((item: TIngredientConstructor): boolean => item.uniqueId === dragId);
+    const dropIndex = otherIngredients.findIndex((item: TIngredientConstructor): boolean => item.uniqueId === dropId);
 
     const updatedIngredients = [...otherIngredients];
     const [draggedIngredient] = updatedIngredients.splice(dragIndex, 1);
@@ -54,28 +61,30 @@ const BurgerConstructor = React.memo(function BurgerConstructor() {
     dispatch(updateOtherIngredients(updatedIngredients));
   }, [otherIngredients, dispatch]);
 
-  const handleDeleteIngredient = (uniqueId, ingredientId) => {
+  const handleDeleteIngredient = (uniqueId: string, ingredientId: string) => {
     dispatch(removeIngredient(uniqueId));
     dispatch(decreaseIngredientCount(ingredientId));
   };
 
   const handleOrder = React.useCallback(
-    () => {
+    (): void => {
       if (!buns) return;
 
       if (!isAuthorized) {
         navigate('/login');
         return;
       }
-
+      // @ts-ignore TODO: fix after add types in redux
       dispatch(postOrder({ buns, otherIngredients }));
     },
     [buns, isAuthorized, dispatch, otherIngredients, navigate]
   );
 
   const handleCloseModal = React.useCallback(
-    () => {
+    (): void => {
+      // @ts-ignore TODO: fix after add types in redux
       dispatch(resetSelectIngredients());
+      // @ts-ignore TODO: fix after add types in redux
       dispatch(removeOrderNumber());
     },
     [dispatch]
