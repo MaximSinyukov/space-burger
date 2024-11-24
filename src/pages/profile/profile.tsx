@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import profileStyle from './profile.module.css';
 
 import UserData from './components/user-data/user-data';
-import { exitUser } from 'services/actions/userActions';
+import { exitUser } from 'src/services/actions/userActions';
 
 import { useAppDispatch } from 'src/index';
 
@@ -26,7 +26,6 @@ function Profile() {
 
   const handleExitUser = React.useCallback(
     (): void => {
-      // @ts-ignore TODO: fix after add types in redux
       dispatch(exitUser())
         .then(() => {
           navigate('/login');

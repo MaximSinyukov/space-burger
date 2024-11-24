@@ -2,10 +2,10 @@ import React from 'react';
 import ReactDOM, { Root } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { configureStore } from '@reduxjs/toolkit';
-import { Provider, useSelector, useDispatch } from 'react-redux';
+import { Provider, useSelector, useDispatch, TypedUseSelectorHook } from 'react-redux';
 
 import './index.css';
-import { rootReducer } from 'services/reducers/index.js';
+import { rootReducer } from 'services/reducers/index';
 
 import App from 'components/app/app';
 
@@ -18,7 +18,7 @@ type RootState = ReturnType<typeof store.getState>;
 type AppDispatch = typeof store.dispatch;
 
 export const useAppDispatch = useDispatch.withTypes<AppDispatch>();
-export const useAppSelector = useSelector.withTypes<RootState>();
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 const rootElement = document.getElementById('root') as HTMLElement | null;
 

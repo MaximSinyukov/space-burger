@@ -7,7 +7,6 @@ import { setIngredientDetails } from 'services/reducers/detail-ingredient';
 
 import { useAppDispatch, useAppSelector } from 'src/index';
 import {
-  TStoreIngredients,
   TIngredient,
 } from 'utils/constants/types';
 
@@ -21,8 +20,8 @@ function IngredientDetails() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const ingredient = useAppSelector((store) => store.detailIngredient as TIngredient);
-  const ingredientsList = useAppSelector((store) => store.ingredients as TStoreIngredients);
+  const ingredient = useAppSelector((store) => store.detailIngredient);
+  const ingredientsList = useAppSelector((store) => store.ingredients);
 
   const detailsData: Readonly<TDetailsData> = [
     {
@@ -48,7 +47,10 @@ function IngredientDetails() {
 
     if (ingredientGetId) {
       const getIngredientFromUrl: TIngredient | undefined = ingredientsList.find((ingredient) => ingredient._id === ingredientGetId);
-      dispatch(setIngredientDetails(getIngredientFromUrl));
+
+      if (getIngredientFromUrl) {
+        dispatch(setIngredientDetails(getIngredientFromUrl));
+      }
 
       if (localStorage.getItem('ingredientModal') === 'created' && getIngredientFromUrl) {
         navigate('/');
@@ -57,16 +59,16 @@ function IngredientDetails() {
   }, [dispatch, ingredientsList, location.pathname, navigate])
 
   React.useEffect(() => {
-    if (ingredient._id) {
+    if (ingredient) {
       window.history.replaceState(null, '', `/ingredients/${ingredient._id}`);
     }
 
     return () => {
       window.history.replaceState(null, '', '/');
     };
-  }, [ingredient._id])
+  }, [ingredient, ingredient?._id])
 
-  return (
+  return ingredient && (
     <div
     className={ingredientDetailsStyle['ingredient-details']}>
       <img

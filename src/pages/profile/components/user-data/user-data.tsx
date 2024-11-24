@@ -5,8 +5,8 @@ import userDataStyle from './user-data.module.css';
 import UniversalForm from 'src/components/universal-form/universal-form';
 
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { updateUser } from 'services/actions/userActions';
-import { setUserData } from 'services/reducers/user';
+import { updateUser } from 'src/services/actions/userActions';
+import { setUserData } from 'src/services/reducers/user';
 
 import { useAppDispatch, useAppSelector } from 'src/index';
 import {
@@ -22,7 +22,7 @@ type TUserData = {
 function UserData() {
   const dispatch = useAppDispatch();
 
-  const userData = useAppSelector((store) => store.user.userData as TUserData);
+  const userData = useAppSelector((store) => store.user.userData);
   const passwordStartValue = '';
 
   const [disabledNameInput, setDisabledNameInput] = React.useState(true);
@@ -98,7 +98,6 @@ function UserData() {
         };
       }
 
-      // @ts-ignore TODO: fix after add types in redux
       dispatch(updateUser(newUserData))
         .catch((err) => {
           console.warn(err, 'Error in updateUser method');

@@ -2,12 +2,9 @@ import orderDetailsStyle from './order-details.module.css';
 import doneImage from 'assets/images/done.svg';
 
 import { useAppSelector } from 'src/index';
-import {
-  TStoreOrder,
-} from 'utils/constants/types';
 
 function OrderDetails() {
-  const orderNumber = useAppSelector((store) => store.order as TStoreOrder);
+  const orderNumber = useAppSelector((store) => store.order);
 
   return (
     <div

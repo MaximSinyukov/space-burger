@@ -19,7 +19,7 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
 import { getIngredients } from 'services/actions/ingredientsAction';
-import { getUser } from 'services/actions/userActions';
+import { getUser } from 'src/services/actions/userActions';
 import { getCookie } from 'utils/methods/cookieMethods';
 import { removeIngredientDetails } from 'services/reducers/detail-ingredient';
 

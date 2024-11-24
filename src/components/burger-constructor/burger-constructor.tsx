@@ -12,24 +12,21 @@ import Modal from '../modal/modal';
 
 import { removeIngredient, decreaseIngredientCount, resetSelectIngredients, updateOtherIngredients, selectIngredient, selectBuns, increaseIngredientCount } from 'services/reducers/select-ingredients';
 import { removeOrderNumber } from 'services/reducers/order';
-import { postOrder } from 'services/actions/orderAction';
+import { postOrder } from 'src/services/actions/orderAction';
 
 import { useAppDispatch, useAppSelector } from 'src/index';
 import {
   TIngredient,
   TIngredientConstructor,
-  TStoreSelectIngredients,
-  TStoreAuthorization,
-  TStoreOrder,
 } from 'utils/constants/types';
 
 const BurgerConstructor = React.memo(function BurgerConstructor() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const { buns, otherIngredients } = useAppSelector((store) => store.selectIngredients as TStoreSelectIngredients);
-  const { isAuthorized } = useAppSelector((store) => store.user as TStoreAuthorization);
-  const orderNumber = useAppSelector((store)  => store.order as TStoreOrder);
+  const { buns, otherIngredients } = useAppSelector((store) => store.selectIngredients);
+  const { isAuthorized } = useAppSelector((store) => store.user);
+  const orderNumber = useAppSelector((store)  => store.order);
 
   const [allPrice, setAllPrice] = React.useState(0);
 
@@ -74,7 +71,6 @@ const BurgerConstructor = React.memo(function BurgerConstructor() {
         navigate('/login');
         return;
       }
-      // @ts-ignore TODO: fix after add types in redux
       dispatch(postOrder({ buns, otherIngredients }));
     },
     [buns, isAuthorized, dispatch, otherIngredients, navigate]
@@ -82,9 +78,7 @@ const BurgerConstructor = React.memo(function BurgerConstructor() {
 
   const handleCloseModal = React.useCallback(
     (): void => {
-      // @ts-ignore TODO: fix after add types in redux
       dispatch(resetSelectIngredients());
-      // @ts-ignore TODO: fix after add types in redux
       dispatch(removeOrderNumber());
     },
     [dispatch]

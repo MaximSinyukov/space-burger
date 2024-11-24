@@ -8,7 +8,6 @@ import { setIngredientDetails } from 'services/reducers/detail-ingredient';
 
 import { useAppDispatch, useAppSelector } from 'src/index';
 import {
-  TStoreIngredients,
   TIngredient,
 } from 'utils/constants/types';
 
@@ -28,7 +27,7 @@ const BurgerIngredients = React.memo(function BurgerIngredients() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const ingredients = useAppSelector((store) => store.ingredients as TStoreIngredients);
+  const ingredients = useAppSelector((store) => store.ingredients);
 
   const containerRef = React.useRef<HTMLDivElement | null>(null);
   const titleRefs = React.useRef<HTMLHeadingElement[]>([]);

@@ -27,7 +27,10 @@ const checkSuccess = (res: TResponseJson): TResponseJson | Promise<any> => {
   return Promise.reject(res);
 };
 
-export function request(endpoint: string, options: RequestInit): Promise<any> {
+export function request<T>(
+  endpoint: string,
+  options?: RequestInit
+): Promise<T> {
   return fetch(`${BASE_URL}${endpoint}`, options)
     .then(checkResponse)
     .then(checkSuccess);
