@@ -9,6 +9,7 @@ import ResetPassword from 'pages/reset-password/reset-password';
 import Register from 'pages/register/register';
 import Profile from 'pages/profile/profile';
 import Ingredient from 'pages/ingredient/ingredient';
+import Feed from 'pages/feed/feed';
 import ProtectedRouteElement from 'components/protected-route-element';
 import IngredientDetails from 'components/ingredient-details/ingredient-details';
 import Modal from 'components/modal/modal';
@@ -101,13 +102,17 @@ function App() {
           path="/register"
           element={
             <ProtectedRouteElement type="anonymous" element={<Register/>}/>
-          }/>
+          }/>Feed
 
           <Route
           path="/profile"
           element={
             <ProtectedRouteElement element={<Profile />}/>
           }/>
+
+          <Route
+          path="/feed"
+          element={<Feed />}/>
 
           <Route
           path="/profile/orders"

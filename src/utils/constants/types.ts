@@ -60,3 +60,19 @@ export type TUniversalFormData = Readonly<{
   };
   children?: React.ReactNode;
 }>;
+
+export type TOrderData = {
+  ingredients: string[];
+  _id: string;
+  number: number;
+  createdAt: string;
+  updatedAt: string;
+  status: string;
+};
+
+export type TOrderList = Readonly<{
+  success: boolean;
+  orders: TOrderData[];
+  total: number;
+  totalToday: number;
+}>;
