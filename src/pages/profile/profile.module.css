@@ -9,7 +9,7 @@
 .profile__navigation {
   display: flex;
   flex-direction: column;
-  width: 320px;
+  min-width: 320px;
 }
 
 .profile__nav-controls {

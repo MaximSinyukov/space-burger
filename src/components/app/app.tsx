@@ -102,17 +102,17 @@ function App() {
           path="/register"
           element={
             <ProtectedRouteElement type="anonymous" element={<Register/>}/>
-          }/>Feed
+          }/>
+
+          <Route
+          path="/feed"
+          element={<Feed />}/>
 
           <Route
           path="/profile"
           element={
             <ProtectedRouteElement element={<Profile />}/>
           }/>
-
-          <Route
-          path="/feed"
-          element={<Feed />}/>
 
           <Route
           path="/profile/orders"

@@ -1,21 +1,10 @@
 import React from 'react';
 
-import feedStyle from './feed.module.css';
-import OrderList from 'src/components/order-list/order-list';
+import orderStyle from './order.module.css';
 import { TOrderList } from 'utils/constants/types';
+import OrderList from 'src/components/order-list/order-list';
 
-type TOrderStatusesLists = {
-  [orderStatusList: string]: number[];
-};
-
-type TStatusesData = Readonly<{
-  title: string;
-  statusName: 'done' | 'inProgress';  // TODO after websocket
-}[]>;
-
-function Feed() {
-  const [orderStatusesLists, setOrderStatusesLists] = React.useState<TOrderStatusesLists>({});
-
+function Order() {
   const ordersFakeData = React.useMemo<TOrderList>(() => ({ // TODO after websocket
     success: true,
     orders: [
@@ -386,115 +375,14 @@ function Feed() {
     totalToday: 123232515156121,
   }), []);
 
-  const statusesData: TStatusesData = [
-    {
-      title: 'Готовы:',
-      statusName: 'done'
-    },
-    {
-      title: 'В работе:',
-      statusName: 'inProgress'
-    },
-  ];
-
-  React.useEffect(() => {
-    const newState: TOrderStatusesLists = {};
-
-    ordersFakeData.orders.forEach((order) => {
-      if (Array.isArray(newState[order.status])) {
-        newState[order.status].push(order.number);
-        return;
-      }
-
-      newState[order.status] = [order.number];
-    });
-
-    setOrderStatusesLists(newState);
-  }, [ordersFakeData])
-
   return (
-    <section
-    className={`${feedStyle['feed']}`}>
-      <h1
-      className={`text text_type_main-large mt-10 mb-5 ${feedStyle['feed__title']}`}>
-        Лента заказов
-      </h1>
-
-      <div
-      className={`${feedStyle['feed__sections']}`}>
-        <OrderList
-        ordersData={ordersFakeData}/>
-
-        <div
-        className={`${feedStyle['feed__info']}`}>
-          <div
-          className={`${feedStyle['feed__boards-container']}`}>
-            {
-              statusesData.map((statusData) => {
-                return (
-                  <div
-                  className={`${feedStyle['feed__status-board']}`}
-                  key={statusData.statusName}>
-                    <h4
-                    className={`mb-6 text text_type_main-medium ${feedStyle['feed__status']}`}>
-                      { statusData.title }
-                    </h4>
-
-                    <ul
-                    className={`${feedStyle['feed__board']} ${statusData.statusName === 'done'
-                      ? feedStyle['feed__board_done']
-                      : ''
-                    }`}>
-                      {
-                        orderStatusesLists[statusData.statusName]
-                          && orderStatusesLists[statusData.statusName]
-                              .slice(0, 20)
-                              .map((orderNumber) => {
-                            return (
-                              <li
-                              className={`text text_type_digits-default ${feedStyle['feed__order-number']}`}
-                              key={orderNumber}>
-                                { orderNumber }
-                              </li>
-                            );
-                          })
-                      }
-                    </ul>
-                  </div>
-                );
-              })
-            }
-          </div>
-
-          <div
-          className={`${feedStyle['feed__total-container']}`}>
-            <h4
-            className={`text text_type_main-medium ${feedStyle['feed__total-title']}`}>
-              Выполнено за все время:
-            </h4>
-
-            <p
-            className={`text text_type_digits-large ${feedStyle['feed__total-value']}`}>
-              { ordersFakeData.total }
-            </p>
-          </div>
-
-          <div
-          className={`${feedStyle['feed__total-container']}`}>
-            <h4
-            className={`text text_type_main-medium ${feedStyle['feed__total-title']}`}>
-              Выполнено за сегодня:
-            </h4>
-
-            <p
-            className={`text text_type_digits-large ${feedStyle['feed__total-value']}`}>
-              { ordersFakeData.totalToday }
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
+    <div
+    className={`${orderStyle['order']}`}>
+      <OrderList
+      ordersData={ordersFakeData}
+      listType="statuses"/>
+    </div>
   );
 }
 
-export default Feed;
+export default Order;
