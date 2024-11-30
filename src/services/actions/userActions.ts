@@ -173,7 +173,7 @@ export const getUser = createAsyncThunk(
         return Promise.resolve();
       })
       .catch(async (res) => {
-        if (res.message === "jwt malformed") {
+        if (res.message === "jwt expired" || res.message === "jwt malformed") {
           if (!isRefreshing) {
             isRefreshing = true;
 
@@ -223,7 +223,7 @@ export const updateUser = createAsyncThunk(
         return Promise.resolve();
       })
       .catch(async (res) => {
-        if (res.message === "jwt malformed") {
+        if (res.message === "jwt expired" || res.message === "jwt malformed") {
           if (!isRefreshing) {
             isRefreshing = true;
 

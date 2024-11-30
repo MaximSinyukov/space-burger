@@ -11,12 +11,13 @@ type TResponseJson = Response & {
   success: boolean;
 };
 
-const checkResponse = (res: TResponse): Promise<any> => {
+const checkResponse = async (res: TResponse): Promise<any> => {
   if (res.ok) {
     return res.json();
   }
 
-  return Promise.reject(res);
+  const error = await res.json();
+  return Promise.reject(error);
 };
 
 const checkSuccess = (res: TResponseJson): TResponseJson | Promise<any> => {

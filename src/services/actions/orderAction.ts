@@ -41,7 +41,7 @@ export const postOrder = createAsyncThunk(
         return Promise.resolve();
       })
       .catch(async (res) => {
-        if (res.message === "jwt malformed") {
+        if (res.message === "jwt expired" || res.message === "jwt malformed") {
           if (!isRefreshing) {
             isRefreshing = true;
 
