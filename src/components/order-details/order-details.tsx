@@ -30,7 +30,7 @@ function OrderDetails() {
       </p>
 
       <p
-      className={`text text_type_main-default mb-15 ${orderDetailsStyle['order-details__advice']}`}>
+      className={`text text_type_main-default mb-30 ${orderDetailsStyle['order-details__advice']}`}>
         Дождитесь готовности на орбитальной станции
       </p>
     </div>

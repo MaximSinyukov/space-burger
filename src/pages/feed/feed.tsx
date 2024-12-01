@@ -1,8 +1,9 @@
 import React from 'react';
+import { useNavigate, useLocation } from "react-router-dom";
 
 import feedStyle from './feed.module.css';
 import OrderList from 'src/components/order-list/order-list';
-import { TOrderList } from 'utils/constants/types';
+import { TOrderList, TOrderData } from 'utils/constants/types';
 
 type TOrderStatusesLists = {
   [orderStatusList: string]: number[];
@@ -14,6 +15,9 @@ type TStatusesData = Readonly<{
 }[]>;
 
 function Feed() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const [orderStatusesLists, setOrderStatusesLists] = React.useState<TOrderStatusesLists>({});
 
   const ordersFakeData = React.useMemo<TOrderList>(() => ({ // TODO after websocket
@@ -397,6 +401,19 @@ function Feed() {
     },
   ];
 
+  const onOrderClick = (order: TOrderData, orderPrice: number): void => {
+    navigate(
+      `/feed/${order.number}`,
+      {
+        state: {
+          background: location,
+          orderData: order,
+          orderPrice,
+        },
+      },
+    );
+  };
+
   React.useEffect(() => {
     const newState: TOrderStatusesLists = {};
 
@@ -423,6 +440,7 @@ function Feed() {
       <div
       className={`${feedStyle['feed__sections']}`}>
         <OrderList
+        onDetailOrder={onOrderClick}
         ordersData={ordersFakeData}/>
 
         <div

@@ -10,6 +10,7 @@ import Register from 'pages/register/register';
 import Profile from 'pages/profile/profile';
 import Ingredient from 'pages/ingredient/ingredient';
 import Feed from 'pages/feed/feed';
+import Order from 'pages/order/order';
 import ProtectedRouteElement from 'components/protected-route-element';
 import IngredientDetails from 'components/ingredient-details/ingredient-details';
 import Modal from 'components/modal/modal';
@@ -121,6 +122,8 @@ function App() {
           }/>
 
           <Route path="/ingredients/:id" element={<Ingredient/>} />
+          <Route path="/profile/orders/:number" element={<Order/>} />
+          <Route path="/feed/:number" element={<Order/>} />
         </Routes>
       </main>
 
@@ -131,6 +134,20 @@ function App() {
             header="Детали ингредиента"
             onClose={handleCloseModal}>
               <IngredientDetails/>
+            </Modal>
+          } />
+
+          <Route path="/profile/orders/:number" element={
+            <Modal
+            onClose={handleCloseModal}>
+              <Order/>
+            </Modal>
+          } />
+
+          <Route path="/feed/:number" element={
+            <Modal
+            onClose={handleCloseModal}>
+              <Order/>
             </Modal>
           } />
         </Routes>

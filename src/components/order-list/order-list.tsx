@@ -4,7 +4,8 @@ import { FormattedDate, CurrencyIcon } from '@ya.praktikum/react-developer-burge
 
 import orderListStyle from './order-list.module.css';
 import { useAppSelector } from 'src/index';
-import { TOrderList } from 'utils/constants/types';
+import { TOrderList, TOrderData } from 'utils/constants/types';
+import { orderStatusText } from 'utils/constants/constants';
 
 type TOrdersPrices = {
   [orderId: string]: number;
@@ -12,20 +13,17 @@ type TOrdersPrices = {
 
 export type TOrderListProps = {
   ordersData: TOrderList;
+  onDetailOrder: (order: TOrderData, orderPrice: number) => void;
   listType?: "statuses";
 };
 
-function OrderList({ ordersData, listType }: TOrderListProps) {
+function OrderList({ ordersData, onDetailOrder, listType }: TOrderListProps) {
   const allIngredients = useAppSelector((store) => store.ingredients);
 
   const [ordersPrice, setOrdersPrice] = React.useState<TOrdersPrices>({});
 
-  const orderStatuses: Readonly<{ // TODO after websocket
-    [statusName: string]: string;
-  }> = {
-    done: 'Выполнен',
-    inProgress: 'Готовится',
-    created: 'Создан',
+  const handleOrderClick = (order: TOrderData): void => {
+    onDetailOrder(order, ordersPrice[order._id]);
   };
 
   React.useEffect(() => {
@@ -55,6 +53,7 @@ function OrderList({ ordersData, listType }: TOrderListProps) {
         ordersData.orders.map((order) => {
           return (
             <li
+            onClick={() => {handleOrderClick(order)}}
             className={`p-6 ${orderListStyle['order-list__item']}`}
             key={order._id}>
               <div
@@ -84,7 +83,7 @@ function OrderList({ ordersData, listType }: TOrderListProps) {
                       ? orderListStyle['order-list__title_done']
                       : ''
                     }`}>
-                      { orderStatuses[order.status] }
+                      { orderStatusText[order.status] }
                     </h3>
                   )
                 }

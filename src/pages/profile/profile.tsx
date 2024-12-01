@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import profileStyle from './profile.module.css';
 
 import UserData from './components/user-data/user-data';
-import Order from './components/order/order';
+import UserOrders from './components/user-orders/user-orders';
 import { exitUser } from 'src/services/actions/userActions';
 
 import { useAppDispatch } from 'src/index';
@@ -47,7 +47,7 @@ function Profile() {
     '/profile/orders': {
       text: 'История заказов',
       route: '/profile/orders',
-      component: <Order/>,
+      component: <UserOrders/>,
     },
     exit: {
       type: 'btn',

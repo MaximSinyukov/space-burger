@@ -1,10 +1,14 @@
 import React from 'react';
+import { useNavigate, useLocation } from "react-router-dom";
 
-import orderStyle from './order.module.css';
-import { TOrderList } from 'utils/constants/types';
+import userOrders from './user-orders.module.css';
+import { TOrderList, TOrderData } from 'utils/constants/types';
 import OrderList from 'src/components/order-list/order-list';
 
-function Order() {
+function UserOrders() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const ordersFakeData = React.useMemo<TOrderList>(() => ({ // TODO after websocket
     success: true,
     orders: [
@@ -375,14 +379,28 @@ function Order() {
     totalToday: 123232515156121,
   }), []);
 
+  const onOrderClick = (order: TOrderData, orderPrice: number): void => {
+    navigate(
+      `/profile/orders/${order.number}`,
+      {
+        state: {
+          background: location,
+          orderData: order,
+          orderPrice,
+        },
+      },
+    );
+  };
+
   return (
     <div
-    className={`${orderStyle['order']}`}>
+    className={`${userOrders['order']}`}>
       <OrderList
+      onDetailOrder={onOrderClick}
       ordersData={ordersFakeData}
       listType="statuses"/>
     </div>
   );
 }
 
-export default Order;
+export default UserOrders;

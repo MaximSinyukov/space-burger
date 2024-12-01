@@ -16,6 +16,7 @@
   border-radius: 40px;
   box-sizing: border-box;
   row-gap: 24px;
+  cursor: pointer;
 }
 
 .order-list__item-section {

@@ -70,7 +70,7 @@ function IngredientDetails() {
 
   return ingredient && (
     <div
-    className={ingredientDetailsStyle['ingredient-details']}>
+    className={`pb-15 ${ingredientDetailsStyle['ingredient-details']}`}>
       <img
       className={ingredientDetailsStyle['ingredient-details__image']}
       src={ingredient.image_large}
