@@ -379,14 +379,14 @@ function UserOrders() {
     totalToday: 123232515156121,
   }), []);
 
-  const onOrderClick = (order: TOrderData, orderPrice: number): void => {
+  const onOrderClick = (order: TOrderData): void => {
     navigate(
       `/profile/orders/${order.number}`,
       {
         state: {
           background: location,
           orderData: order,
-          orderPrice,
+          resetBackground: true,
         },
       },
     );

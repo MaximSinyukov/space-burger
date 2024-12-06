@@ -408,7 +408,7 @@ function Feed() {
         state: {
           background: location,
           orderData: order,
-          orderPrice,
+          resetBackground: true,
         },
       },
     );

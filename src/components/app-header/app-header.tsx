@@ -68,7 +68,7 @@ function AppHeader() {
             className={`mr-2 pr-5 pl-5 ${appHeaderStyles['app-header__btn']}`}>
               {
                 React.createElement(btn.icon, {
-                  type: (btn.path && location.pathname.includes(btn.path) && btn.path !== '/')
+                  type: (btn.path && location.pathname === btn.path && btn.path !== '/')
                     || (location.pathname === '/' && btn.path === '/')
                       ? 'primary'
                       : 'secondary',
@@ -78,7 +78,7 @@ function AppHeader() {
 
               <span
               className={`text text_type_main-default ${appHeaderStyles['app-header__btn-text']} ${
-                (btn.path && location.pathname.includes(btn.path) && btn.path !== '/')
+                (btn.path && location.pathname === btn.path && btn.path !== '/')
                   || (location.pathname === '/' && btn.path === '/')
                     ? appHeaderStyles['app-header__btn-text--active']
                     : ''

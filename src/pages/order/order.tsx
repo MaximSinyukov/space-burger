@@ -20,7 +20,6 @@ function Order() {
   const [orderData, setOrderData] = React.useState<TOrderData | null>(null);
   const [isPopup, setIsPopup] = React.useState<boolean>(false);
   // const { routeOrderNumber } = useParams();
-  console.log(location.state, localStorage.getItem('background'));
 
   React.useEffect(() => {
     if (location.state?.orderData) {

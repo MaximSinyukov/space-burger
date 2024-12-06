@@ -65,6 +65,13 @@ function App() {
     getIngredientsList();
   }, [getIngredientsList, getUserData]);
 
+  React.useEffect(() => {
+    if (location.state?.resetBackground) {
+      navigate(location.pathname, { replace: true });
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div
     className={appStyles.app}>
@@ -122,7 +129,7 @@ function App() {
           }/>
 
           <Route path="/ingredients/:id" element={<Ingredient/>} />
-          <Route path="/profile/orders/:number" element={<Order/>} />
+          <Route path="/profile/orders/:number" element={<ProtectedRouteElement element={<Order/>}/>} />
           <Route path="/feed/:number" element={<Order/>} />
         </Routes>
       </main>
