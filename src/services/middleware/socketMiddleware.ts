@@ -1,85 +1,91 @@
-// src/middleware/socketMiddleware.ts
 import { Middleware, MiddlewareAPI } from "redux";
-import {
-  connect,
-  disconnect,
-  sendMessage,
-  onOpen,
-  onClose,
-  onMessage,
-  onError,
-} from "services/reducers/orderWebsocket";
+
 import { RootState, AppDispatch } from "src/index";
 import { updateToken } from "services/actions/userActions";
 
-export const socketMiddleware: Middleware = (
-  store: MiddlewareAPI<AppDispatch, RootState>
-) => {
-  let socket: WebSocket | null = null;
-  let tryRefreshToken: boolean = false;
+import {
+  ActionCreatorWithPayload,
+  ActionCreatorWithoutPayload,
+} from "@reduxjs/toolkit";
 
-  return (next) => (action) => {
-    const { dispatch } = store;
+export type TWsActions = {
+  connect: ActionCreatorWithPayload<string>;
+  disconnect: ActionCreatorWithoutPayload;
+  sendMessage: ActionCreatorWithPayload<any>;
+  onOpen: ActionCreatorWithoutPayload;
+  onClose: ActionCreatorWithoutPayload;
+  onMessage: ActionCreatorWithPayload<any>;
+  onError: ActionCreatorWithPayload<string>;
+};
 
-    if (connect.match(action)) {
-      const url: string = action.payload;
-      socket = new WebSocket(url);
+export const socketMiddleware = (wsActions: TWsActions): Middleware => {
+  return (store: MiddlewareAPI<AppDispatch, RootState>) => {
+    let socket: WebSocket | null = null;
+    let tryRefreshToken: boolean = false;
 
-      socket.onopen = () => {
-        dispatch(onOpen());
-      };
+    return (next) => (action) => {
+      const { dispatch } = store;
 
-      socket.onclose = () => {
-        dispatch(onClose());
-      };
+      if (wsActions.connect.match(action)) {
+        const url: string = action.payload;
+        socket = new WebSocket(url);
 
-      socket.onmessage = async (event) => {
-        const newMessage = JSON.parse(event.data);
+        socket.onopen = () => {
+          dispatch(wsActions.onOpen());
+        };
 
-        if (newMessage.success) {
-          dispatch(onMessage(newMessage));
-          return;
-        }
+        socket.onclose = () => {
+          dispatch(wsActions.onClose());
+        };
 
-        if (newMessage.message === "Invalid or missing token") {
-          dispatch(disconnect());
+        socket.onmessage = async (event) => {
+          const newMessage = JSON.parse(event.data);
 
-          if (!tryRefreshToken) {
-            tryRefreshToken = true;
-            const updateResponse = await dispatch(updateToken());
-            console.warn("check update token in websocket: ", updateResponse);
-
-            if (updateResponse.meta.requestStatus === "fulfilled") {
-              console.log("Token success updated in getUser.");
-              dispatch(connect(url));
-            } else {
-              console.error("Error in token update for websocket");
-            }
+          if (newMessage.success) {
+            dispatch(wsActions.onMessage(newMessage));
             return;
           }
 
-          tryRefreshToken = false;
+          if (newMessage.message === "Invalid or missing token") {
+            dispatch(wsActions.disconnect());
+
+            if (!tryRefreshToken) {
+              tryRefreshToken = true;
+              const updateResponse = await dispatch(updateToken());
+              console.warn("check update token in websocket: ", updateResponse);
+
+              if (updateResponse.meta.requestStatus === "fulfilled") {
+                console.log("Token success updated in getUser.");
+                dispatch(wsActions.connect(url));
+              } else {
+                console.error("Error in token update for websocket");
+              }
+              return;
+            }
+
+            tryRefreshToken = false;
+          }
+        };
+
+        socket.onerror = (event) => {
+          dispatch(wsActions.onError(event.toString()));
+        };
+      }
+
+      if (wsActions.disconnect.match(action)) {
+        if (socket) {
+          socket.close();
+          socket = null;
         }
-      };
-
-      socket.onerror = (event) => {
-        dispatch(onError(event.toString()));
-      };
-    }
-
-    if (disconnect.match(action)) {
-      if (socket) {
-        socket.close();
-        socket = null;
       }
-    }
 
-    if (sendMessage.match(action)) {
-      if (socket && socket.readyState === WebSocket.OPEN) {
-        socket.send(JSON.stringify(action.payload));
+      if (wsActions.sendMessage.match(action)) {
+        if (socket && socket.readyState === WebSocket.OPEN) {
+          socket.send(JSON.stringify(action.payload));
+        }
       }
-    }
 
-    return next(action);
+      return next(action);
+    };
   };
 };
