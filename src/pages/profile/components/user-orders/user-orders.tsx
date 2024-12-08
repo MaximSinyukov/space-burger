@@ -26,6 +26,7 @@ function UserOrders() {
         _id: "asdasdasd",
         status: "done",
         number: 33313,
+        name: "Space флюоресцентный бургер",
         createdAt: "2021-06-23T14:43:22.587Z",
         updatedAt: "2021-06-23T14:43:22.603Z"
       },
@@ -38,6 +39,7 @@ function UserOrders() {
         _id: "asdasdasd212",
         status: "done",
         number: 111,
+        name: "Space флюоресцентный бургер",
         createdAt: "2021-06-23T14:43:22.587Z",
         updatedAt: "2021-06-23T14:43:22.603Z"
       },
@@ -52,6 +54,7 @@ function UserOrders() {
         _id: "asda111sdasd",
         status: "done",
         number: 3333,
+        name: "Space флюоресцентный бургер",
         createdAt: "2021-06-23T14:43:22.587Z",
         updatedAt: "2021-06-23T14:43:22.603Z"
       },
@@ -63,8 +66,9 @@ function UserOrders() {
           "60d3463f7034a000269f45ea"
         ],
         _id: "asdasda3332sd",
-        status: "inProgress",
+        status: "pending",
         number: 21,
+        name: "Space флюоресцентный бургер",
         createdAt: "2021-06-23T14:43:22.587Z",
         updatedAt: "2021-06-23T14:43:22.603Z"
       },
@@ -78,6 +82,7 @@ function UserOrders() {
         _id: "asdasd1232asd",
         status: "done",
         number: 22,
+        name: "Space флюоресцентный бургер",
         createdAt: "2021-06-23T14:43:22.587Z",
         updatedAt: "2021-06-23T14:43:22.603Z"
       },
@@ -94,6 +99,7 @@ function UserOrders() {
         _id: "asdas112dasd",
         status: "done",
         number: 3331223,
+        name: "Space флюоресцентный бургер",
         createdAt: "2021-06-23T14:43:22.587Z",
         updatedAt: "2021-06-23T14:43:22.603Z"
       },
@@ -106,6 +112,7 @@ function UserOrders() {
         _id: "as1212dasdasd212",
         status: "done",
         number: 111222,
+        name: "Space флюоресцентный бургер",
         createdAt: "2021-06-23T14:43:22.587Z",
         updatedAt: "2021-06-23T14:43:22.603Z"
       },
@@ -120,6 +127,7 @@ function UserOrders() {
         _id: "asda111sda122sd",
         status: "done",
         number: 3121212333,
+        name: "Space флюоресцентный бургер",
         createdAt: "2021-06-23T14:43:22.587Z",
         updatedAt: "2021-06-23T14:43:22.603Z"
       },
@@ -133,6 +141,7 @@ function UserOrders() {
         _id: "asdas222da3332sd",
         status: "done",
         number: 2121212,
+        name: "Space флюоресцентный бургер",
         createdAt: "2021-06-23T14:43:22.587Z",
         updatedAt: "2021-06-23T14:43:22.603Z"
       },
@@ -148,8 +157,9 @@ function UserOrders() {
           "643d69a5c3f7b9001cfa093c",
         ],
         _id: "asdasdasdssssss",
-        status: "inProgress",
+        status: "pending",
         number: 333137,
+        name: "Space флюоресцентный бургер",
         createdAt: "2021-06-23T14:43:22.587Z",
         updatedAt: "2021-06-23T14:43:22.603Z"
       },
@@ -167,6 +177,7 @@ function UserOrders() {
         _id: "asdasdasdsswwssss",
         status: "done",
         number: 3331371,
+        name: "Space флюоресцентный бургер",
         createdAt: "2021-06-23T14:43:22.587Z",
         updatedAt: "2021-06-23T14:43:22.603Z"
       },
@@ -182,8 +193,9 @@ function UserOrders() {
           "643d69a5c3f7b9001cfa093c",
         ],
         _id: "asdasdssasdsswwssss",
-        status: "inProgress",
+        status: "pending",
         number: 33311371,
+        name: "Space флюоресцентный бургер",
         createdAt: "2021-06-23T14:43:22.587Z",
         updatedAt: "2021-06-23T14:43:22.603Z"
       },
@@ -199,8 +211,9 @@ function UserOrders() {
           "643d69a5c3f7b9001cfa093c",
         ],
         _id: "asdas1sss",
-        status: "inProgress",
+        status: "pending",
         number: 33313871,
+        name: "Space флюоресцентный бургер",
         createdAt: "2021-06-23T14:43:22.587Z",
         updatedAt: "2021-06-23T14:43:22.603Z"
       },
@@ -216,8 +229,9 @@ function UserOrders() {
           "643d69a5c3f7b9001cfa093c",
         ],
         _id: "dasdasdsswwssss",
-        status: "inProgress",
+        status: "pending",
         number: 31371,
+        name: "Space флюоресцентный бургер",
         createdAt: "2021-06-23T14:43:22.587Z",
         updatedAt: "2021-06-23T14:43:22.603Z"
       },
@@ -235,6 +249,7 @@ function UserOrders() {
         _id: "ass",
         status: "done",
         number: 3331375,
+        name: "Space флюоресцентный бургер",
         createdAt: "2021-06-23T14:43:22.587Z",
         updatedAt: "2021-06-23T14:43:22.603Z"
       },
@@ -252,6 +267,7 @@ function UserOrders() {
         _id: "asss",
         status: "done",
         number: 32375,
+        name: "Space флюоресцентный бургер",
         createdAt: "2021-06-23T14:43:22.587Z",
         updatedAt: "2021-06-23T14:43:22.603Z"
       },
@@ -268,6 +284,7 @@ function UserOrders() {
         ],
         _id: "assq",
         status: "done",
+        name: "Space флюоресцентный бургер",
         number: 3336,
         createdAt: "2021-06-23T14:43:22.587Z",
         updatedAt: "2021-06-23T14:43:22.603Z"
@@ -286,6 +303,7 @@ function UserOrders() {
         _id: "asssh",
         status: "done",
         number: 3355,
+        name: "Space флюоресцентный бургер",
         createdAt: "2021-06-23T14:43:22.587Z",
         updatedAt: "2021-06-23T14:43:22.603Z"
       },
@@ -302,6 +320,7 @@ function UserOrders() {
         ],
         _id: "ass09",
         status: "done",
+        name: "Space флюоресцентный бургер",
         number: 33313757,
         createdAt: "2021-06-23T14:43:22.587Z",
         updatedAt: "2021-06-23T14:43:22.603Z"
@@ -320,6 +339,7 @@ function UserOrders() {
         _id: "assjg",
         status: "done",
         number: 3395,
+        name: "Space флюоресцентный бургер",
         createdAt: "2021-06-23T14:43:22.587Z",
         updatedAt: "2021-06-23T14:43:22.603Z"
       },
@@ -336,6 +356,7 @@ function UserOrders() {
         ],
         _id: "assash3",
         status: "done",
+        name: "Space флюоресцентный бургер",
         number: 33798678,
         createdAt: "2021-06-23T14:43:22.587Z",
         updatedAt: "2021-06-23T14:43:22.603Z"
@@ -353,6 +374,7 @@ function UserOrders() {
         ],
         _id: "askash3",
         status: "done",
+        name: "Space флюоресцентный бургер",
         number: 33798656678,
         createdAt: "2021-06-23T14:43:22.587Z",
         updatedAt: "2021-06-23T14:43:22.603Z"
@@ -370,6 +392,7 @@ function UserOrders() {
         ],
         _id: "assaggssh3",
         status: "done",
+        name: "Space флюоресцентный бургер",
         number: 39678,
         createdAt: "2021-06-23T14:43:22.587Z",
         updatedAt: "2021-06-23T14:43:22.603Z"

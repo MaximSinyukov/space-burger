@@ -6,16 +6,18 @@ import { Provider, useSelector, useDispatch, TypedUseSelectorHook } from 'react-
 
 import './index.css';
 import { rootReducer } from 'services/reducers/index';
+import middlewares from 'services/middleware/index';
 
 import App from 'components/app/app';
 
 const store = configureStore({
   reducer: rootReducer,
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(middlewares),
   devTools: process.env.NODE_ENV !== 'production'
 });
 
-type RootState = ReturnType<typeof store.getState>;
-type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
 
 export const useAppDispatch = useDispatch.withTypes<AppDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;

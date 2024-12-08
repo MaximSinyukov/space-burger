@@ -1,13 +1,17 @@
-import ingredients from './ingredients';
-import detailIngredient from './detail-ingredient';
-import selectIngredients from './select-ingredients';
-import order from './order';
-import user from './user';
+import { combineReducers } from "@reduxjs/toolkit";
 
-export const rootReducer = {
+import ingredients from "./ingredients";
+import detailIngredient from "./detail-ingredient";
+import selectIngredients from "./select-ingredients";
+import order from "./order";
+import user from "./user";
+import orderWebsocket from "./orderWebsocket";
+
+export const rootReducer = combineReducers({
   ingredients,
   detailIngredient,
   selectIngredients,
   order,
   user,
-};
+  orderWebsocket,
+});

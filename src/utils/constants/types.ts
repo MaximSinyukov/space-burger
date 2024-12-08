@@ -65,6 +65,7 @@ export type TOrderData = {
   ingredients: string[];
   _id: string;
   number: number;
+  name: string;
   createdAt: string;
   updatedAt: string;
   status: string;

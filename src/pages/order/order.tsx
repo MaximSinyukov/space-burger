@@ -38,6 +38,7 @@ function Order() {
           "643d69a5c3f7b9001cfa093c",
         ],
         _id: "asdasdasd",
+        name: "Space флюоресцентный бургер",
         status: "done",
         number: 33313,
         createdAt: "2021-06-23T14:43:22.587Z",
@@ -71,7 +72,7 @@ function Order() {
 
       <h3
       className={`text text_type_main-medium mt-10 mb-2 ${orderStyle['order__title']}`}>
-        Black Hole Singularity острый бургерdsfgdsf dfsdfsdfs dfsd fsdf df dfs dfsdf sdfdsdasdasdasdasdads
+        { orderData.name }
       </h3>
 
       <h4

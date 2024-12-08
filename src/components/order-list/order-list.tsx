@@ -70,10 +70,9 @@ function OrderList({ ordersData, onDetailOrder, listType }: TOrderListProps) {
 
               <div
               className={`${orderListStyle['order-list__titles-container']}`}>
-                {/* // TODO after websocket */}
                 <h2
                 className={`text text_type_main-medium ${orderListStyle['order-list__title']}`}>
-                  Death Star Starship Main бургер sadfsd ffsdf sdfs df sdfsdasdasdasdasdasdadadas asdassssssss dsdasda
+                  { order.name }
                 </h2>
 
                 {
