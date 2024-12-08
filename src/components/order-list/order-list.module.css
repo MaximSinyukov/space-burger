@@ -74,10 +74,6 @@
   border-radius: 50%;
 }
 
-.order-list__image-container:nth-child(6) .order-list__image {
-  opacity: .6;
-}
-
 .order-list__image {
   width: 60px;
   height: 60px;

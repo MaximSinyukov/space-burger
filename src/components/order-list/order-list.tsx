@@ -104,10 +104,15 @@ function OrderList({ ordersData, onDetailOrder, listType, listReverse }: TOrderL
                         className={`${orderListStyle['order-list__image-container']}`}
                         style={{
                           zIndex: arr.length - index,
-                          marginLeft: `${48 * index}px`
+                          marginLeft: `${48 * index}px`,
                         }}
                         key={index}>
                           <img
+                          style={{
+                            opacity: order.ingredients.length > 6 && index === 5
+                              ? 0.6
+                              : 1,
+                          }}
                           className={`${orderListStyle['order-list__image']}`}
                           src={ingredientData.image_mobile}
                           alt={`Фото ингредиента ${ingredientData.name}`}/>

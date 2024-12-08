@@ -35,7 +35,7 @@ function Feed() {
     },
   ];
 
-  const onOrderClick = (order: TOrderData, orderPrice: number): void => {
+  const onOrderClick = (order: TOrderData): void => {
     navigate(
       `/feed/${order.number}`,
       {

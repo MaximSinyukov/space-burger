@@ -1,13 +1,18 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
-// import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from "react-router-dom";
 
 import orderStyle from './order.module.css';
 import { TOrderData } from 'utils/constants/types';
 import { orderStatusText } from 'utils/constants/constants';
 import { useAppSelector } from 'src/index';
+import { request } from "utils/methods/request";
 
 import { FormattedDate, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+
+type TGetOprderData = {
+  success: boolean;
+  orders?: TOrderData[];
+};
 
 type TIngredientOrderCounts = {
   [ingredientId: string]: number;
@@ -19,33 +24,35 @@ function Order() {
   const allIngredients = useAppSelector((store) => store.ingredients);
   const [orderData, setOrderData] = React.useState<TOrderData | null>(null);
   const [isPopup, setIsPopup] = React.useState<boolean>(false);
-  // const { routeOrderNumber } = useParams();
+  const { number } = useParams();
+
+  const getOrder = React.useCallback(
+    async () => {
+      return await request<TGetOprderData>(`/orders/${number}`)
+        .catch((res) => {
+          console.error(`Ошибка в getOrder: ${res}`);
+
+          return Promise.reject();
+        });
+    },
+    [number]
+  );
 
   React.useEffect(() => {
     if (location.state?.orderData) {
       setOrderData(location.state.orderData);
       setIsPopup(true);
     } else {
-      setOrderData({
-        ingredients: [
-          "643d69a5c3f7b9001cfa093c",
-          "643d69a5c3f7b9001cfa0942",
-          "643d69a5c3f7b9001cfa0941",
-          "643d69a5c3f7b9001cfa0941",
-          "643d69a5c3f7b9001cfa0941",
-          "643d69a5c3f7b9001cfa0941",
-          "643d69a5c3f7b9001cfa0942",
-          "643d69a5c3f7b9001cfa093c",
-        ],
-        _id: "asdasdasd",
-        name: "Space флюоресцентный бургер",
-        status: "done",
-        number: 33313,
-        createdAt: "2021-06-23T14:43:22.587Z",
-        updatedAt: "2021-06-23T14:43:22.603Z",
-      });
+      getOrder()
+        .then((res) => {
+          if (res.orders) {
+            setOrderData(res.orders[0]);
+          }
+
+          return Promise.resolve();
+        });
     }
-  }, [location.state]);
+  }, [getOrder, location.state?.orderData]);
 
   const ingredientOrderCounts = React.useMemo(() => {
     if (!orderData) return {};

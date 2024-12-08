@@ -63,8 +63,7 @@ export const socketMiddleware: Middleware = (
       };
 
       socket.onerror = (event) => {
-        console.error(event);
-        dispatch(onError(event));
+        dispatch(onError(event.toString()));
       };
     }
 
