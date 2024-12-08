@@ -8,6 +8,10 @@
   overflow-x: hidden;
 }
 
+.order-list_reverse {
+  flex-direction: column-reverse;
+}
+
 .order-list__item {
   display: flex;
   flex-direction: column;

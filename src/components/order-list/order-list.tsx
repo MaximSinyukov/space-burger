@@ -15,9 +15,10 @@ export type TOrderListProps = {
   ordersData: TOrderList;
   onDetailOrder: (order: TOrderData, orderPrice: number) => void;
   listType?: "statuses";
+  listReverse?: true | undefined;
 };
 
-function OrderList({ ordersData, onDetailOrder, listType }: TOrderListProps) {
+function OrderList({ ordersData, onDetailOrder, listType, listReverse }: TOrderListProps) {
   const allIngredients = useAppSelector((store) => store.ingredients);
 
   const [ordersPrice, setOrdersPrice] = React.useState<TOrdersPrices>({});
@@ -48,7 +49,7 @@ function OrderList({ ordersData, onDetailOrder, listType }: TOrderListProps) {
 
   return (
     <ul
-    className={`pr-2 ${orderListStyle['order-list']}`}>
+    className={`pr-2 ${orderListStyle['order-list']} ${listReverse ? orderListStyle['order-list_reverse'] : ''}`}>
       {
         ordersData.orders.map((order) => {
           return (
