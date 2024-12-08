@@ -33,6 +33,10 @@ function AppHeader() {
       text: 'Лента заказов',
       icon: ListIcon,
       id: 'orders',
+      path: '/feed',
+      handler: () => {
+        navigate('/feed');
+      },
     },
     {
       text: 'Личный кабинет',

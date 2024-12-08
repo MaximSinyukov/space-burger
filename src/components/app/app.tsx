@@ -9,6 +9,8 @@ import ResetPassword from 'pages/reset-password/reset-password';
 import Register from 'pages/register/register';
 import Profile from 'pages/profile/profile';
 import Ingredient from 'pages/ingredient/ingredient';
+import Feed from 'pages/feed/feed';
+import Order from 'pages/order/order';
 import ProtectedRouteElement from 'components/protected-route-element';
 import IngredientDetails from 'components/ingredient-details/ingredient-details';
 import Modal from 'components/modal/modal';
@@ -19,7 +21,7 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
 import { getIngredients } from 'services/actions/ingredientsAction';
-import { getUser } from 'services/actions/userActions';
+import { getUser } from 'src/services/actions/userActions';
 import { getCookie } from 'utils/methods/cookieMethods';
 import { removeIngredientDetails } from 'services/reducers/detail-ingredient';
 
@@ -63,6 +65,13 @@ function App() {
     getIngredientsList();
   }, [getIngredientsList, getUserData]);
 
+  React.useEffect(() => {
+    if (location.state?.resetBackground) {
+      navigate(location.pathname, { replace: true });
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div
     className={appStyles.app}>
@@ -104,6 +113,10 @@ function App() {
           }/>
 
           <Route
+          path="/feed"
+          element={<Feed />}/>
+
+          <Route
           path="/profile"
           element={
             <ProtectedRouteElement element={<Profile />}/>
@@ -116,6 +129,8 @@ function App() {
           }/>
 
           <Route path="/ingredients/:id" element={<Ingredient/>} />
+          <Route path="/profile/orders/:number" element={<ProtectedRouteElement element={<Order/>}/>} />
+          <Route path="/feed/:number" element={<Order/>} />
         </Routes>
       </main>
 
@@ -126,6 +141,20 @@ function App() {
             header="Детали ингредиента"
             onClose={handleCloseModal}>
               <IngredientDetails/>
+            </Modal>
+          } />
+
+          <Route path="/profile/orders/:number" element={
+            <Modal
+            onClose={handleCloseModal}>
+              <Order/>
+            </Modal>
+          } />
+
+          <Route path="/feed/:number" element={
+            <Modal
+            onClose={handleCloseModal}>
+              <Order/>
             </Modal>
           } />
         </Routes>

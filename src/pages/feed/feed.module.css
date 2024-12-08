@@ -1,0 +1,73 @@
+.feed {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.feed__title {
+  align-self: flex-start;
+}
+
+.feed__sections {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  column-gap: 60px;
+  width: 100%;
+  overflow: auto;
+}
+
+.feed__info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 47%;
+  height: auto;
+  overflow: hidden;
+}
+
+.feed__boards-container {
+  display: flex;
+  flex-direction: row;
+  column-gap: 36px;
+}
+
+.feed__status-board {
+  display: flex;
+  flex-direction: column;
+  min-width: 272px;
+  max-width: 100%;
+}
+
+.feed__board {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  row-gap: 8px;
+  column-gap: 12px;
+  max-height: 315px;
+}
+
+.feed__board_done > li {
+  color: var(--colors-interface-success);
+}
+
+.feed__order-number {
+  max-width: 130px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.feed__total-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.feed__total-value {
+  max-width: 580px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}

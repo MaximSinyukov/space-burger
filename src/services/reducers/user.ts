@@ -1,11 +1,23 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+type TUserBio = {
+  name?: string;
+  email?: string;
+};
+
+type TStoreUser = {
+  isAuthorized: boolean;
+  userData: TUserBio;
+};
+
+const initialState: TStoreUser = {
+  isAuthorized: false,
+  userData: {},
+};
 
 const user = createSlice({
-  name: 'user',
-  initialState: {
-    isAuthorized: false,
-    userData: {},
-  },
+  name: "user",
+  initialState,
   reducers: {
     setUserAuthorization: (state) => ({
       ...state,
@@ -15,7 +27,7 @@ const user = createSlice({
       ...state,
       isAuthorized: false,
     }),
-    setUserData: (state, action) => ({
+    setUserData: (state, action: PayloadAction<TUserBio>) => ({
       ...state,
       userData: {
         ...state.userData,

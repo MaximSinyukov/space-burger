@@ -7,7 +7,7 @@ type TCookieProps = {
 export function setCookie(
   name: string,
   value: string,
-  props: TCookieProps | undefined
+  props?: TCookieProps | undefined
 ) {
   props = props || {};
   let exp = props.expires;

@@ -5,7 +5,7 @@ import loginStyle from './login.module.css';
 
 import UniversalForm from 'src/components/universal-form/universal-form';
 
-import { loginUser } from 'services/actions/userActions';
+import { loginUser } from 'src/services/actions/userActions';
 
 import { useAppDispatch } from 'src/index';
 import {
@@ -30,7 +30,6 @@ function Login() {
 
   const handleLoginUser = React.useCallback(
     (): void => {
-      // @ts-ignore TODO: fix after add types in redux
       dispatch(loginUser({
         email: emailValue,
         password: passwordValue,

@@ -33,7 +33,7 @@ const Modal: React.FC<TModalProps> = ({ children, header, onClose }) => {
   return modalRoot && ReactDOM.createPortal((
       <>
         <div
-        className={`pr-10 pl-10 pt-10 pb-15 ${modalStyle['modal']}`}>
+        className={`pr-10 pl-10 pt-10 ${modalStyle['modal']}`}>
           <div
           className={`${modalStyle['modal__header']}`}>
             <h2

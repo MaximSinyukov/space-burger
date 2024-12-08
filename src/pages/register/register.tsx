@@ -5,7 +5,7 @@ import registerStyle from './register.module.css';
 
 import UniversalForm from 'src/components/universal-form/universal-form';
 
-import { registerUser } from 'services/actions/userActions';
+import { registerUser } from 'src/services/actions/userActions';
 
 import { useAppDispatch } from 'src/index';
 import {
@@ -34,7 +34,6 @@ function Register() {
 
   const handleRegisterUser = React.useCallback(
     () => {
-      // @ts-ignore TODO: fix after add types in redux
       dispatch(registerUser({
         email: emailValue,
         password: passwordValue,
