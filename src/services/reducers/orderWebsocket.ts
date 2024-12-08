@@ -4,7 +4,7 @@ import { TOrderList } from "utils/constants/types";
 type TSocketState = {
   isConnected: boolean;
   data: TOrderList | null;
-  error: string | null;
+  error: {} | null;
 };
 
 const initialState: TSocketState = {
@@ -31,7 +31,7 @@ const orderWebsocket = createSlice({
     onMessage: (state, action: PayloadAction<TOrderList>) => {
       state.data = action.payload;
     },
-    onError: (state, action: PayloadAction<string>) => {
+    onError: (state, action: PayloadAction<{}>) => {
       state.error = action.payload;
     },
   },

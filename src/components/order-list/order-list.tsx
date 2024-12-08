@@ -28,26 +28,28 @@ function OrderList({ ordersData, onDetailOrder, listType, listReverse }: TOrderL
   };
 
   React.useEffect(() => {
-    const newPrices: TOrdersPrices = {};
+    if (ordersData.orders) {
+      const newPrices: TOrdersPrices = {};
 
-    ordersData.orders.forEach((order) => {
-      let orderPrice = 0;
+      ordersData.orders.forEach((order) => {
+        let orderPrice = 0;
 
-      order.ingredients.forEach((ingredientId) => {
-        const ingredient = allIngredients.find((item) => item._id === ingredientId);
+        order.ingredients.forEach((ingredientId) => {
+          const ingredient = allIngredients.find((item) => item._id === ingredientId);
 
-        if (ingredient) {
-          orderPrice += ingredient.price;
-        }
+          if (ingredient) {
+            orderPrice += ingredient.price;
+          }
+        });
+
+        newPrices[order._id] = orderPrice;
       });
 
-      newPrices[order._id] = orderPrice;
-    });
-
-    setOrdersPrice(newPrices);
+      setOrdersPrice(newPrices);
+    }
   }, [allIngredients, ordersData.orders]);
 
-  return (
+  return ordersData.orders && (
     <ul
     className={`pr-2 ${orderListStyle['order-list']} ${listReverse ? orderListStyle['order-list_reverse'] : ''}`}>
       {

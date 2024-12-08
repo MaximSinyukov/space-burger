@@ -10,11 +10,13 @@ import {
   onError,
 } from "services/reducers/orderWebsocket";
 import { RootState, AppDispatch } from "src/index";
+import { updateToken } from "services/actions/userActions";
 
 export const socketMiddleware: Middleware = (
   store: MiddlewareAPI<AppDispatch, RootState>
 ) => {
   let socket: WebSocket | null = null;
+  let tryRefreshToken: boolean = false;
 
   return (next) => (action) => {
     const { dispatch } = store;
@@ -31,12 +33,38 @@ export const socketMiddleware: Middleware = (
         dispatch(onClose());
       };
 
-      socket.onmessage = (event) => {
-        dispatch(onMessage(JSON.parse(event.data)));
+      socket.onmessage = async (event) => {
+        const newMessage = JSON.parse(event.data);
+
+        if (newMessage.success) {
+          dispatch(onMessage(newMessage));
+          return;
+        }
+
+        if (newMessage.message === "Invalid or missing token") {
+          dispatch(disconnect());
+
+          if (!tryRefreshToken) {
+            tryRefreshToken = true;
+            const updateResponse = await dispatch(updateToken());
+            console.warn("check update token in websocket: ", updateResponse);
+
+            if (updateResponse.meta.requestStatus === "fulfilled") {
+              console.log("Token success updated in getUser.");
+              dispatch(connect(url));
+            } else {
+              console.error("Error in token update for websocket");
+            }
+            return;
+          }
+
+          tryRefreshToken = false;
+        }
       };
 
       socket.onerror = (event) => {
-        dispatch(onError(event.toString()));
+        console.error(event);
+        dispatch(onError(event));
       };
     }
 
