@@ -11,12 +11,13 @@ type TResponseJson = Response & {
   success: boolean;
 };
 
-const checkResponse = (res: TResponse): Promise<any> => {
+const checkResponse = async (res: TResponse): Promise<any> => {
   if (res.ok) {
     return res.json();
   }
 
-  return Promise.reject(res);
+  const error = await res.json();
+  return Promise.reject(error);
 };
 
 const checkSuccess = (res: TResponseJson): TResponseJson | Promise<any> => {
@@ -27,7 +28,10 @@ const checkSuccess = (res: TResponseJson): TResponseJson | Promise<any> => {
   return Promise.reject(res);
 };
 
-export function request(endpoint: string, options: RequestInit): Promise<any> {
+export function request<T>(
+  endpoint: string,
+  options?: RequestInit
+): Promise<T> {
   return fetch(`${BASE_URL}${endpoint}`, options)
     .then(checkResponse)
     .then(checkSuccess);

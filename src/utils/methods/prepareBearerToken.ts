@@ -1,5 +1,5 @@
-export function prepareBearerToken(token: string) {
-  let authToken;
+export function prepareBearerToken(token: string): string {
+  let authToken = token;
 
   if (token.indexOf("Bearer") === 0) {
     authToken = token.split("Bearer ")[1];

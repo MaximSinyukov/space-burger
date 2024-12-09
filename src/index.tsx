@@ -2,23 +2,25 @@ import React from 'react';
 import ReactDOM, { Root } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { configureStore } from '@reduxjs/toolkit';
-import { Provider, useSelector, useDispatch } from 'react-redux';
+import { Provider, useSelector, useDispatch, TypedUseSelectorHook } from 'react-redux';
 
 import './index.css';
-import { rootReducer } from 'services/reducers/index.js';
+import { rootReducer } from 'services/reducers/index';
+import middlewares from 'services/middleware/index';
 
 import App from 'components/app/app';
 
 const store = configureStore({
   reducer: rootReducer,
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(middlewares),
   devTools: process.env.NODE_ENV !== 'production'
 });
 
-type RootState = ReturnType<typeof store.getState>;
-type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
 
 export const useAppDispatch = useDispatch.withTypes<AppDispatch>();
-export const useAppSelector = useSelector.withTypes<RootState>();
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 const rootElement = document.getElementById('root') as HTMLElement | null;
 

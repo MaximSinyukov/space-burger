@@ -22,20 +22,8 @@ export type TIngredientConstructor = TIngredient & {
   uniqueId: string;
 };
 
-export type TIngredientCounts = {
-  [ingredientApiId: string]: number;
-};
-
 export type TStoreAuthorization = {
   isAuthorized: boolean;
-};
-
-export type TStoreOrder = number | null;
-
-export type TStoreSelectIngredients = {
-  buns: TIngredient | null;
-  otherIngredients: TIngredientConstructor[] | [];
-  ingredientsCounter: TIngredientCounts;
 };
 
 export type TStoreIngredients = TIngredient[];
@@ -71,4 +59,21 @@ export type TUniversalFormData = Readonly<{
     btn?: string;
   };
   children?: React.ReactNode;
+}>;
+
+export type TOrderData = {
+  ingredients: string[];
+  _id: string;
+  number: number;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  status: string;
+};
+
+export type TOrderList = Readonly<{
+  success: boolean;
+  orders: TOrderData[];
+  total: number;
+  totalToday: number;
 }>;

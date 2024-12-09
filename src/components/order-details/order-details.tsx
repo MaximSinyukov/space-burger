@@ -2,12 +2,9 @@ import orderDetailsStyle from './order-details.module.css';
 import doneImage from 'assets/images/done.svg';
 
 import { useAppSelector } from 'src/index';
-import {
-  TStoreOrder,
-} from 'utils/constants/types';
 
 function OrderDetails() {
-  const orderNumber = useAppSelector((store) => store.order as TStoreOrder);
+  const orderNumber = useAppSelector((store) => store.order);
 
   return (
     <div
@@ -33,7 +30,7 @@ function OrderDetails() {
       </p>
 
       <p
-      className={`text text_type_main-default mb-15 ${orderDetailsStyle['order-details__advice']}`}>
+      className={`text text_type_main-default mb-30 ${orderDetailsStyle['order-details__advice']}`}>
         Дождитесь готовности на орбитальной станции
       </p>
     </div>

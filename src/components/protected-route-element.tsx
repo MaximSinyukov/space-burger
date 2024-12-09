@@ -11,7 +11,7 @@ function ProtectedRouteElement({ element, type }: TProtectedRouteProps) {
   const location = useLocation();
   const from: string = location.state?.from || '/';
 
-  const isAuthorizedUser = useAppSelector((store) => store.user.isAuthorized as boolean);
+  const isAuthorizedUser = useAppSelector((store) => store.user.isAuthorized);
 
   if (type === 'anonymous' && isAuthorizedUser) {
     return <Navigate to={from} replace/>;
