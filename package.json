@@ -30,8 +30,8 @@
   "scripts": {
     "start": "craco start",
     "build": "craco build",
-    "test": "react-scripts test --watchAll=false --verbose",
-    "cypress:open": "cypress open"
+    "unit:tests": "react-scripts test --watchAll=false --verbose",
+    "e2e:tests": "cypress open"
   },
   "eslintConfig": {
     "extends": [
