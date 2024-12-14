@@ -1,15 +1,14 @@
 import configureMockStore from "redux-mock-store";
-import reducer, {
-  setOrderNumber,
-  removeOrderNumber,
-} from "./order";
+import reducer, { setOrderNumber, removeOrderNumber } from "./order";
 
 const mockStore = configureMockStore();
 const payloadOrderNumber = 123;
 
 describe("order reducer", () => {
   it("should return the initial state", () => {
-    expect(reducer(undefined, {})).toEqual(null);
+    const unknownAction = { type: "unknown" };
+
+    expect(reducer(undefined, unknownAction)).toEqual(null);
   });
 
   it("should handle setOrderNumber action", () => {
@@ -20,8 +19,7 @@ describe("order reducer", () => {
   });
 
   it("should handle removeIngredientDetails action", () => {
-    expect(reducer(payloadOrderNumber, removeOrderNumber()))
-      .toEqual(null);
+    expect(reducer(payloadOrderNumber, removeOrderNumber())).toEqual(null);
   });
 
   it("should dispatch action in mock store", () => {

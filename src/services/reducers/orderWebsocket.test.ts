@@ -8,6 +8,7 @@ import reducer, {
   onMessage,
   onError,
 } from "./orderWebsocket";
+import { TOrderList } from "utils/constants/types";
 
 const initialState = {
   isConnected: false,
@@ -19,7 +20,9 @@ const mockStore = configureMockStore();
 
 describe("orderWebsocket reducer", () => {
   it("should return the initial state", () => {
-    expect(reducer(undefined, {})).toEqual(initialState);
+    const unknownAction = { type: "unknown" };
+
+    expect(reducer(undefined, unknownAction)).toEqual(initialState);
   });
 
   it("should create connect action", () => {
@@ -52,20 +55,24 @@ describe("orderWebsocket reducer", () => {
   });
 
   it("should handle onClose", () => {
-    expect(reducer({ ...initialState, isConnected: true }, onClose()))
-      .toEqual({
-        isConnected: false,
-        data: null,
-        error: null,
-      });
+    expect(reducer({ ...initialState, isConnected: true }, onClose())).toEqual({
+      isConnected: false,
+      data: null,
+      error: null,
+    });
   });
 
   it("should handle onMessage", () => {
-    const payload = { orders: [], total: 0, totalToday: 0 };
+    const payload: TOrderList = {
+      orders: [],
+      total: 0,
+      totalToday: 0,
+      success: true,
+    };
 
     expect(reducer(initialState, onMessage(payload))).toEqual({
       isConnected: false,
-      data: { orders: [], total: 0, totalToday: 0 },
+      data: { orders: [], total: 0, totalToday: 0, success: true },
       error: null,
     });
   });
