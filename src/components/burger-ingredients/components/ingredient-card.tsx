@@ -37,6 +37,7 @@ const { ingredientsCounter, buns } = useAppSelector((store) => store.selectIngre
 
   return (
     <li
+    data-testid="ingredient"
     ref={dragRef}
     onClick={openIngredientDetails}
     className={`pb-6 ${ingredientCardStyle['ingredient-card']}`}>

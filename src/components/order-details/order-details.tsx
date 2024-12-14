@@ -8,6 +8,7 @@ function OrderDetails() {
 
   return (
     <div
+    data-testid="order-info-popup"
     className={`${orderDetailsStyle['order-details']}`}>
       <h2
       className={`text text_type_digits-large mb-8 ${orderDetailsStyle['order-details__number']}`}>
