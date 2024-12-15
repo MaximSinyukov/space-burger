@@ -42,6 +42,7 @@ const Modal: React.FC<TModalProps> = ({ children, header, onClose }) => {
             </h2>
 
             <button
+            data-testid="close-btn"
             onClick={onClose}
             className={modalStyle['modal__close-btn']}>
               <CloseIcon

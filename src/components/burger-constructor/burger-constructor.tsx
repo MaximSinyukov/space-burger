@@ -101,6 +101,7 @@ const BurgerConstructor = React.memo(function BurgerConstructor() {
   return (
     <section
     ref={dropIngredientTarget}
+    data-testid="constructor-container"
     className={`mt-25 ${burgerConstructorStyle['burger-constructor']}`}>
       {
         !buns && otherIngredients.length === 0
